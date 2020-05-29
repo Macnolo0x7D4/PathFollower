@@ -24,7 +24,11 @@ public class Calculate {
     }
 
     public static double getSpeed(double y, double x){
-        return (x + y) / 2;
+        if(Math.abs(y) >= Math.abs(x)){
+            return y;
+        }
+
+        return x;
     }
 
     public static double roundPower(double value){

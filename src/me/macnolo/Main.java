@@ -8,6 +8,6 @@ public class Main {
     public static void main(String[] args) {
         TMOA mecanum = new TMOA(TestConfig.getDefaultConfiguration());
 
-        mecanum.move(0.5,1);
+        mecanum.move(0.5,0.5);
     }
 }
