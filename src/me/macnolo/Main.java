@@ -13,6 +13,6 @@ public class Main {
 
         List<DcMotor> motors = mecanum.getChassisInformation().getMotors();
 
-        motors.stream().forEach( dcMotor -> System.out.println(dcMotor.getId()));
+        motors.stream().forEach( dcMotor -> dcMotor.getPower());
     }
 }

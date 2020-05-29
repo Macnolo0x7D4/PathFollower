@@ -11,12 +11,12 @@ public class TestDcMotor extends DcMotor {
     @Override
     public void setPower(double power) {
         super.setPower(power);
-        System.out.println("Power to: " + power);
+        System.out.println("[Motor " + getId() + "]: Power now is: " + power);
     }
 
     @Override
     public double getPower() {
-        System.out.println("Power is: " + super.getPower());
+        System.out.println("[Motor " + getId() + "]: Power is: " + super.getPower());
         return super.getPower();
     }
 }

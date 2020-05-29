@@ -12,24 +12,24 @@ public class Configuration {
     private double cpi;
     private double conversion;
 
-    public Configuration(
-            List<DcMotor> motors,
-            double width,
-            int cpr, int gearratio,
-            double diameter,
-            double cpi,
-            double conversion
-    ) {
+    private boolean encoder;
+    private boolean pid;
+
+    public Configuration( List<DcMotor> motors ) {
         this.motors = motors;
-        this.width = width;
-        this.cpr = cpr;
-        this.gearratio = gearratio;
-        this.diameter = diameter;
-        this.cpi = cpi;
-        this.conversion = conversion;
+        this.encoder = false;
+        this.encoder = false;
     }
 
     public List<DcMotor> getMotors(){
         return this.motors;
+    }
+
+    public boolean isEncoderUsed() {
+        return encoder;
+    }
+
+    public boolean isPIDUsed() {
+        return pid;
     }
 }
