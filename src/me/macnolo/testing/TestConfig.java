@@ -13,13 +13,7 @@ public class TestConfig {
                     new TestDcMotor((byte) 1),
                     new TestDcMotor((byte) 2),
                     new TestDcMotor((byte) 3)
-            ),
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            )
         );
     }
 }
