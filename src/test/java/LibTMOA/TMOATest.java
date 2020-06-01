@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 public class TMOATest {
     @Test public void testSomeLibraryMethod() {
         TMOA classUnderTest = new TMOA(getTestingConfiguration());
-        
+
         //assertTrue("someLibraryMethod should return 'true'", classUnderTest.someLibraryMethod());
     }
 
