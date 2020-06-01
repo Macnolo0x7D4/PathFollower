@@ -1,13 +1,13 @@
-package me.macnolo.models;
+package LibTMOA.models;
 
-public class DcMotor {
+public class DcMotorBase {
 
     private byte id;
 
     private double power;
     private double encoder;
 
-    public DcMotor(byte id){
+    public DcMotorBase(byte id){
         this.id = id;
     }
 

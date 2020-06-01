@@ -1,4 +1,4 @@
-package me.macnolo.utils;
+package LibTMOA.utils;
 
 public class VelocityChecker {
     public static boolean checkSpeed(double Vd){

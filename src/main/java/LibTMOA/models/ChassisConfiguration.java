@@ -1,9 +1,9 @@
-package me.macnolo.models;
+package LibTMOA.models;
 
 import java.util.List;
 
-public class Configuration {
-    private List<DcMotor> motors;
+public class ChassisConfiguration {
+    private List<DcMotorBase> motors;
 
     private double width;
     private int cpr;
@@ -15,13 +15,13 @@ public class Configuration {
     private boolean encoder;
     private boolean pid;
 
-    public Configuration( List<DcMotor> motors ) {
+    public ChassisConfiguration(List<DcMotorBase> motors ) {
         this.motors = motors;
         this.encoder = false;
         this.encoder = false;
     }
 
-    public List<DcMotor> getMotors(){
+    public List<DcMotorBase> getMotors(){
         return this.motors;
     }
 

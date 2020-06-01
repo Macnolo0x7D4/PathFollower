@@ -1,4 +1,4 @@
-package me.macnolo.utils;
+package LibTMOA.utils;
 
 public class Utilities {
     private static final double bias = 0.91;

@@ -1,7 +1,7 @@
-package me.macnolo.direction;
+package LibTMOA.direction;
 
-import me.macnolo.math.Calculate;
-import me.macnolo.utils.VelocityChecker;
+import LibTMOA.math.Calculate;
+import LibTMOA.utils.VelocityChecker;
 
 public class StandardMovement {
     public static double[] move(double Vd, double Td, double Vt ){

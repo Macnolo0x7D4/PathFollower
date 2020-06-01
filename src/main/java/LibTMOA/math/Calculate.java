@@ -1,6 +1,6 @@
-package me.macnolo.math;
+package LibTMOA.math;
 
-import me.macnolo.utils.Utilities;
+import LibTMOA.utils.Utilities;
 
 public class Calculate {
     public static double calc1(double Vd, double Td, double Vt) {

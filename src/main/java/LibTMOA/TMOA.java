@@ -1,26 +1,26 @@
-package me.macnolo.main;
+package LibTMOA;
 
-import me.macnolo.direction.StandardMovement;
-import me.macnolo.math.Calculate;
-import me.macnolo.models.Configuration;
-import me.macnolo.models.DcMotor;
+import LibTMOA.direction.StandardMovement;
+import LibTMOA.math.Calculate;
+import LibTMOA.models.ChassisConfiguration;
+import LibTMOA.models.DcMotorBase;
 
 import java.util.List;
 
 public class TMOA {
 
-    Configuration config;
+    ChassisConfiguration config;
 
-    public TMOA(Configuration config){
+    public TMOA(ChassisConfiguration config){
         this.config = config;
         System.out.println("[Main Thread]: The legendary Trigonometric Mecanum Omnidirectional Algorithm is Running!");
     }
 
-    public Configuration getChassisInformation(){
+    public ChassisConfiguration getChassisInformation(){
         return this.config;
     }
 
-    public DcMotor getDcMotor(byte id){
+    public DcMotorBase getDcMotor(byte id){
         return this.config.getMotors().stream()
                 .filter( dcMotor -> dcMotor.getId() == id)
                 .findFirst().get();
@@ -35,9 +35,9 @@ public class TMOA {
     }
 
     public void setMultiplePowers(double[] velocities){
-        List<DcMotor> motors = this.config.getMotors();
+        List<DcMotorBase> motors = this.config.getMotors();
 
-        for( DcMotor dcMotor : motors ){
+        for( DcMotorBase dcMotor : motors ){
             dcMotor.setPower(Calculate.roundPower( velocities[motors.indexOf(dcMotor)] ));
         }
     }
