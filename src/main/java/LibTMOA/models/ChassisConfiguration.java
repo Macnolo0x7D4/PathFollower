@@ -1,3 +1,4 @@
+
 package LibTMOA.models;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class ChassisConfiguration {
     /**
      * Creates an instance of a Simple Chassis Configuration.
      *
-     * @param motors
+     * @param motors A List of 4 DcMotorBase (not interface, your driver). Order: LF, RF, LB, RB.
      */
     public ChassisConfiguration(List<DcMotorBase> motors) {
         this.mode = ExecutionModes.SIMPLE;
@@ -26,23 +27,21 @@ public class ChassisConfiguration {
 
     /**
      * Creates an instance of an Using-Encoders Chassis Configuration.
-     * @param motors
+     * @param motors A List of 4 DcMotorBase (not interface, your driver). Order: LF, RF, LB, RB.
      * @param width
      * @param cpr
      * @param gearRatio
      * @param diameter
-     * @param cpi
-     * @param conversion
      */
-    public ChassisConfiguration(List<DcMotorBase> motors, double width, int cpr, int gearRatio, double diameter, double cpi, double conversion) {
+    public ChassisConfiguration(List<DcMotorBase> motors, double width, int cpr, int gearRatio, double diameter) {
         this.mode = ExecutionModes.ENCODER;
         this.motors = motors;
         this.width = width;
         this.cpr = cpr;
         this.gearRatio = gearRatio;
         this.diameter = diameter;
-        this.cpi = cpi;
-        this.conversion = conversion;
+
+        this.cpi = (cpr * gearRatio) / (Math.PI * diameter);
     }
 
     public List<DcMotorBase> getMotors(){

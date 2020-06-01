@@ -13,7 +13,7 @@ public class TMOATest {
         TMOA classUnderTest = new TMOA(getTestingConfiguration());
 
         classUnderTest.move(1,1);
-        //assertTrue("someLibraryMethod should return 'true'", classUnderTest.someLibraryMethod());
+        assertTrue("getDcMotor(2).getPower() == 1.0 should return 'true'", classUnderTest.getDcMotor((byte)2).getPower() == 1.0);
     }
 
     public static ChassisConfiguration getTestingConfiguration(){
@@ -23,34 +23,12 @@ public class TMOATest {
                 new DcMotorTestDriver( (byte) 1),
                 new DcMotorTestDriver( (byte) 2),
                 new DcMotorTestDriver( (byte) 3)
-            )
+            ),
+            16.16,
+            28,
+            20,
+            2.952755906
         );
     }
 }
 
-class DcMotorTestDriver implements DcMotorBase{
-
-    private byte id;
-
-    private double power;
-
-    public DcMotorTestDriver(byte id) {
-        this.id = id;
-    }
-
-    @Override
-    public double getPower() {
-        return power;
-    }
-
-    @Override
-    public void setPower(double power) {
-        this.power = power;
-        System.out.println("[Motor " + getId() + "] - Now, power is: " + getPower());
-    }
-
-    @Override
-    public byte getId() {
-        return id;
-    }
-}
