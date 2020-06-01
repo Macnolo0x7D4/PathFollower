@@ -18,11 +18,14 @@
 package LibTMOA;
 
 import LibTMOA.models.DcMotorBase;
+import LibTMOA.models.Encoders;
+import LibTMOA.models.ZeroPowerBehavior;
 
 class DcMotorTestDriver implements DcMotorBase {
 
     private final byte id;
-
+    private Encoders encoder;
+    private ZeroPowerBehavior zeroPowerBehavior;
     private double power;
 
     public DcMotorTestDriver(byte id) {
@@ -38,6 +41,16 @@ class DcMotorTestDriver implements DcMotorBase {
     public void setPower(double power) {
         this.power = power;
         System.out.println("[Motor " + getId() + "] - Now, power is: " + getPower());
+    }
+
+    @Override
+    public void setBrake(boolean brake) {
+        this.zeroPowerBehavior = brake ? ZeroPowerBehavior.BRAKE : ZeroPowerBehavior.FLOAT;
+    }
+
+    @Override
+    public void setEncoders(Encoders encoder) {
+        this.encoder = encoder;
     }
 
     @Override

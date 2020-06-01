@@ -61,11 +61,45 @@ public class ChassisConfiguration {
         this.cpi = (cpr * gearRatio) / (Math.PI * diameter);
     }
 
+    /**
+     * Returns a List of Chassis DcMotors in current status.
+     *
+     * @return List of DcMotors
+     */
     public List<DcMotorBase> getMotors() {
         return this.motors;
     }
 
+    /**
+     * Returns ExecutionMode (enum) of TMOA runtime.
+     *
+     * @return ExecutionMode [SIMPLE, ENCODER, COMPLEX]
+     */
     public ExecutionModes getMode() {
         return mode;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public int getCpr() {
+        return cpr;
+    }
+
+    public int getGearRatio() {
+        return gearRatio;
+    }
+
+    public double getDiameter() {
+        return diameter;
+    }
+
+    public double getCpi() {
+        return cpi;
+    }
+
+    public double getConversion() {
+        return conversion;
     }
 }

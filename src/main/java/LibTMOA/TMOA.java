@@ -48,7 +48,7 @@ public class TMOA {
     }
 
     /**
-     * Returns the DcMotor object. Useful if you want to manually send instructions or get its data.
+     * Returns a DcMotor object. Useful if you want to manually send instructions or get its data.
      *
      * @param id The DcMotor Identifier
      * @return DcMotor Object
@@ -60,7 +60,7 @@ public class TMOA {
     }
 
     /**
-     * Indicates to the DcMotor driver the specific power to get the expected movement.
+     * Indicates to DcMotor driver the specific power to get the expected movement.
      *
      * @param Vd The multiplicative speed
      * @param Td The directional angle
@@ -71,7 +71,7 @@ public class TMOA {
     }
 
     /**
-     * Indicates to the DcMotor driver the specific power to get the expected movement.
+     * Indicates to DcMotor driver the specific power to get the expected movement.
      * Also, calculates the arc-tangent to get its length and its angle. Useful when using joysticks.
      *
      * @param y Ordinates Position

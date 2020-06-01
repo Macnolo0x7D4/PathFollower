@@ -17,14 +17,8 @@
 
 package LibTMOA.models;
 
-public interface DcMotorBase {
-    byte getId();
-
-    double getPower();
-
-    void setPower(double power);
-
-    void setBrake(boolean brake);
-
-    void setEncoders(Encoders encoder);
+public enum Encoders {
+    NO_ENCODER,
+    STABILIZER,
+    TARGET
 }
