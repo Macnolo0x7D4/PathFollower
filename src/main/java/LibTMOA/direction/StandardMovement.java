@@ -21,7 +21,7 @@ public class StandardMovement {
 
         if (!VelocityChecker.checkAngle(Td)){ return null; }
 
-        return velocitiesCreator(Vd, Td);
+        return velocitiesCreator(Vd, Td, 0);
     }
 
     private static double[] velocitiesCreator(double Vd, double Td, double Vt){
@@ -31,17 +31,6 @@ public class StandardMovement {
         velocities[1] = Calculate.calc1(Vd, Td, Vt);
         velocities[2] = Calculate.calc1(Vd, Td, Vt);
         velocities[3] = Calculate.calc2(Vd, Td, Vt);
-
-        return velocities;
-    }
-
-    private static double[] velocitiesCreator(double Vd, double Td){
-        double[] velocities = new double[4];
-
-        velocities[0] = Calculate.calc2(Vd, Td);
-        velocities[1] = Calculate.calc1(Vd, Td);
-        velocities[2] = Calculate.calc1(Vd, Td);
-        velocities[3] = Calculate.calc2(Vd, Td);
 
         return velocities;
     }
