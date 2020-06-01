@@ -15,6 +15,7 @@ public class TMOATest {
     @Test public void testSomeLibraryMethod() {
         TMOA classUnderTest = new TMOA(getTestingConfiguration());
 
+        classUnderTest.move(1,0,0 );
         //assertTrue("someLibraryMethod should return 'true'", classUnderTest.someLibraryMethod());
     }
 

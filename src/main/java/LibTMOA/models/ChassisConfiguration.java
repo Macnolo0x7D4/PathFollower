@@ -7,29 +7,49 @@ public class ChassisConfiguration {
 
     private double width;
     private int cpr;
-    private int gearratio;
+    private int gearRatio;
     private double diameter;
     private double cpi;
     private double conversion;
 
-    private boolean encoder;
-    private boolean pid;
+    private ExecutionModes mode;
 
-    public ChassisConfiguration(List<DcMotorBase> motors ) {
+    /**
+     * Creates an instance of a Simple Chassis Configuration.
+     *
+     * @param motors
+     */
+    public ChassisConfiguration(List<DcMotorBase> motors) {
+        this.mode = ExecutionModes.SIMPLE;
         this.motors = motors;
-        this.encoder = false;
-        this.encoder = false;
+    }
+
+    /**
+     * Creates an instance of an Using-Encoders Chassis Configuration.
+     * @param motors
+     * @param width
+     * @param cpr
+     * @param gearRatio
+     * @param diameter
+     * @param cpi
+     * @param conversion
+     */
+    public ChassisConfiguration(List<DcMotorBase> motors, double width, int cpr, int gearRatio, double diameter, double cpi, double conversion) {
+        this.mode = ExecutionModes.ENCODER;
+        this.motors = motors;
+        this.width = width;
+        this.cpr = cpr;
+        this.gearRatio = gearRatio;
+        this.diameter = diameter;
+        this.cpi = cpi;
+        this.conversion = conversion;
     }
 
     public List<DcMotorBase> getMotors(){
         return this.motors;
     }
 
-    public boolean isEncoderUsed() {
-        return encoder;
-    }
-
-    public boolean isPIDUsed() {
-        return pid;
+    public ExecutionModes getMode(){
+        return mode;
     }
 }

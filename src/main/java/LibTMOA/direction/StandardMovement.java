@@ -24,7 +24,7 @@ public class StandardMovement {
         return velocitiesCreator(Vd, Td);
     }
 
-    public static double[] velocitiesCreator(double Vd, double Td, double Vt){
+    private static double[] velocitiesCreator(double Vd, double Td, double Vt){
         double[] velocities = new double[4];
 
         velocities[0] = Calculate.calc2(Vd, Td, Vt);
@@ -35,7 +35,7 @@ public class StandardMovement {
         return velocities;
     }
 
-    public static double[] velocitiesCreator(double Vd, double Td){
+    private static double[] velocitiesCreator(double Vd, double Td){
         double[] velocities = new double[4];
 
         velocities[0] = Calculate.calc2(Vd, Td);
