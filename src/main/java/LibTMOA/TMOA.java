@@ -39,7 +39,7 @@ public class TMOA {
     public DcMotorBase getDcMotor(byte id){
         return this.config.getMotors().stream()
                 .filter( dcMotor -> dcMotor.getId() == id)
-                .findFirst().orElseThrow();
+                .findFirst().get();
     }
 
     /**
