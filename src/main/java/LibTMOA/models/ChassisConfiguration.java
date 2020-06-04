@@ -17,8 +17,13 @@
 
 package LibTMOA.models;
 
+import LibTMOA.utils.ExecutionModes;
+
 import java.util.List;
 
+/**
+ * A class that must to be extended to create configurations for your TMOA instance.
+ */
 public class ChassisConfiguration {
     private final List<DcMotorBase> motors;
 
@@ -34,7 +39,7 @@ public class ChassisConfiguration {
     /**
      * Creates an instance of a Simple Chassis Configuration.
      *
-     * @param motors A List of 4 DcMotorBase (not interface, your driver). Order: LF, RF, LB, RB.
+     * @param motors A List of 4 DcMotorBase (not interface, your driver). Order: FL, FR, BL, BR.
      */
     public ChassisConfiguration(List<DcMotorBase> motors) {
         this.mode = ExecutionModes.SIMPLE;

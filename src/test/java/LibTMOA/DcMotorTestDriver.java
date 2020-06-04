@@ -18,8 +18,8 @@
 package LibTMOA;
 
 import LibTMOA.models.DcMotorBase;
-import LibTMOA.models.Encoders;
-import LibTMOA.models.ZeroPowerBehavior;
+import LibTMOA.movement.encoder.Encoders;
+import LibTMOA.movement.encoder.ZeroPowerBehavior;
 
 class DcMotorTestDriver implements DcMotorBase {
 

@@ -18,36 +18,63 @@
 package LibTMOA.math;
 
 import LibTMOA.utils.Utilities;
+import LibTMOA.utils.VelocityChecker;
 
+/**
+ * A class with all the mathematics methods to get mecanum directions.
+ */
 public class Calculate {
+    /**
+     * Returns power value (for FR,BL).
+     * @param Vd The multiplicative speed [0 - 1]
+     * @param Td The directional angle [0 - 2 * Math.PI]
+     * @param Vt The change speed [-1 - 1]
+     * @return Power Value
+     */
     public static double calc1(double Vd, double Td, double Vt) {
-        return Vd * Math.sin(Td + (Math.PI / 4)) + Vt;
+        return Math.abs(Vd) * Math.sin(Math.abs(Td) + (Math.PI / 4)) + Vt;
     }
 
+    /**
+     * Returns power value (for FL,BR).
+     * @param Vd The multiplicative speed [0 - 1]
+     * @param Td The directional angle [0 - 2 * Math.PI]
+     * @param Vt The change speed [-1 - 1]
+     * @return Power Value
+     */
     public static double calc2(double Vd, double Td, double Vt) {
-        return Vd * Math.cos(Td + (Math.PI / 4)) + Vt;
+        return Math.abs(Vd) * Math.cos(Math.abs(Td) + (Math.PI / 4)) + Vt;
     }
 
-    public static double calc1(double Vd, double Td) {
-        return Vd * Math.sin(Td + (Math.PI / 4));
-    }
-
-    public static double calc2(double Vd, double Td) {
-        return Vd * Math.cos(Td + (Math.PI / 4));
-    }
-
+    /**
+     * Returns angle from coordinates.
+     * @param y Ordinates Position [-1 - 1]
+     * @param x Abscissa Position [-1 - 1]
+     * @return Angle [0 - 2 * Math.PI]
+     */
     public static double getAngle(double y, double x) {
-        return Math.atan2(y, x);
+        double a = Math.atan2(y, x);
+        return Math.abs(a);
     }
 
+    /**
+     * Returns multiplicative speed from coordinates.
+     * @param y Ordinates Position [-1 - 1]
+     * @param x Abscissa Position [-1 - 1]
+     * @return Multiplicative Speed [0 - 1] || '0' if not pass integrity check
+     */
     public static double getSpeed(double y, double x) {
-        if (Math.abs(y) >= Math.abs(x)) {
-            return y;
-        }
+        y = Math.abs(y);
+        x = Math.abs(x);
 
-        return x;
+        return VelocityChecker.checkCoordinates(y, x) ? Math.max(y, x) : 0;
     }
 
+    /**
+     * Returns rounded value to established number of places (Utilities.roundPower).
+     * @param value Raw value
+     * @return Rounded value
+     */
     public static double roundPower(double value) {
         long factor = (long) Math.pow(10, Utilities.roundPower);
         value = value * factor;

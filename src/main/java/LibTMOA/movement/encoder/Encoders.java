@@ -15,9 +15,24 @@
  *
  */
 
-package LibTMOA.models;
+package LibTMOA.movement.encoder;
 
-public enum ZeroPowerBehavior {
-    BRAKE,
-    FLOAT
+/**
+ * Encoders that can be used.
+ */
+public enum Encoders {
+    /**
+     * Without encoder use. Only for SIMPLE Execution Mode
+     */
+    NO_ENCODER,
+
+    /**
+     * Stabilize mecanum. Only for ENCODER Execution Mode
+     */
+    STABILIZER,
+
+    /**
+     * Allows to get length of distances. NEEDED for COMPLEX Execution Mode.
+     */
+    TARGET
 }

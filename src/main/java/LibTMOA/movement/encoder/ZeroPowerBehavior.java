@@ -15,10 +15,19 @@
  *
  */
 
-package LibTMOA.models;
+package LibTMOA.movement.encoder;
 
-public enum Encoders {
-    NO_ENCODER,
-    STABILIZER,
-    TARGET
+/**
+ * ZeroPowerBehaviors that can be used.
+ */
+public enum ZeroPowerBehavior {
+    /**
+     * Activates the brake in the motors. Only if you are in FRC or FTC.
+     */
+    BRAKE,
+
+    /**
+     * Deactivates the brake in the motors. Only if you are in FRC or FTC.
+     */
+    FLOAT
 }

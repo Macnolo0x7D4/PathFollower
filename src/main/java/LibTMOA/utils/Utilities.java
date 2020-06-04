@@ -17,9 +17,15 @@
 
 package LibTMOA.utils;
 
+/**
+ * A class with some constants.
+ */
 public class Utilities {
-    private static final double bias = 0.91;
-    private static final double meccyBias = 0.9;
+    //private static final double bias = 0.91;
+    //private static final double meccyBias = 0.9;
 
+    /**
+     * Indicates the number of places to round in powers.
+     */
     public static final int roundPower = 8;
 }

@@ -17,16 +17,19 @@
 
 package LibTMOA;
 
-import LibTMOA.direction.StandardMovement;
+import LibTMOA.movement.standard.StandardMovement;
 import LibTMOA.math.Calculate;
 import LibTMOA.models.ChassisConfiguration;
 import LibTMOA.models.DcMotorBase;
 
 import java.util.List;
 
+/**
+ * The main class of the library.
+ */
 public class TMOA {
 
-    ChassisConfiguration config;
+    private ChassisConfiguration config;
 
     /**
      * Creates an instance of the Trigonometric Mecanum Omnidirectional Algorithm.
@@ -62,9 +65,9 @@ public class TMOA {
     /**
      * Indicates to DcMotor driver the specific power to get the expected movement.
      *
-     * @param Vd The multiplicative speed
-     * @param Td The directional angle
-     * @param Vt The change speed
+     * @param Vd The multiplicative speed [0 - 1]
+     * @param Td The directional angle [0 - 2 * Math.PI]
+     * @param Vt The change speed [-1 - 1]
      */
     public void move(double Vd, double Td, double Vt) {
         setMultiplePowers(StandardMovement.move(Vd, Td, Vt));
@@ -74,8 +77,8 @@ public class TMOA {
      * Indicates to DcMotor driver the specific power to get the expected movement.
      * Also, calculates the arc-tangent to get its length and its angle. Useful when using joysticks.
      *
-     * @param y Ordinates Position
-     * @param x Abscissa Position.
+     * @param y Ordinates Position [-1 - 1]
+     * @param x Abscissa Position [-1 - 1]
      */
     public void move(double y, double x) {
         setMultiplePowers(StandardMovement.move(y, x));

@@ -17,12 +17,31 @@
 
 package LibTMOA.models;
 
+import LibTMOA.movement.encoder.Encoders;
+
+/**
+ * The Interface where you need to configure your DcMotor Driver.
+ */
 public interface DcMotorBase {
+
+    /**
+     * Returns the ID of your motor instance.
+     * @return ID [byte]
+     */
     byte getId();
 
+    /**
+     * Returns current power of the motor.
+     * @return Power [double]
+     */
     double getPower();
 
+    /**
+     * Sets power for your motor instance.
+     * @param power Power [double]
+     */
     void setPower(double power);
+
 
     void setBrake(boolean brake);
 

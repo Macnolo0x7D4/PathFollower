@@ -15,10 +15,24 @@
  *
  */
 
-package LibTMOA.models;
+package LibTMOA.utils;
 
+/**
+ * Execution Modes that can be used.
+ */
 public enum ExecutionModes {
+    /**
+     * It does not take care about distances, only directions.
+     */
     SIMPLE,
+
+    /**
+     * Same to SIMPLE, but this stabilizes the movement.
+     */
     ENCODER,
+
+    /**
+     * It moves taking care about distances and directions. Useful with route algorithms.
+     */
     COMPLEX
 }

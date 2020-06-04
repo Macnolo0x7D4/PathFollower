@@ -17,15 +17,34 @@
 
 package LibTMOA.utils;
 
+/**
+ * A class with some methods to check integrity of velocities values.
+ */
 public class VelocityChecker {
+    /**
+     * Returns true if the integrity of speed its ok.
+     * @param Vd Multiplicative Speed [0 - 1]
+     * @return Ok? [boolean]
+     */
     public static boolean checkSpeed(double Vd) {
-        return Math.abs(Vd) <= 1;
+        return Vd <= 1 && Vd >= 0;
     }
 
+    /**
+     * Returns true if the integrity of angle its ok.
+     * @param Td Angle [0 - 2 * Math.PI]
+     * @return Ok? [boolean]
+     */
     public static boolean checkAngle(double Td) {
-        return Math.abs(Td) <= 2 * Math.PI;
+        return Td <= (2 * Math.PI) && Td >= 0;
     }
 
+    /**
+     * Returns true if the integrity of coordinates its ok.
+     * @param y Ordinates Position [-1 - 1]
+     * @param x Abscissa Position [-1 - 1]
+     * @return Ok? [boolean]
+     */
     public static boolean checkCoordinates(double y, double x) {
         return Math.abs((x + y) / 2) <= 1;
     }

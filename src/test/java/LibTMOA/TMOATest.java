@@ -35,16 +35,16 @@ public class TMOATest {
 
     public static ChassisConfiguration getTestingConfiguration() {
         return new ChassisConfiguration(
-                List.of(
-                        new DcMotorTestDriver((byte) 0),
-                        new DcMotorTestDriver((byte) 1),
-                        new DcMotorTestDriver((byte) 2),
-                        new DcMotorTestDriver((byte) 3)
-                ),
-                16.16,
-                28,
-                20,
-                2.952755906
+            List.of(
+                    new DcMotorTestDriver((byte) 0),
+                    new DcMotorTestDriver((byte) 1),
+                    new DcMotorTestDriver((byte) 2),
+                    new DcMotorTestDriver((byte) 3)
+            ),
+            16.16,
+            28,
+            20,
+            2.952755906
         );
     }
 }

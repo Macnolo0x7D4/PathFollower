@@ -15,27 +15,38 @@
  *
  */
 
-package LibTMOA.direction;
+package LibTMOA.movement.standard;
 
 import LibTMOA.math.Calculate;
 import LibTMOA.utils.VelocityChecker;
 
+/**
+ * A class with necessary methods to work with SIMPLE or ENCODER mode.
+ */
 public class StandardMovement {
-    public static double[] move(double Vd, double Td, double Vt) {
+    /**
+     * Returns double[] (with DcMotor powers) if IntegrityChecker returns !null.
+     *
+     * @param Vd The multiplicative speed [0 - 1]
+     * @param Td The directional angle [0 - 2 * Math.PI]
+     * @param Vt The change speed [-1 - 1]
+     * @return Velocities
+     */
+    public static double[] move(double Vd, double Td, double Vt){
+        if (!(VelocityChecker.checkSpeed(Vd) && VelocityChecker.checkAngle(Td))) {
+            return null;
+        }
 
-        if (!VelocityChecker.checkSpeed(Vd)) {
-            return null;
-        }
-        if (!VelocityChecker.checkAngle(Td)) {
-            return null;
-        }
-        if (!VelocityChecker.checkSpeed(Vt)) {
-            return null;
-        }
-
-        return velocitiesCreator(Vd, Td, Vt);
+        return velocitiesCreator(Vd,Td, Vt);
     }
 
+    /**
+     * Returns double[] (with DcMotor powers) if IntegrityChecker returns !null.
+     *
+     * @param y Ordinates Position [-1 - 1]
+     * @param x Abscissa Position [-1 - 1]
+     * @return Velocities
+     */
     public static double[] move(double y, double x) {
         if (!VelocityChecker.checkCoordinates(y, x)) {
             return null;
