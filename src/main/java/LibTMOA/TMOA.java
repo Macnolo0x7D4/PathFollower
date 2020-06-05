@@ -19,6 +19,7 @@ package LibTMOA;
 
 import LibTMOA.models.structures.DcMotorVelocities;
 import LibTMOA.models.structures.JoystickCoordinates;
+import LibTMOA.models.structures.MecanumDirectives;
 import LibTMOA.movement.standard.StandardMovement;
 import LibTMOA.math.Calculate;
 import LibTMOA.models.ChassisConfiguration;
@@ -66,13 +67,10 @@ public class TMOA {
 
     /**
      * Indicates to DcMotor driver the specific power to get the expected movement.
-     *
-     * @param Vd The multiplicative speed [0 - 1]
-     * @param Td The directional angle [0 - 2 * Math.PI]
-     * @param Vt The change speed [-1 - 1]
+     * @param directives MecanumDirectives
      */
-    public void move(double Vd, double Td, double Vt) {
-        setMultiplePowers(StandardMovement.move(Vd, Td, Vt));
+    public void move(MecanumDirectives directives) {
+        setMultiplePowers(StandardMovement.move(directives));
     }
 
     /**

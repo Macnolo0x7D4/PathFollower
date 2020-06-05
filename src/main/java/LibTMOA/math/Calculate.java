@@ -18,6 +18,7 @@
 package LibTMOA.math;
 
 import LibTMOA.models.structures.JoystickCoordinates;
+import LibTMOA.models.structures.MecanumDirectives;
 import LibTMOA.utils.Utilities;
 import LibTMOA.utils.VelocityChecker;
 
@@ -27,24 +28,20 @@ import LibTMOA.utils.VelocityChecker;
 public class Calculate {
     /**
      * Returns power value (for FR,BL).
-     * @param Vd The multiplicative speed [0 - 1]
-     * @param Td The directional angle [0 - 2 * Math.PI]
-     * @param Vt The change speed [-1 - 1]
+     * @param directives MecanumDirectives
      * @return Power Value
      */
-    public static double calc1(double Vd, double Td, double Vt) {
-        return Math.abs(Vd) * Math.sin(Math.abs(Td) + (Math.PI / 4)) + Vt;
+    public static double calc1(MecanumDirectives directives) {
+        return Math.abs(directives.getVd()) * Math.sin(Math.abs(directives.getTd()) + (Math.PI / 4)) + directives.getVt();
     }
 
     /**
      * Returns power value (for FL,BR).
-     * @param Vd The multiplicative speed [0 - 1]
-     * @param Td The directional angle [0 - 2 * Math.PI]
-     * @param Vt The change speed [-1 - 1]
+     * @param directives MecanumDirectives
      * @return Power Value
      */
-    public static double calc2(double Vd, double Td, double Vt) {
-        return Math.abs(Vd) * Math.cos(Math.abs(Td) + (Math.PI / 4)) + Vt;
+    public static double calc2(MecanumDirectives directives) {
+        return Math.abs(directives.getVd()) * Math.cos(Math.abs(directives.getTd()) + (Math.PI / 4)) + directives.getVt();
     }
 
     /**

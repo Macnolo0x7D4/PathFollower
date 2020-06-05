@@ -20,6 +20,7 @@ package LibTMOA.movement.standard;
 import LibTMOA.math.Calculate;
 import LibTMOA.models.structures.JoystickCoordinates;
 import LibTMOA.models.structures.DcMotorVelocities;
+import LibTMOA.models.structures.MecanumDirectives;
 import LibTMOA.utils.VelocityChecker;
 
 /**
@@ -28,18 +29,15 @@ import LibTMOA.utils.VelocityChecker;
 public class StandardMovement {
     /**
      * Returns double[] (with DcMotor powers) if IntegrityChecker returns !null.
-     *
-     * @param Vd The multiplicative speed [0 - 1]
-     * @param Td The directional angle [0 - 2 * Math.PI]
-     * @param Vt The change speed [-1 - 1]
+     * @param directives MecanumDirectives
      * @return Velocities
      */
-    public static DcMotorVelocities move(double Vd, double Td, double Vt){
-        if (!(VelocityChecker.checkSpeed(Vd) && VelocityChecker.checkAngle(Td))) {
+    public static DcMotorVelocities move(MecanumDirectives directives){
+        if (!(VelocityChecker.checkSpeed(directives.getVd()) && VelocityChecker.checkAngle(directives.getTd()))) {
             return null;
         }
 
-        return velocitiesCreator(Vd,Td, Vt);
+        return velocitiesCreator(directives);
     }
 
     /**
@@ -60,16 +58,21 @@ public class StandardMovement {
             return null;
         }
 
-        return velocitiesCreator(Vd, Td, 0);
+        MecanumDirectives directives = new MecanumDirectives(Vd, Td);
+
+        return velocitiesCreator(directives);
     }
 
-    private static DcMotorVelocities velocitiesCreator(double Vd, double Td, double Vt) {
+    private static DcMotorVelocities velocitiesCreator(MecanumDirectives directives) {
         double[] velocities = new double[4];
 
-        velocities[0] = Calculate.calc2(Vd, Td, Vt);
-        velocities[1] = Calculate.calc1(Vd, Td, Vt);
-        velocities[2] = Calculate.calc1(Vd, Td, Vt);
-        velocities[3] = Calculate.calc2(Vd, Td, Vt);
+        double motorA = Calculate.calc1(directives);
+        double motorB = Calculate.calc2(directives);
+
+        velocities[0] = motorB;
+        velocities[1] = motorA;
+        velocities[2] = motorA;
+        velocities[3] = motorB;
 
         return new DcMotorVelocities(velocities);
     }
