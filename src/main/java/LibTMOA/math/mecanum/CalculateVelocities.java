@@ -15,43 +15,22 @@
  *
  */
 
-package LibTMOA.math;
+package LibTMOA.math.mecanum;
 
 import LibTMOA.models.structures.JoystickCoordinates;
-import LibTMOA.models.structures.MecanumDirectives;
-import LibTMOA.utils.Utilities;
 import LibTMOA.utils.VelocityChecker;
 
 /**
- * A class with all the mathematics methods to get mecanum directions.
+ * A class with all the mathematics methods to get Mecanum Velocities.
  */
-public class Calculate {
-    /**
-     * Returns power value (for FR,BL).
-     * @param directives MecanumDirectives
-     * @return Power Value
-     */
-    public static double calc1(MecanumDirectives directives) {
-        return Math.abs(directives.getVd()) * Math.sin(Math.abs(directives.getTd()) + (Math.PI / 4)) + directives.getVt();
-    }
-
-    /**
-     * Returns power value (for FL,BR).
-     * @param directives MecanumDirectives
-     * @return Power Value
-     */
-    public static double calc2(MecanumDirectives directives) {
-        return Math.abs(directives.getVd()) * Math.cos(Math.abs(directives.getTd()) + (Math.PI / 4)) + directives.getVt();
-    }
-
+public class CalculateVelocities {
     /**
      * Returns angle from coordinates.
      * @param coordinates JoystickCoordinates
      * @return Angle [0 - 2 * Math.PI]
      */
     public static double getAngle(JoystickCoordinates coordinates) {
-        double a = Math.atan2(coordinates.getY(), coordinates.getX());
-        return Math.abs(a);
+        return Math.atan2(coordinates.getY(), coordinates.getX()) + Math.PI;
     }
 
     /**
@@ -66,16 +45,5 @@ public class Calculate {
         coordinates = new JoystickCoordinates(y, x);
 
         return VelocityChecker.checkCoordinates(coordinates) ? Math.max(y, x) : 0;
-    }
-
-    /**
-     * Returns rounded value to established number of places (Utilities.roundPower).
-     * @param value Raw value
-     * @return Rounded value
-     */
-    public static double roundPower(double value) {
-        long factor = (long) Math.pow(10, Utilities.roundPower);
-        value = value * factor;
-        return (double) Math.round(value) / factor;
     }
 }

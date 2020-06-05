@@ -17,7 +17,7 @@
 
 package LibTMOA;
 
-import LibTMOA.models.DcMotorBase;
+import LibTMOA.models.config.DcMotorBase;
 import LibTMOA.movement.encoder.Encoders;
 import LibTMOA.movement.encoder.ZeroPowerBehavior;
 
@@ -40,7 +40,6 @@ class DcMotorTestDriver implements DcMotorBase {
     @Override
     public void setPower(double power) {
         this.power = power;
-        System.out.println("[Motor " + getId() + "] - Now, power is: " + getPower());
     }
 
     @Override

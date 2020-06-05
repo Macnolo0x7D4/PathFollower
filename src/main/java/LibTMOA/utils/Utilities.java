@@ -28,4 +28,15 @@ public class Utilities {
      * Indicates the number of places to round in powers.
      */
     public static final int roundPower = 8;
+
+    /**
+     * Returns rounded value to established number of places (Utilities.roundPower).
+     * @param value Raw value
+     * @return Rounded value
+     */
+    public static double roundPower(double value) {
+        long factor = (long) Math.pow(10, Utilities.roundPower);
+        value = value * factor;
+        return (double) Math.round(value) / factor;
+    }
 }

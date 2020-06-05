@@ -15,9 +15,7 @@
  *
  */
 
-package LibTMOA.models;
-
-import LibTMOA.utils.ExecutionModes;
+package LibTMOA.models.config;
 
 import java.util.List;
 

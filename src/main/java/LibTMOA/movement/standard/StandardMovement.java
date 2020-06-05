@@ -17,7 +17,8 @@
 
 package LibTMOA.movement.standard;
 
-import LibTMOA.math.Calculate;
+import LibTMOA.math.mecanum.CalculatePower;
+import LibTMOA.math.mecanum.CalculateVelocities;
 import LibTMOA.models.structures.JoystickCoordinates;
 import LibTMOA.models.structures.DcMotorVelocities;
 import LibTMOA.models.structures.MecanumDirectives;
@@ -51,12 +52,12 @@ public class StandardMovement {
             return null;
         }
 
-        double Vd = Calculate.getSpeed(coordinates);
-        double Td = Calculate.getAngle(coordinates);
+        double Vd = CalculateVelocities.getSpeed(coordinates);
+        double Td = CalculateVelocities.getAngle(coordinates);
 
-        if (!VelocityChecker.checkAngle(Td)) {
+        /*if (!VelocityChecker.checkAngle(Td)) {
             return null;
-        }
+        }*/
 
         MecanumDirectives directives = new MecanumDirectives(Vd, Td);
 
@@ -66,8 +67,8 @@ public class StandardMovement {
     private static DcMotorVelocities velocitiesCreator(MecanumDirectives directives) {
         double[] velocities = new double[4];
 
-        double motorA = Calculate.calc1(directives);
-        double motorB = Calculate.calc2(directives);
+        double motorA = CalculatePower.calc1(directives);
+        double motorB = CalculatePower.calc2(directives);
 
         velocities[0] = motorB;
         velocities[1] = motorA;

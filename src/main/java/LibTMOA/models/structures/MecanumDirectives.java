@@ -27,9 +27,9 @@ public class MecanumDirectives {
 
     /**
      * Creates a MecanumDirectives object from Vd, Td and Vt.
-     * @param vd Multiplicative Speed
-     * @param td Angle Direction
-     * @param vt Change Speed
+     * @param vd Multiplicative Speed [0 - 1]
+     * @param td Angle Direction [-Math.PI - Math.PI]
+     * @param vt Change Speed [-1 - 1]
      */
     public MecanumDirectives(double vd, double td, double vt) {
         this.vd = vd;
@@ -39,8 +39,8 @@ public class MecanumDirectives {
 
     /**
      * Creates a MecanumDirectives object from Vd and Td.
-     * @param vd Multiplicative Speed
-     * @param td Angle Direction
+     * @param vd Multiplicative Speed [0 - 1]
+     * @param td Angle Direction [-Math.PI - Math.PI]
      */
     public MecanumDirectives(double vd, double td) {
         this.vd = vd;

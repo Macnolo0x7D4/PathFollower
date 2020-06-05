@@ -15,7 +15,7 @@
  *
  */
 
-package LibTMOA.utils;
+package LibTMOA.models.config;
 
 /**
  * Execution Modes that can be used.

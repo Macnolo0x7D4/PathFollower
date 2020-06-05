@@ -15,7 +15,7 @@
  *
  */
 
-package LibTMOA.models;
+package LibTMOA.models.config;
 
 import LibTMOA.movement.encoder.Encoders;
 
@@ -41,7 +41,6 @@ public interface DcMotorBase {
      * @param power Power [double]
      */
     void setPower(double power);
-
 
     void setBrake(boolean brake);
 

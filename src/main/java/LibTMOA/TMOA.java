@@ -21,9 +21,9 @@ import LibTMOA.models.structures.DcMotorVelocities;
 import LibTMOA.models.structures.JoystickCoordinates;
 import LibTMOA.models.structures.MecanumDirectives;
 import LibTMOA.movement.standard.StandardMovement;
-import LibTMOA.math.Calculate;
-import LibTMOA.models.ChassisConfiguration;
-import LibTMOA.models.DcMotorBase;
+import LibTMOA.models.config.ChassisConfiguration;
+import LibTMOA.models.config.DcMotorBase;
+import LibTMOA.utils.Utilities;
 
 import java.util.List;
 
@@ -87,7 +87,7 @@ public class TMOA {
         List<DcMotorBase> motors = this.config.getMotors();
 
         for (DcMotorBase dcMotor : motors) {
-            dcMotor.setPower(Calculate.roundPower(
+            dcMotor.setPower(Utilities.roundPower(
                     velocities.getVelocity((byte)motors.indexOf(dcMotor))
             ));
         }
