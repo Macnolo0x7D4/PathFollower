@@ -17,6 +17,8 @@
 
 package LibTMOA.utils;
 
+import LibTMOA.models.structures.JoystickCoordinates;
+
 /**
  * A class with some methods to check integrity of velocities values.
  */
@@ -41,12 +43,11 @@ public class VelocityChecker {
 
     /**
      * Returns true if the integrity of coordinates its ok.
-     * @param y Ordinates Position [-1 - 1]
-     * @param x Abscissa Position [-1 - 1]
+     * @param coordinate JoystickCoordinate
      * @return Ok? [boolean]
      */
-    public static boolean checkCoordinates(double y, double x) {
-        return Math.abs((x + y) / 2) <= 1;
+    public static boolean checkCoordinates(JoystickCoordinates coordinate) {
+        return Math.abs((coordinate.getX() + coordinate.getY()) / 2) <= 1;
     }
 
 }

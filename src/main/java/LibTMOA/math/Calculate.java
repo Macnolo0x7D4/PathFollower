@@ -17,6 +17,7 @@
 
 package LibTMOA.math;
 
+import LibTMOA.models.structures.JoystickCoordinates;
 import LibTMOA.utils.Utilities;
 import LibTMOA.utils.VelocityChecker;
 
@@ -48,26 +49,26 @@ public class Calculate {
 
     /**
      * Returns angle from coordinates.
-     * @param y Ordinates Position [-1 - 1]
-     * @param x Abscissa Position [-1 - 1]
+     * @param coordinates JoystickCoordinates
      * @return Angle [0 - 2 * Math.PI]
      */
-    public static double getAngle(double y, double x) {
-        double a = Math.atan2(y, x);
+    public static double getAngle(JoystickCoordinates coordinates) {
+        double a = Math.atan2(coordinates.getY(), coordinates.getX());
         return Math.abs(a);
     }
 
     /**
      * Returns multiplicative speed from coordinates.
-     * @param y Ordinates Position [-1 - 1]
-     * @param x Abscissa Position [-1 - 1]
+     * @param coordinates JoystickCoordinates
      * @return Multiplicative Speed [0 - 1] || '0' if not pass integrity check
      */
-    public static double getSpeed(double y, double x) {
-        y = Math.abs(y);
-        x = Math.abs(x);
+    public static double getSpeed(JoystickCoordinates coordinates) {
+        double y = Math.abs(coordinates.getY());
+        double x = Math.abs(coordinates.getX());
 
-        return VelocityChecker.checkCoordinates(y, x) ? Math.max(y, x) : 0;
+        coordinates = new JoystickCoordinates(y, x);
+
+        return VelocityChecker.checkCoordinates(coordinates) ? Math.max(y, x) : 0;
     }
 
     /**

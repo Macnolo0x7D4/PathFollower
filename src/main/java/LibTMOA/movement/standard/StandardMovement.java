@@ -18,6 +18,8 @@
 package LibTMOA.movement.standard;
 
 import LibTMOA.math.Calculate;
+import LibTMOA.models.structures.JoystickCoordinates;
+import LibTMOA.models.structures.DcMotorVelocities;
 import LibTMOA.utils.VelocityChecker;
 
 /**
@@ -32,7 +34,7 @@ public class StandardMovement {
      * @param Vt The change speed [-1 - 1]
      * @return Velocities
      */
-    public static double[] move(double Vd, double Td, double Vt){
+    public static DcMotorVelocities move(double Vd, double Td, double Vt){
         if (!(VelocityChecker.checkSpeed(Vd) && VelocityChecker.checkAngle(Td))) {
             return null;
         }
@@ -43,17 +45,16 @@ public class StandardMovement {
     /**
      * Returns double[] (with DcMotor powers) if IntegrityChecker returns !null.
      *
-     * @param y Ordinates Position [-1 - 1]
-     * @param x Abscissa Position [-1 - 1]
+     * @param coordinates JoystickCoordinate
      * @return Velocities
      */
-    public static double[] move(double y, double x) {
-        if (!VelocityChecker.checkCoordinates(y, x)) {
+    public static DcMotorVelocities move(JoystickCoordinates coordinates) {
+        if (!VelocityChecker.checkCoordinates(coordinates)) {
             return null;
         }
 
-        double Vd = Calculate.getSpeed(y, x);
-        double Td = Calculate.getAngle(y, x);
+        double Vd = Calculate.getSpeed(coordinates);
+        double Td = Calculate.getAngle(coordinates);
 
         if (!VelocityChecker.checkAngle(Td)) {
             return null;
@@ -62,7 +63,7 @@ public class StandardMovement {
         return velocitiesCreator(Vd, Td, 0);
     }
 
-    private static double[] velocitiesCreator(double Vd, double Td, double Vt) {
+    private static DcMotorVelocities velocitiesCreator(double Vd, double Td, double Vt) {
         double[] velocities = new double[4];
 
         velocities[0] = Calculate.calc2(Vd, Td, Vt);
@@ -70,6 +71,6 @@ public class StandardMovement {
         velocities[2] = Calculate.calc1(Vd, Td, Vt);
         velocities[3] = Calculate.calc2(Vd, Td, Vt);
 
-        return velocities;
+        return new DcMotorVelocities(velocities);
     }
 }

@@ -17,6 +17,8 @@
 
 package LibTMOA;
 
+import LibTMOA.models.structures.DcMotorVelocities;
+import LibTMOA.models.structures.JoystickCoordinates;
 import LibTMOA.movement.standard.StandardMovement;
 import LibTMOA.math.Calculate;
 import LibTMOA.models.ChassisConfiguration;
@@ -77,18 +79,19 @@ public class TMOA {
      * Indicates to DcMotor driver the specific power to get the expected movement.
      * Also, calculates the arc-tangent to get its length and its angle. Useful when using joysticks.
      *
-     * @param y Ordinates Position [-1 - 1]
-     * @param x Abscissa Position [-1 - 1]
+     * @param coordinates JoystickCoordinate
      */
-    public void move(double y, double x) {
-        setMultiplePowers(StandardMovement.move(y, x));
+    public void move(JoystickCoordinates coordinates) {
+        setMultiplePowers(StandardMovement.move(coordinates));
     }
 
-    private void setMultiplePowers(double[] velocities) {
+    private void setMultiplePowers(DcMotorVelocities velocities) {
         List<DcMotorBase> motors = this.config.getMotors();
 
         for (DcMotorBase dcMotor : motors) {
-            dcMotor.setPower(Calculate.roundPower(velocities[motors.indexOf(dcMotor)]));
+            dcMotor.setPower(Calculate.roundPower(
+                    velocities.getVelocity((byte)motors.indexOf(dcMotor))
+            ));
         }
     }
 }
