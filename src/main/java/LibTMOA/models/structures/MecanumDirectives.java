@@ -21,14 +21,14 @@ package LibTMOA.models.structures;
  * ADT of Mecanum Directives [Vd, Td, Vt]
  */
 public class MecanumDirectives {
-    private double vd;
-    private double td;
-    private double vt;
+    private final double vd;
+    private final double td;
+    private final double vt;
 
     /**
      * Creates a MecanumDirectives object from Vd, Td and Vt.
      * @param vd Multiplicative Speed [0 - 1]
-     * @param td Angle Direction [-Math.PI - Math.PI]
+     * @param td Steering Angle [-Math.PI - Math.PI]
      * @param vt Change Speed [-1 - 1]
      */
     public MecanumDirectives(double vd, double td, double vt) {
@@ -40,7 +40,7 @@ public class MecanumDirectives {
     /**
      * Creates a MecanumDirectives object from Vd and Td.
      * @param vd Multiplicative Speed [0 - 1]
-     * @param td Angle Direction [-Math.PI - Math.PI]
+     * @param td Steering Angle [-Math.PI - Math.PI]
      */
     public MecanumDirectives(double vd, double td) {
         this.vd = vd;
@@ -57,8 +57,8 @@ public class MecanumDirectives {
     }
 
     /**
-     * Returns Angle Direction
-     * @return Angle Direction [double]
+     * Returns Steering Angle
+     * @return Steering Angle [double]
      */
     public double getTd() {
         return td;

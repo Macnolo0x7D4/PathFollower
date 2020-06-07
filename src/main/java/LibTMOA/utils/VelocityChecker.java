@@ -17,37 +17,77 @@
 
 package LibTMOA.utils;
 
+import LibTMOA.math.mecanum.CalculateVelocities;
+import LibTMOA.models.exceptions.InvalidJoystickCoordinatesException;
+import LibTMOA.models.exceptions.InvalidMecanumDirectiveException;
 import LibTMOA.models.structures.JoystickCoordinates;
+import LibTMOA.models.structures.MecanumDirectives;
 
 /**
  * A class with some methods to check integrity of velocities values.
  */
 public class VelocityChecker {
     /**
-     * Returns true if the integrity of speed its ok.
+     * Throws InvalidMecanumDirectiveException if multiplicative speed does not pass.
      * @param Vd Multiplicative Speed [0 - 1]
-     * @return Ok? [boolean]
+     * @throws InvalidMecanumDirectiveException InvalidMecanumDirectiveException
      */
-    public static boolean checkSpeed(double Vd) {
-        return Vd <= 1 && Vd >= 0;
+    public static void checkSpeed(double Vd) throws InvalidMecanumDirectiveException {
+        if (!(Vd <= 1 && Vd >= 0))
+            throw new InvalidMecanumDirectiveException("Check Multiplicative Speed.");
     }
 
     /**
-     * Returns true if the integrity of angle its ok.
+     * Throws InvalidMecanumDirectiveException if steering angle does not pass.
      * @param Td Angle [0 - 2 * Math.PI]
-     * @return Ok? [boolean]
+     * @throws InvalidMecanumDirectiveException InvalidMecanumDirectiveException
      */
-    public static boolean checkAngle(double Td) {
-        return Td <= (2 * Math.PI) && Td >= 0;
+    public static void checkAngle(double Td) throws InvalidMecanumDirectiveException{
+        if(!(Td <= (2 * Math.PI) && Td >= 0))
+            throw new InvalidMecanumDirectiveException("Check Steering Angle.");
     }
 
     /**
-     * Returns true if the integrity of coordinates its ok.
-     * @param coordinate JoystickCoordinate
-     * @return Ok? [boolean]
+     * Throws InvalidMecanumDirectiveException if directives do not pass.
+     * @param directives MecanumDirectives
+     * @throws InvalidMecanumDirectiveException InvalidMecanumDirectiveException
      */
-    public static boolean checkCoordinates(JoystickCoordinates coordinate) {
-        return Math.abs((coordinate.getX() + coordinate.getY()) / 2) <= 1;
+    public static void checkVelocity(MecanumDirectives directives) throws InvalidMecanumDirectiveException {
+        double vd = directives.getVd();
+        double td = directives.getTd();
+        double vt = directives.getVt();
+
+        if (!(vd <= 1 && vd >= 0))
+            throw new InvalidMecanumDirectiveException("Check Multiplicative Speed.");
+
+        if(!(td <= (2 * Math.PI) && td >= 0))
+            throw new InvalidMecanumDirectiveException("Check Steering Angle.");
+
+        if (!(vt <= 1 && vt >= -1))
+            throw new InvalidMecanumDirectiveException("Check Change Speed.");
     }
 
+    /**
+     * Throws InvalidJoystickCoordinatesException or
+     * InvalidMecanumDirectiveException if coordinates do not pass.
+     *
+     * @param coordinate JoystickCoordinate
+     * @throws InvalidJoystickCoordinatesException InvalidJoystickCoordinatesException
+     * @throws InvalidMecanumDirectiveException InvalidMecanumDirectiveException
+     */
+    public static void checkCoordinates(JoystickCoordinates coordinate) throws InvalidJoystickCoordinatesException,InvalidMecanumDirectiveException {
+        if(Math.abs(coordinate.getY()) > 1)
+            throw new InvalidJoystickCoordinatesException("Check Ordinate Coordinate");
+
+        if(Math.abs(coordinate.getX()) > 1)
+            throw new InvalidJoystickCoordinatesException("Check Abscissa Coordinate");
+
+        if(!(Math.abs((coordinate.getX() + coordinate.getY()) / 2) <= 1))
+            throw new InvalidJoystickCoordinatesException();
+
+        double vd = CalculateVelocities.getSpeed(coordinate);
+        double td = CalculateVelocities.getAngle(coordinate);
+
+        checkVelocity(new MecanumDirectives(vd, td, 0));
+    }
 }

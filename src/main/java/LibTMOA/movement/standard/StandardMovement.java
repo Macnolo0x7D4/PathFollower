@@ -19,6 +19,8 @@ package LibTMOA.movement.standard;
 
 import LibTMOA.math.mecanum.CalculatePower;
 import LibTMOA.math.mecanum.CalculateVelocities;
+import LibTMOA.models.exceptions.InvalidJoystickCoordinatesException;
+import LibTMOA.models.exceptions.InvalidMecanumDirectiveException;
 import LibTMOA.models.structures.JoystickCoordinates;
 import LibTMOA.models.structures.DcMotorVelocities;
 import LibTMOA.models.structures.MecanumDirectives;
@@ -34,8 +36,11 @@ public class StandardMovement {
      * @return Velocities
      */
     public static DcMotorVelocities move(MecanumDirectives directives){
-        if (!(VelocityChecker.checkSpeed(directives.getVd()) && VelocityChecker.checkAngle(directives.getTd()))) {
-            return null;
+        try{
+            VelocityChecker.checkVelocity(directives);
+        } catch (InvalidMecanumDirectiveException exception){
+            exception.printStackTrace();
+            directives = null;
         }
 
         return velocitiesCreator(directives);
@@ -48,16 +53,15 @@ public class StandardMovement {
      * @return Velocities
      */
     public static DcMotorVelocities move(JoystickCoordinates coordinates) {
-        if (!VelocityChecker.checkCoordinates(coordinates)) {
-            return null;
+        try {
+            VelocityChecker.checkCoordinates(coordinates);
+        } catch (InvalidMecanumDirectiveException | InvalidJoystickCoordinatesException exception) {
+            exception.printStackTrace();
+            return velocitiesCreator(null);
         }
 
         double Vd = CalculateVelocities.getSpeed(coordinates);
         double Td = CalculateVelocities.getAngle(coordinates);
-
-        /*if (!VelocityChecker.checkAngle(Td)) {
-            return null;
-        }*/
 
         MecanumDirectives directives = new MecanumDirectives(Vd, Td);
 
@@ -65,6 +69,11 @@ public class StandardMovement {
     }
 
     private static DcMotorVelocities velocitiesCreator(MecanumDirectives directives) {
+        if (directives == null){
+            double[] defaultVelocities = {0,0,0,0};
+            return new DcMotorVelocities(defaultVelocities);
+        }
+
         double[] velocities = new double[4];
 
         double motorA = CalculatePower.calc1(directives);

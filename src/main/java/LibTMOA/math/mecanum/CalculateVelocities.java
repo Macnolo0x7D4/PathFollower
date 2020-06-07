@@ -42,8 +42,6 @@ public class CalculateVelocities {
         double y = Math.abs(coordinates.getY());
         double x = Math.abs(coordinates.getX());
 
-        coordinates = new JoystickCoordinates(y, x);
-
-        return VelocityChecker.checkCoordinates(coordinates) ? Math.max(y, x) : 0;
+        return Math.max(y, x);
     }
 }

@@ -19,6 +19,7 @@ package LibTMOA;
 
 import LibTMOA.models.config.ChassisConfiguration;
 import LibTMOA.models.structures.JoystickCoordinates;
+import LibTMOA.models.structures.MecanumDirectives;
 import org.junit.Test;
 
 import java.util.List;
@@ -30,9 +31,10 @@ public class TMOATest {
     public void testSomeLibraryMethod() {
         TMOA classUnderTest = new TMOA(getTestingConfiguration());
 
-        classUnderTest.move(new JoystickCoordinates(1,0));
-        classUnderTest.getChassisInformation().getMotors().forEach(dcMotor -> System.out.println("[Motor " + dcMotor.getId() + "]: " + dcMotor.getPower()));
+        classUnderTest.move(new JoystickCoordinates(2,0));
+        //classUnderTest.move(new MecanumDirectives(1,0,0));
 
+        classUnderTest.getChassisInformation().getMotors().forEach(dcMotor -> System.out.println("[Motor " + dcMotor.getId() + "]: " + dcMotor.getPower()));
         // assertTrue("getDcMotor(2).getPower() == 1.0 should return 'true'", classUnderTest.getDcMotor((byte) 2).getPower() == 1.0);
     }
 

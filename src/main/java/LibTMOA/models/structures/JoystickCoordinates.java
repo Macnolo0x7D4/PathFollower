@@ -54,7 +54,7 @@ public class JoystickCoordinates {
      * Returns JoystickCoordinates as an array of doubles
      * @return Position [double[]]
      */
-    public double[] getPosition(){
+    @Deprecated public double[] getPosition(){
         double[] pos = new double[2];
 
         pos[0] = y;
