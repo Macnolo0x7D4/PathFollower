@@ -76,13 +76,21 @@ public class StandardMovement {
 
         double[] velocities = new double[4];
 
-        double motorA = CalculatePower.calc1(directives);
-        double motorB = CalculatePower.calc2(directives);
+        double vt = directives.getVt();
 
-        velocities[0] = motorB;
-        velocities[1] = motorA;
-        velocities[2] = motorA;
-        velocities[3] = motorB;
+        for (int i = 0; i < velocities.length; i++) {
+            if(i == 0 || i == 3){
+                velocities[i] = CalculatePower.calc(directives, true);
+            } else {
+                velocities[i] = CalculatePower.calc(directives, false);
+            }
+
+            if(i % 2 == 0){
+                velocities[i] = velocities[i] + vt;
+            } else {
+                velocities[i] = velocities[i] - vt;
+            }
+        }
 
         return new DcMotorVelocities(velocities);
     }

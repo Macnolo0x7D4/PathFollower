@@ -18,7 +18,6 @@
 package LibTMOA.math.mecanum;
 
 import LibTMOA.models.structures.JoystickCoordinates;
-import LibTMOA.utils.VelocityChecker;
 
 /**
  * A class with all the mathematics methods to get Mecanum Velocities.
@@ -34,9 +33,9 @@ public class CalculateVelocities {
     }
 
     /**
-     * Returns multiplicative speed from coordinates.
+     * Returns magnitude from coordinates.
      * @param coordinates JoystickCoordinates
-     * @return Multiplicative Speed [0 - 1] || '0' if not pass integrity check
+     * @return Magnitude [0 - 1] || '0' if not pass integrity check
      */
     public static double getSpeed(JoystickCoordinates coordinates) {
         double y = Math.abs(coordinates.getY());

@@ -28,11 +28,12 @@ public class CalculatePower {
      * @param directives MecanumDirectives
      * @return Power Value
      */
-    public static double calc1(MecanumDirectives directives) {
+    @Deprecated public static double calc1(MecanumDirectives directives) {
         double vd = Math.abs(directives.getVd());
         double td = directives.getTd();
+        double vt = directives.getVt();
 
-        return vd * Math.sin(td + (Math.PI / 4)) + directives.getVt();
+        return vd * Math.sin(td + (Math.PI / 4)) + vt;
     }
 
     /**
@@ -40,10 +41,27 @@ public class CalculatePower {
      * @param directives MecanumDirectives
      * @return Power Value
      */
-    public static double calc2(MecanumDirectives directives) {
+    @Deprecated public static double calc2(MecanumDirectives directives) {
         double vd = Math.abs(directives.getVd());
-        double td = Math.abs(directives.getTd());
+        double td = directives.getTd();
+        double vt = directives.getVt();
 
-        return vd * Math.cos(td + (Math.PI / 4)) + directives.getVt();
+        return vd * Math.cos(td + (Math.PI / 4)) + vt;
+    }
+
+    /**
+     * Returns Power value
+     * @param diagonal Selects diagonal. If 'diagonal' is true, selects FL and RR, else FR and RL.
+     * @param directives MecanumDirectives
+     * @return Power Value
+     */
+    public static double calc(MecanumDirectives directives, boolean diagonal) {
+        double vd = Math.abs(directives.getVd());
+        double td = directives.getTd();
+
+        if(diagonal)
+            return vd * Math.sin(td + (Math.PI / 4));
+        else
+            return vd * Math.cos(td + (Math.PI / 4));
     }
 }

@@ -28,23 +28,23 @@ import LibTMOA.models.structures.MecanumDirectives;
  */
 public class VelocityChecker {
     /**
-     * Throws InvalidMecanumDirectiveException if multiplicative speed does not pass.
-     * @param Vd Multiplicative Speed [0 - 1]
+     * Throws InvalidMecanumDirectiveException if magnitude does not pass.
+     * @param Vd Magnitude [0 - 1]
      * @throws InvalidMecanumDirectiveException InvalidMecanumDirectiveException
      */
     public static void checkSpeed(double Vd) throws InvalidMecanumDirectiveException {
         if (!(Vd <= 1 && Vd >= 0))
-            throw new InvalidMecanumDirectiveException("Check Multiplicative Speed.");
+            throw new InvalidMecanumDirectiveException("Check Magnitude.");
     }
 
     /**
-     * Throws InvalidMecanumDirectiveException if steering angle does not pass.
+     * Throws InvalidMecanumDirectiveException if angle does not pass.
      * @param Td Angle [0 - 2 * Math.PI]
      * @throws InvalidMecanumDirectiveException InvalidMecanumDirectiveException
      */
     public static void checkAngle(double Td) throws InvalidMecanumDirectiveException{
         if(!(Td <= (2 * Math.PI) && Td >= 0))
-            throw new InvalidMecanumDirectiveException("Check Steering Angle.");
+            throw new InvalidMecanumDirectiveException("Check Angle.");
     }
 
     /**
@@ -58,13 +58,13 @@ public class VelocityChecker {
         double vt = directives.getVt();
 
         if (!(vd <= 1 && vd >= 0))
-            throw new InvalidMecanumDirectiveException("Check Multiplicative Speed.");
+            throw new InvalidMecanumDirectiveException("Check Magnitude.");
 
         if(!(td <= (2 * Math.PI) && td >= 0))
-            throw new InvalidMecanumDirectiveException("Check Steering Angle.");
+            throw new InvalidMecanumDirectiveException("Check Angle.");
 
         if (!(vt <= 1 && vt >= -1))
-            throw new InvalidMecanumDirectiveException("Check Change Speed.");
+            throw new InvalidMecanumDirectiveException("Check Rotation.");
     }
 
     /**

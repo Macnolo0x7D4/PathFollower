@@ -27,9 +27,9 @@ public class MecanumDirectives {
 
     /**
      * Creates a MecanumDirectives object from Vd, Td and Vt.
-     * @param vd Multiplicative Speed [0 - 1]
-     * @param td Steering Angle [-Math.PI - Math.PI]
-     * @param vt Change Speed [-1 - 1]
+     * @param vd Desired Magnitude [0 - 1]
+     * @param td Desired Angle [0 - 2 * Math.PI]
+     * @param vt Desired Rotation [-1 - 1]
      */
     public MecanumDirectives(double vd, double td, double vt) {
         this.vd = vd;
@@ -39,8 +39,8 @@ public class MecanumDirectives {
 
     /**
      * Creates a MecanumDirectives object from Vd and Td.
-     * @param vd Multiplicative Speed [0 - 1]
-     * @param td Steering Angle [-Math.PI - Math.PI]
+     * @param vd Desired Magnitude [0 - 1]
+     * @param td Desired Angle [0 - 2 * Math.PI]
      */
     public MecanumDirectives(double vd, double td) {
         this.vd = vd;
@@ -49,24 +49,24 @@ public class MecanumDirectives {
     }
 
     /**
-     * Returns Multiplicative Speed
-     * @return Multiplicative Speed [double]
+     * Returns Desired Magnitude
+     * @return Desired Magnitude [double]
      */
     public double getVd() {
         return vd;
     }
 
     /**
-     * Returns Steering Angle
-     * @return Steering Angle [double]
+     * Returns Desired Angle
+     * @return Desired Angle [double]
      */
     public double getTd() {
         return td;
     }
 
     /**
-     * Returns Change Speed
-     * @return Change Speed [double]
+     * Returns Desired Rotation
+     * @return Desired Rotation [double]
      */
     public double getVt() {
         return vt;
