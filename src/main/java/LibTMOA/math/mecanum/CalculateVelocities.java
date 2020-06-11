@@ -26,16 +26,16 @@ public class CalculateVelocities {
     /**
      * Returns angle from coordinates.
      * @param coordinates JoystickCoordinates
-     * @return Angle [0 - 2 * Math.PI]
+     * @return Angle [0 - 2 * Math.PI] or '0' if not pass integrity check
      */
     public static double getAngle(JoystickCoordinates coordinates) {
-        return Math.atan2(coordinates.getY(), coordinates.getX()) + Math.PI;
+        return Math.atan2(coordinates.getY(), coordinates.getX());
     }
 
     /**
      * Returns magnitude from coordinates.
      * @param coordinates JoystickCoordinates
-     * @return Magnitude [0 - 1] || '0' if not pass integrity check
+     * @return Magnitude [0 - 1] or '0' if not pass integrity check
      */
     public static double getSpeed(JoystickCoordinates coordinates) {
         double y = Math.abs(coordinates.getY());

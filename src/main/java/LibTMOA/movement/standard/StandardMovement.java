@@ -53,12 +53,12 @@ public class StandardMovement {
      * @return Velocities
      */
     public static DcMotorVelocities move(JoystickCoordinates coordinates) {
-        try {
+        /*try {
             VelocityChecker.checkCoordinates(coordinates);
         } catch (InvalidMecanumDirectiveException | InvalidJoystickCoordinatesException exception) {
             exception.printStackTrace();
             return velocitiesCreator(null);
-        }
+        }*/
 
         double Vd = CalculateVelocities.getSpeed(coordinates);
         double Td = CalculateVelocities.getAngle(coordinates);

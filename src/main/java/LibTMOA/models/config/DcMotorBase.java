@@ -42,6 +42,17 @@ public interface DcMotorBase {
      */
     void setPower(double power);
 
+    /**
+     * Sets power 0 for motor instance.
+     */
+    void stop();
+
+    /**
+     * Sets inverted if inverted is true
+     * @param inverted Inverted [true, false]
+     */
+    void setInverted(boolean inverted);
+
     void setBrake(boolean brake);
 
     void setEncoders(Encoders encoder);

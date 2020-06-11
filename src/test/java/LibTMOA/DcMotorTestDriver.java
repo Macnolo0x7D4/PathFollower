@@ -27,6 +27,7 @@ class DcMotorTestDriver implements DcMotorBase {
     private Encoders encoder;
     private ZeroPowerBehavior zeroPowerBehavior;
     private double power;
+    private boolean inverted;
 
     public DcMotorTestDriver(byte id) {
         this.id = id;
@@ -34,12 +35,24 @@ class DcMotorTestDriver implements DcMotorBase {
 
     @Override
     public double getPower() {
-        return power;
+        return inverted ? -power : power;
     }
 
     @Override
     public void setPower(double power) {
         this.power = power;
+    }
+
+    @Override
+    public void stop() {
+        this.power = 0;
+    }
+
+    @Override
+    public void setInverted(boolean inverted) {
+        this.inverted = inverted;
+        if (inverted)
+            System.out.println("[Motor " + getId() + "]: Inverted!");
     }
 
     @Override

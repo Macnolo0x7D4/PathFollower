@@ -20,23 +20,17 @@ package LibTMOA.utils;
 /**
  * A class with some constants.
  */
-public class Utilities {
+public class Constants {
     //private static final double bias = 0.91;
     //private static final double meccyBias = 0.9;
 
     /**
-     * Indicates the number of places to round in powers.
+     * Indicates the number of places to round.
      */
-    public static final int roundPower = 8;
+    public static final int ROUND_POWER = 8;
 
     /**
-     * Returns rounded value to established number of places (Utilities.roundPower).
-     * @param value Raw value
-     * @return Rounded value
+     * Indicates the default period for PID Controllers.
      */
-    public static double roundPower(double value) {
-        long factor = (long) Math.pow(10, Utilities.roundPower);
-        value = value * factor;
-        return (double) Math.round(value) / factor;
-    }
+    public static final double DEFAULT_PERIOD = 0.02;
 }

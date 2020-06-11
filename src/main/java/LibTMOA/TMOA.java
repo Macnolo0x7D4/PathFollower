@@ -23,7 +23,7 @@ import LibTMOA.models.structures.MecanumDirectives;
 import LibTMOA.movement.standard.StandardMovement;
 import LibTMOA.models.config.ChassisConfiguration;
 import LibTMOA.models.config.DcMotorBase;
-import LibTMOA.utils.Utilities;
+import LibTMOA.utils.MathUtils;
 
 import java.util.List;
 
@@ -41,6 +41,9 @@ public class TMOA {
      */
     public TMOA(ChassisConfiguration config) {
         this.config = config;
+
+        this.config.getMotors().forEach(motor -> motor.setInverted(motor.getId() % 2 == 0));
+
         System.out.println("[Main Thread]: The legendary Trigonometric Mecanum Omnidirectional Algorithm is Running!");
     }
 
@@ -87,7 +90,7 @@ public class TMOA {
         List<DcMotorBase> motors = this.config.getMotors();
 
         for (DcMotorBase dcMotor : motors) {
-            dcMotor.setPower(Utilities.roundPower(
+            dcMotor.setPower(MathUtils.roundPower(
                     velocities.getVelocity((byte)motors.indexOf(dcMotor))
             ));
         }

@@ -58,13 +58,13 @@ public class VelocityChecker {
         double vt = directives.getVt();
 
         if (!(vd <= 1 && vd >= 0))
-            throw new InvalidMecanumDirectiveException("Check Magnitude.");
+            throw new InvalidMecanumDirectiveException("Check Magnitude: " + vd);
 
         if(!(td <= (2 * Math.PI) && td >= 0))
-            throw new InvalidMecanumDirectiveException("Check Angle.");
+            throw new InvalidMecanumDirectiveException("Check Angle: " + td);
 
         if (!(vt <= 1 && vt >= -1))
-            throw new InvalidMecanumDirectiveException("Check Rotation.");
+            throw new InvalidMecanumDirectiveException("Check Rotation: " + vt);
     }
 
     /**
@@ -77,10 +77,10 @@ public class VelocityChecker {
      */
     public static void checkCoordinates(JoystickCoordinates coordinate) throws InvalidJoystickCoordinatesException,InvalidMecanumDirectiveException {
         if(Math.abs(coordinate.getY()) > 1)
-            throw new InvalidJoystickCoordinatesException("Check Ordinate Coordinate");
+            throw new InvalidJoystickCoordinatesException("Check Ordinate Coordinate: " + coordinate.getY());
 
         if(Math.abs(coordinate.getX()) > 1)
-            throw new InvalidJoystickCoordinatesException("Check Abscissa Coordinate");
+            throw new InvalidJoystickCoordinatesException("Check Abscissa Coordinate: " + coordinate.getX());
 
         if(!(Math.abs((coordinate.getX() + coordinate.getY()) / 2) <= 1))
             throw new InvalidJoystickCoordinatesException();
