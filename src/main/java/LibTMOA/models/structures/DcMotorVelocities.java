@@ -52,7 +52,7 @@ public class DcMotorVelocities {
 
     /**
      * Returns DcMotorVelocities as a string
-     * @return Velocities [array -> string]
+     * @return Velocities [array to string]
      */
     @Override
     public String toString() {
