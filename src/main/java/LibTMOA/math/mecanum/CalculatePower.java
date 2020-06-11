@@ -24,7 +24,7 @@ import LibTMOA.models.structures.MecanumDirectives;
  */
 public class CalculatePower {
     /**
-     * Returns power value (for FR,BL).
+     * Returns power value (for FR,RL).
      * @param directives MecanumDirectives
      * @return Power Value
      */
@@ -37,7 +37,7 @@ public class CalculatePower {
     }
 
     /**
-     * Returns power value (for FL,BR).
+     * Returns power value (for FL,RR).
      * @param directives MecanumDirectives
      * @return Power Value
      */
@@ -59,9 +59,9 @@ public class CalculatePower {
         double vd = Math.abs(directives.getVd());
         double td = directives.getTd();
 
-        if(diagonal)
-            return vd * Math.sin(td + (Math.PI / 4));
+        if(!diagonal)
+            return vd * Math.sin(td - (Math.PI / 4));
         else
-            return vd * Math.cos(td + (Math.PI / 4));
+            return vd * Math.cos(td - (Math.PI / 4));
     }
 }

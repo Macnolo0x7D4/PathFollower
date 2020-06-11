@@ -30,16 +30,9 @@ public class TMOATest {
     @Test
     public void testSomeLibraryMethod() {
 
-        //System.out.println("Calculo: " + Math.atan2(0, -1));
-
         TMOA classUnderTest = new TMOA(getTestingConfiguration());
 
-        //classUnderTest.move(new JoystickCoordinates(1,0));
-        //classUnderTest.getChassisInformation().getMotors().forEach(dcMotor -> System.out.println("[Motor " + dcMotor.getId() + "]: " + dcMotor.getPower()));
-
-
-        classUnderTest.move(new MecanumDirectives(1, 0,0));
-        classUnderTest.getChassisInformation().getMotors().forEach(dcMotor -> System.out.println("[Motor " + dcMotor.getId() + "]: " + dcMotor.getPower()));
+        // classUnderTest.getChassisInformation().getMotors().forEach(dcMotor -> System.out.println("[Motor " + dcMotor.getId() + "]: " + dcMotor.getPower()));
         // assertTrue("getDcMotor(2).getPower() == 1.0 should return 'true'", classUnderTest.getDcMotor((byte) 2).getPower() == 1.0);
     }
 

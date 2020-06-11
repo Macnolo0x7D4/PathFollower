@@ -39,7 +39,7 @@ public class VelocityChecker {
 
     /**
      * Throws InvalidMecanumDirectiveException if angle does not pass.
-     * @param Td Angle [0 - 2 * Math.PI]
+     * @param Td Angle [-Math.PI - Math.PI]
      * @throws InvalidMecanumDirectiveException InvalidMecanumDirectiveException
      */
     public static void checkAngle(double Td) throws InvalidMecanumDirectiveException{
@@ -60,7 +60,7 @@ public class VelocityChecker {
         if (!(vd <= 1 && vd >= 0))
             throw new InvalidMecanumDirectiveException("Check Magnitude: " + vd);
 
-        if(!(td <= (2 * Math.PI) && td >= 0))
+        if(!(Math.abs(td) <= Math.PI))
             throw new InvalidMecanumDirectiveException("Check Angle: " + td);
 
         if (!(vt <= 1 && vt >= -1))
