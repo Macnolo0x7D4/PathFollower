@@ -53,7 +53,7 @@ public interface DcMotorBase {
      */
     void setInverted(boolean inverted);
 
-    void setBrake(boolean brake);
+    void setMode(Encoders encoder);
 
-    void setEncoders(Encoders encoder);
+    void setBrake(boolean brake);
 }

@@ -17,9 +17,12 @@
 
 package LibTMOA;
 
+import LibTMOA.controllers.Robot;
+import LibTMOA.math.road.FloatPoint;
 import LibTMOA.models.config.ChassisConfiguration;
-import LibTMOA.models.structures.JoystickCoordinates;
-import LibTMOA.models.structures.MecanumDirectives;
+import LibTMOA.robot.MyOpMode;
+import LibTMOA.robot.OpMode;
+import LibTMOA.server.ComputerDebugging;
 import org.junit.Test;
 
 import java.util.List;
@@ -34,6 +37,35 @@ public class TMOATest {
 
         // classUnderTest.getChassisInformation().getMotors().forEach(dcMotor -> System.out.println("[Motor " + dcMotor.getId() + "]: " + dcMotor.getPower()));
         // assertTrue("getDcMotor(2).getPower() == 1.0 should return 'true'", classUnderTest.getDcMotor((byte) 2).getPower() == 1.0);
+
+        ComputerDebugging computerDebugging = new ComputerDebugging();
+        Robot robot = new Robot();
+        OpMode opMode = new MyOpMode();
+        opMode.init();
+
+        ComputerDebugging.clearLogPoints();
+
+
+        long startTime = System.currentTimeMillis();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        while(true){
+
+            opMode.loop();
+
+            try {
+                Thread.sleep(30);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            robot.update();
+            ComputerDebugging.sendRobotLocation(robot);
+            ComputerDebugging.sendLogPoint(new FloatPoint(Robot.worldXPosition, Robot.worldYPosition));
+            ComputerDebugging.markEndOfUpdate();
+        }
     }
 
     public static ChassisConfiguration getTestingConfiguration() {

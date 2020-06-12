@@ -33,4 +33,9 @@ public class Constants {
      * Indicates the default period for PID Controllers.
      */
     public static final double DEFAULT_PERIOD = 0.02;
+
+    /**
+     * Indicates the Field Length. (Only FTC - Skystone)
+     */
+    public static final double FIELD_LENGTH = 358.775;
 }

@@ -56,13 +56,13 @@ class DcMotorTestDriver implements DcMotorBase {
     }
 
     @Override
-    public void setBrake(boolean brake) {
-        this.zeroPowerBehavior = brake ? ZeroPowerBehavior.BRAKE : ZeroPowerBehavior.FLOAT;
+    public void setMode(Encoders encoder) {
+
     }
 
     @Override
-    public void setEncoders(Encoders encoder) {
-        this.encoder = encoder;
+    public void setBrake(boolean brake) {
+        this.zeroPowerBehavior = brake ? ZeroPowerBehavior.BRAKE : ZeroPowerBehavior.FLOAT;
     }
 
     @Override
