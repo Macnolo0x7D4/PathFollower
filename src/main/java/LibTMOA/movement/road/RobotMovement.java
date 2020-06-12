@@ -17,13 +17,14 @@
 
 package LibTMOA.movement.road;
 
-import LibTMOA.models.structures.CurvePoint;
+import LibTMOA.utils.CurvePoint;
 import LibTMOA.server.ComputerDebugging;
 import LibTMOA.math.road.FloatPoint;
 import LibTMOA.utils.Range;
 import LibTMOA.utils.Point;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static LibTMOA.robot.VariablesOfMovement.*;
 import static LibTMOA.controllers.Robot.*;
@@ -33,7 +34,7 @@ import static LibTMOA.utils.MathUtils.lineCircleintersection;
 
 public class RobotMovement {
 
-    public static void followCurve(ArrayList<CurvePoint> allPoints, double followAngle){
+    public static void followCurve(List<CurvePoint> allPoints, double followAngle){
         for (int i=0; i< allPoints.size()-1; i++){
             ComputerDebugging.sendLine(new FloatPoint(allPoints.get(i).x,allPoints.get(i).y ), new FloatPoint(allPoints.get(i+1).x, allPoints.get(i+1).y));
         }
@@ -45,7 +46,7 @@ public class RobotMovement {
         MoveToPosition(followMe.x, followMe.y, followMe.moveSpeed, followAngle, followMe.turnSpeed);
     }
 
-    public static CurvePoint getFollowPointPath(ArrayList<CurvePoint> pathPoints,Point robotLocation, double followRadius){
+    public static CurvePoint getFollowPointPath(List<CurvePoint> pathPoints,Point robotLocation, double followRadius){
         CurvePoint followMe = new CurvePoint(pathPoints.get(0));
 
 

@@ -19,7 +19,7 @@ package LibTMOA.movement.road;
 
 //import android.util.Log;
 //import com.qualcomm.robotcore.util.Range;
-import LibTMOA.models.structures.CurvePoint;
+import LibTMOA.utils.CurvePoint;
 import LibTMOA.utils.PiecewiseFunction;
 import LibTMOA.utils.Point;
 import java.util.ArrayList;

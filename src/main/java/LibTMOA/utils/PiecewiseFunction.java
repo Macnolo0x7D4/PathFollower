@@ -17,10 +17,12 @@
 
 package LibTMOA.utils;
 
+import LibTMOA.models.structures.Pose2D;
+
 import java.util.ArrayList;
 
 public class PiecewiseFunction {
-    public ArrayList<CurvePoint> m_points = new ArrayList<>();
+    public ArrayList<Pose2D> m_points = new ArrayList<>();
 
     public PiecewiseFunction(String visualString){
         //go through the string from bottom left to top right (kinda weird) assuming it's 20 by 9 chars
@@ -32,7 +34,7 @@ public class PiecewiseFunction {
                 int row = iter/20;//since lines are in groups of 20 chars, devide i by 20 and truncate decimals (int)
                 int col = iter - (row*20);
 
-                CurvePoint c = new CurvePoint((double) col/19.0,1.0-((double) row/8.0));
+                Pose2D c = new Pose2D((double) col/19.0,1.0-((double) row/8.0));
                 m_points.add(c);
             }
 
@@ -45,7 +47,7 @@ public class PiecewiseFunction {
         }
     }
     //if you want to manually set the points
-    public PiecewiseFunction(ArrayList<CurvePoint> points){
+    public PiecewiseFunction(ArrayList<Pose2D> points){
         m_points = points;
     }
 
@@ -57,11 +59,11 @@ public class PiecewiseFunction {
         double y2 = 0;
 
         for(int i = 0; i < m_points.size()-1; i ++){
-            if(x >= m_points.get(i).x && x < m_points.get(i+1).x){
-                x1 = m_points.get(i).x;
-                y1 = m_points.get(i).y;
-                x2 = m_points.get(i+1).x;
-                y2 = m_points.get(i+1).y;
+            if(x >= m_points.get(i).getX() && x < m_points.get(i+1).getX()){
+                x1 = m_points.get(i).getX();
+                y1 = m_points.get(i).getY();
+                x2 = m_points.get(i+1).getX();
+                y2 = m_points.get(i+1).getY();
             }
         }
         //slope is change in y over change in x

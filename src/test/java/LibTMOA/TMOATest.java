@@ -18,6 +18,8 @@
 package LibTMOA;
 
 import LibTMOA.controllers.Robot;
+import LibTMOA.io.PathProcessor;
+import LibTMOA.io.PathReader;
 import LibTMOA.math.road.FloatPoint;
 import LibTMOA.models.config.ChassisConfiguration;
 import LibTMOA.models.config.OpMode;
@@ -31,7 +33,6 @@ import static org.junit.Assert.assertTrue;
 public class TMOATest {
     @Test
     public void testSomeLibraryMethod() {
-
         TMOA classUnderTest = new TMOA(getTestingConfiguration());
 
         // classUnderTest.getChassisInformation().getMotors().forEach(dcMotor -> System.out.println("[Motor " + dcMotor.getId() + "]: " + dcMotor.getPower()));

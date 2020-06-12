@@ -18,10 +18,74 @@
 package LibTMOA.utils;
 
 public class CurvePoint {
-    public CurvePoint(double X, double Y){
-        x = X;
-        y = Y;
-    }
     public double x;
     public double y;
+    public double moveSpeed;
+    public double turnSpeed;
+    public double followDistance;
+    public double slowDownTurnRadians;
+    public double slowDownTurnAmount;
+    public double pointLength;
+
+
+    public CurvePoint(double x, double y, double moveSpeed, double turnSpeed,
+                      double followDistance, double slowDownTurnRadians, double slowDownTurnAmount){
+        this.x = x;
+        this.y = y;
+        this.moveSpeed = moveSpeed;
+        this.turnSpeed = turnSpeed;
+        this.followDistance = followDistance;
+        this.pointLength = followDistance;
+        this.slowDownTurnRadians = slowDownTurnRadians;
+        this.slowDownTurnAmount = slowDownTurnAmount;
+
+        System.out.println(this.toString());
+    }
+
+
+    public CurvePoint(double x, double y, double moveSpeed, double turnSpeed,
+                      double followDistance,double pointLength, double slowDownTurnRadians, double slowDownTurnAmount){
+        this.x = x;
+        this.y = y;
+        this.moveSpeed = moveSpeed;
+        this.turnSpeed = turnSpeed;
+        this.followDistance = followDistance;
+        this.pointLength = pointLength;
+        this.slowDownTurnRadians = slowDownTurnRadians;
+        this.slowDownTurnAmount = slowDownTurnAmount;
+    }
+
+    public CurvePoint(CurvePoint nextPoint) {
+        x = nextPoint.x;
+        y = nextPoint.y;
+        moveSpeed = nextPoint.moveSpeed;
+        turnSpeed = nextPoint.turnSpeed;
+        followDistance = nextPoint.followDistance;
+        slowDownTurnRadians = nextPoint.slowDownTurnRadians;
+        slowDownTurnAmount = nextPoint.slowDownTurnAmount;
+        pointLength = nextPoint.pointLength;
+
+    }
+
+    public Point toPoint(){
+        return new Point(x,y);
+    }
+    public void setPoint(Point p){
+        x = p.x;
+        y = p.y;
+    }
+
+    @Override
+    public String toString() {
+        return "CurvePoint{" +
+                "x=" + x +
+                ", y=" + y +
+                ", moveSpeed=" + moveSpeed +
+                ", turnSpeed=" + turnSpeed +
+                ", followDistance=" + followDistance +
+                ", slowDownTurnRadians=" + slowDownTurnRadians +
+                ", slowDownTurnAmount=" + slowDownTurnAmount +
+                ", pointLength=" + pointLength +
+                '}';
+    }
 }

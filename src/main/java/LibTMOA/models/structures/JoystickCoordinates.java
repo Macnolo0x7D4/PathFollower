@@ -52,7 +52,7 @@ public class JoystickCoordinates {
 
     /**
      * Returns JoystickCoordinates as an array of doubles
-     * @return Position [double[]]
+     * @return Pose2D [double[]]
      */
     @Deprecated public double[] getPosition(){
         double[] pos = new double[2];

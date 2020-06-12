@@ -116,7 +116,7 @@ public class PIDController {
     /**
      * Sets the error which is considered tolerable for use with {@link #atSetPoint()}.
      *
-     * @param positionTolerance Position error which is tolerable.
+     * @param positionTolerance Pose2D error which is tolerable.
      */
     public void setTolerance(double positionTolerance) {
         setTolerance(positionTolerance, Double.POSITIVE_INFINITY);
@@ -125,7 +125,7 @@ public class PIDController {
     /**
      * Sets the error which is considered tolerable for use with {@link #atSetPoint()}.
      *
-     * @param positionTolerance Position error which is tolerable.
+     * @param positionTolerance Pose2D error which is tolerable.
      * @param velocityTolerance Velocity error which is tolerable.
      */
     public void setTolerance(double positionTolerance, double velocityTolerance) {
