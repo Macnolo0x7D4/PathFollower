@@ -15,8 +15,9 @@
  *
  */
 
-package LibTMOA.robot;
+package LibTMOA.movement.road;
 
+import LibTMOA.models.structures.CurvePoint;
 import LibTMOA.server.ComputerDebugging;
 import LibTMOA.math.road.FloatPoint;
 import LibTMOA.utils.Range;
@@ -24,7 +25,7 @@ import LibTMOA.utils.Point;
 
 import java.util.ArrayList;
 
-import static LibTMOA.utils.MovementVars.*;
+import static LibTMOA.robot.VariablesOfMovement.*;
 import static LibTMOA.controllers.Robot.*;
 
 import static LibTMOA.utils.MathUtils.AngleWrap;
@@ -85,8 +86,8 @@ public class RobotMovement {
         double MovementXPower= relativeX / (Math.abs(relativeX) + Math.abs(relativeY));
         double MovementYPower= relativeY / (Math.abs(relativeX) + Math.abs(relativeY));
 
-        movement_x = MovementXPower* Speed;
-        movement_y = MovementYPower* Speed;
+       movement_x = MovementXPower* Speed;
+       movement_y = MovementYPower* Speed;
 
         double relativeTurnAngle  = RelativeAngleToTarget - Math.toRadians(180) + preferredTurnAngle;
         movement_turn= Range.clip(relativeTurnAngle / Math.toRadians(30), -1, 1) * turnSpeed;

@@ -20,8 +20,7 @@ package LibTMOA;
 import LibTMOA.controllers.Robot;
 import LibTMOA.math.road.FloatPoint;
 import LibTMOA.models.config.ChassisConfiguration;
-import LibTMOA.robot.MyOpMode;
-import LibTMOA.robot.OpMode;
+import LibTMOA.models.config.OpMode;
 import LibTMOA.server.ComputerDebugging;
 import org.junit.Test;
 

@@ -15,10 +15,11 @@
  *
  */
 
-package LibTMOA.robot;
+package LibTMOA.movement.road;
 
 //import android.util.Log;
 //import com.qualcomm.robotcore.util.Range;
+import LibTMOA.models.structures.CurvePoint;
 import LibTMOA.utils.PiecewiseFunction;
 import LibTMOA.utils.Point;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import LibTMOA.math.road.FloatPoint;
 import LibTMOA.utils.SpeedOmeter;
 import LibTMOA.utils.MathUtils;
 import LibTMOA.utils.Range;
-import static LibTMOA.robot.RobotInXYMovement.profileStates.gunningIt;
+import static LibTMOA.movement.road.RobotInXYMovement.profileStates.gunningIt;
 import static LibTMOA.robot.VariablesOfMovement.movement_turn;
 import static LibTMOA.robot.VariablesOfMovement.movement_x;
 import static LibTMOA.robot.VariablesOfMovement.movement_y;

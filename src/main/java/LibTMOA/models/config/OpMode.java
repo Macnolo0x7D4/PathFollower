@@ -15,7 +15,7 @@
  *
  */
 
-package LibTMOA.robot;
+package LibTMOA.models.config;
 
 public abstract class OpMode {
 

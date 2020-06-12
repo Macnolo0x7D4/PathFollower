@@ -17,7 +17,7 @@
 
 package LibTMOA.controllers;
 
-import LibTMOA.utils.MovementVars;
+import static LibTMOA.robot.VariablesOfMovement.*;
 import LibTMOA.utils.SpeedOmeter;
 import LibTMOA.utils.Range;
 
@@ -80,12 +80,12 @@ public class Robot {
         worldXPosition += totalSpeed * Math.cos(outputAngle) * elapsedTime * 1000 * 0.2;
         worldYPosition += totalSpeed * Math.sin(outputAngle) * elapsedTime * 1000 * 0.2;
 
-        worldAngle_rad += MovementVars.movement_turn * elapsedTime * 20 / (2 * Math.PI);
+        worldAngle_rad += movement_turn * elapsedTime * 20 / (2 * Math.PI);
 
 
-        xSpeed += Range.clip((MovementVars.movement_x-xSpeed)/0.2,-1,1) * elapsedTime;
-        ySpeed += Range.clip((MovementVars.movement_y-ySpeed)/0.2,-1,1) * elapsedTime;
-        turnSpeed += Range.clip((MovementVars.movement_turn-turnSpeed)/0.2,-1,1) * elapsedTime;
+        xSpeed += Range.clip((movement_x-xSpeed)/0.2,-1,1) * elapsedTime;
+        ySpeed += Range.clip((movement_y-ySpeed)/0.2,-1,1) * elapsedTime;
+        turnSpeed += Range.clip((movement_turn-turnSpeed)/0.2,-1,1) * elapsedTime;
 
 
         SpeedOmeter.yDistTraveled += ySpeed * elapsedTime * 1000;

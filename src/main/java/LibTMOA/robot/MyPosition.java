@@ -41,13 +41,9 @@ public class MyPosition {
     public static double worldXPositionOld = 0.0;
     public static double worldYPositionOld = 0.0;
 
-
     public static double currPos_l = 0;
     public static double currPos_r = 0;
     public static double currPos_a = 0;
-
-
-
 
     public static double wheelLeftInitialReading = 0.0;
     public static double wheelRightInitialReading = 0.0;

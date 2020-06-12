@@ -49,10 +49,16 @@ public interface DcMotorBase {
 
     /**
      * Sets inverted if inverted is true
+     *
      * @param inverted Inverted [true, false]
      */
     void setInverted(boolean inverted);
 
+    /**
+     * Sets encoder from Encoders ENUM
+     *
+     * @param encoder
+     */
     void setMode(Encoders encoder);
 
     void setBrake(boolean brake);

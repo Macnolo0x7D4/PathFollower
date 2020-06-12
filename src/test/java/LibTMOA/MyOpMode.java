@@ -15,13 +15,16 @@
  *
  */
 
-package LibTMOA.robot;
+package LibTMOA;
+
+import LibTMOA.models.structures.CurvePoint;
+import LibTMOA.models.config.OpMode;
 
 import java.util.ArrayList;
 
-import static LibTMOA.robot.RobotMovement.followCurve;
+import static LibTMOA.movement.road.RobotMovement.followCurve;
 
-public class MyOpMode extends OpMode{
+public class MyOpMode extends OpMode {
     @Override
     public void init() {
 

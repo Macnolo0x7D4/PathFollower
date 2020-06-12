@@ -15,7 +15,7 @@
  *
  */
 
-package LibTMOA.robot;
+package LibTMOA.models.structures;
 
 import LibTMOA.utils.Point;
 
