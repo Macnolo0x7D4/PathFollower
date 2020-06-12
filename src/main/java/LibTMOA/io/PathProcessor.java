@@ -51,7 +51,7 @@ public class PathProcessor {
 
         double turnSpeed = (double) object.get("turn_speed");
         double followDistance = (double) object.get("follow_distance");
-        double slowDownTurnRadians = (double) object.get("slow_down_turn_radians");
+        double slowDownTurnRadians = Math.toRadians((double) object.get("slow_down_turn_radians"));
         double slowDownTurnAmount = (double) object.get("slow_down_turn_amount");
 
         return new CurvePoint(x, y, moveSpeed, turnSpeed, followDistance, slowDownTurnRadians, slowDownTurnAmount);

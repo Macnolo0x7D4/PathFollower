@@ -40,6 +40,7 @@ class DcMotorTestDriver implements DcMotorBase {
 
     @Override
     public void setPower(double power) {
+        System.out.println("[Motor " + getId() + "]: Now, power is: " + power);
         this.power = power;
     }
 
