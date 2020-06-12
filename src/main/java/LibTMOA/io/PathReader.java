@@ -19,14 +19,13 @@ package LibTMOA.io;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Comparator;
 
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class PathReader {
-    private JSONParser parser;
+    private final JSONParser parser;
     private JSONArray path;
 
     private final String file;

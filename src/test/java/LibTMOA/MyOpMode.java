@@ -21,39 +21,25 @@ import LibTMOA.io.PathProcessor;
 import LibTMOA.io.PathReader;
 import LibTMOA.utils.CurvePoint;
 import LibTMOA.models.config.OpMode;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import static LibTMOA.movement.road.RobotMovement.followCurve;
 
 public class MyOpMode extends OpMode {
 
-    private PathProcessor processor;
+    List<CurvePoint> functionalPath;
 
     @Override
     public void init() {
         PathReader reader = new PathReader("/Users/manueldiaz/LibTMOA/src/test/java/LibTMOA/file.json");
 
-        processor = new PathProcessor(reader.getRawPath());
+        PathProcessor processor = new PathProcessor(reader.getRawPath());
+
+        functionalPath = processor.createFunctionalPath();
     }
 
     @Override
     public void loop() {
-        //List<CurvePoint> allPoints = List.copyOf(processor.createFunctionalPath());
-        /*
-        allPoints.add(new CurvePoint(0,0,0.5,0.5,50,Math.toRadians(50),1.0));
-        allPoints.add(new CurvePoint(180,90,0.5,0.5,50,Math.toRadians(50),1.0));
-        allPoints.add(new CurvePoint(360,180,0.5,0.5,50,Math.toRadians(50),1.0));
-        allPoints.add(new CurvePoint(280,50,0.5,0.5,50,Math.toRadians(50),1.0));
-        allPoints.add(new CurvePoint(180,0,0.5,0.5,50,Math.toRadians(50),1.0));
-         */
-
-        List<CurvePoint> allPoints = new ArrayList<>();
-
-        allPoints.add(processor.createCurvePointFromInstruction(processor.getInstructionByIndex(0)));
-
-        followCurve(allPoints, Math.toRadians(90));
-
+        followCurve(functionalPath, Math.toRadians(90));
     }
 }

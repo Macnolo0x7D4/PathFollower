@@ -18,8 +18,6 @@
 package LibTMOA;
 
 import LibTMOA.controllers.Robot;
-import LibTMOA.io.PathProcessor;
-import LibTMOA.io.PathReader;
 import LibTMOA.math.road.FloatPoint;
 import LibTMOA.models.config.ChassisConfiguration;
 import LibTMOA.models.config.OpMode;
