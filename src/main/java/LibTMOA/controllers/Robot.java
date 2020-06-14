@@ -18,6 +18,12 @@
 package LibTMOA.controllers;
 
 import static LibTMOA.robot.VariablesOfMovement.*;
+
+import LibTMOA.models.config.DcMotorBase;
+import LibTMOA.movement.road.RobotInXYMovement;
+import LibTMOA.robot.DriveTrain;
+import LibTMOA.robot.MyPosition;
+import LibTMOA.robot.RevMotor;
 import LibTMOA.utils.SpeedOmeter;
 import LibTMOA.utils.Range;
 
@@ -34,13 +40,19 @@ public class Robot {
     }
 
     //robotprueba
+    public RevMotor tl;
+    public RevMotor tr;
+    public RevMotor bl;
+    public RevMotor br;
     public static double xSpeed = 0;
     public static double ySpeed = 0;
     public static double turnSpeed = 0;
+    private DriveTrain myDriveTrain;
 
     public static double worldXPosition;
     public static double worldYPosition;
     public static double worldAngle_rad;
+
 
     public double getXPos(){
         return worldXPosition;
@@ -100,5 +112,21 @@ public class Robot {
 
 
 
+
+
     }
+    public void init(){
+        myDriveTrain=new DriveTrain(tl,tr,bl,br);
+    }
+
+    public void CurvoidStartPos(){
+        for (int i=0; i<2; i++){
+            MyPosition.initialize(myDriveTrain.Tright.getCurrPosition(),myDriveTrain.Tleft.getCurrPosition(),myDriveTrain.Bleft.getCurrPosition(),this);
+
+        }
+    }
+    public void loop(){
+            MyPosition.giveMePositions(myDriveTrain.Tright.getCurrPosition(),myDriveTrain.Tleft.getCurrPosition(),myDriveTrain.Bleft.getCurrPosition());
+    }
+
 }

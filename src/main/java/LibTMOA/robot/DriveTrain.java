@@ -19,23 +19,62 @@ package LibTMOA.robot;
 
 import LibTMOA.models.config.DcMotorBase;
 import LibTMOA.movement.encoder.Encoders;
+import static LibTMOA.robot.VariablesOfMovement.movement_x;
+import static LibTMOA.robot.VariablesOfMovement.movement_y;
+import static LibTMOA.robot.VariablesOfMovement.movement_turn;
+
 
 public class DriveTrain {
-    public DcMotorBase Tright;
-    public DcMotorBase Bright;
-    public DcMotorBase Tleft;
-    public DcMotorBase Bleft;
+    public RevMotor Tright;
+    public RevMotor Bright;
+    public RevMotor Tleft;
+    public RevMotor Bleft;
 
-    public DriveTrain(DcMotorBase Tr, DcMotorBase Br, DcMotorBase Tl,DcMotorBase Bl){
+    public DriveTrain(RevMotor Tr, RevMotor Br, RevMotor Tl,RevMotor Bl){
         Tright = Tr;
         Bright = Br;
         Tleft = Tl;
         Bleft = Bl;
 
-        Tleft.setMode(Encoders.NO_ENCODER);
-        Tright.setMode(Encoders.NO_ENCODER);
-        Bright.setMode(Encoders.NO_ENCODER);
-        Bleft.setMode(Encoders.NO_ENCODER);
 
     }
+    private long lastUpdateTime = 0;
+
+    /**converts movement_y, movement_x, movement_turn into motor powers */
+    public void ApplyMovement() {
+
+        double tl_power_raw = movement_y-movement_turn+movement_x*1.5;
+        double bl_power_raw = movement_y-movement_turn- movement_x*1.5;
+        double br_power_raw = -movement_y-movement_turn-movement_x*1.5;
+        double tr_power_raw = -movement_y-movement_turn+movement_x*1.5;
+
+
+
+
+        //find the maximum of the powers
+        double maxRawPower = Math.abs(tl_power_raw);
+        if(Math.abs(bl_power_raw) > maxRawPower){ maxRawPower = Math.abs(bl_power_raw);}
+        if(Math.abs(br_power_raw) > maxRawPower){ maxRawPower = Math.abs(br_power_raw);}
+        if(Math.abs(tr_power_raw) > maxRawPower){ maxRawPower = Math.abs(tr_power_raw);}
+
+        //if the maximum is greater than 1, scale all the powers down to preserve the shape
+        double scaleDownAmount = 1.0;
+        if(maxRawPower > 1.0){
+            //when max power is multiplied by this ratio, it will be 1.0, and others less
+            scaleDownAmount = 1.0/maxRawPower;
+        }
+        tl_power_raw *= scaleDownAmount;
+        bl_power_raw *= scaleDownAmount;
+        br_power_raw *= scaleDownAmount;
+        tr_power_raw *= scaleDownAmount;
+
+
+        //now we can set the powers ONLY IF THEY HAVE CHANGED TO AVOID SPAMMING USB COMMUNICATIONS
+        Tleft.setPower(tl_power_raw);
+        Bleft.setPower(bl_power_raw);
+        Bright.setPower(br_power_raw);
+        Tright.setPower(tr_power_raw);
+    }
 }
+
+
