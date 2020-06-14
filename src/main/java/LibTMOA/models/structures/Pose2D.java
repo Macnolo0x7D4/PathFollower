@@ -21,7 +21,7 @@ public class Pose2D {
     private final double x;
     private final double y;
 
-    public Pose2D(double x, double y){
+    public Pose2D(double x, double y) {
         this.x = x;
         this.y = y;
     }

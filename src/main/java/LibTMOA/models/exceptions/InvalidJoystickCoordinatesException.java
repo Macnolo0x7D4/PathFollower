@@ -20,7 +20,7 @@ package LibTMOA.models.exceptions;
 /**
  * Exception for Invalid Joystick Coordinates
  */
-public class InvalidJoystickCoordinatesException extends Exception{
+public class InvalidJoystickCoordinatesException extends Exception {
 
     /**
      * Creates an InvalidJoystickCoordinateException.
@@ -31,6 +31,7 @@ public class InvalidJoystickCoordinatesException extends Exception{
 
     /**
      * Creates an InvalidJoystickCoordinateException.
+     *
      * @param message Message to print in Exception Stack Trace
      */
     public InvalidJoystickCoordinatesException(String message) {

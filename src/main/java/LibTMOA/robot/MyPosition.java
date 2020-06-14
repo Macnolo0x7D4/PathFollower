@@ -18,8 +18,8 @@
 package LibTMOA.robot;
 
 import LibTMOA.controllers.Robot;
-import LibTMOA.utils.SpeedOmeter;
 import LibTMOA.utils.MathUtils;
+import LibTMOA.utils.SpeedOmeter;
 
 public class MyPosition {
 
@@ -49,11 +49,11 @@ public class MyPosition {
     public static double wheelRightInitialReading = 0.0;
     public static double lastResetAngle = 0.0;
 
-//calc cuanto hemos avanzado
+    //calc cuanto hemos avanzado
     public static double currentTravelYDistance = 0.0;
 
 
-    public static void initialize(double l, double r,double a, Robot myRobot){
+    public static void initialize(double l, double r, double a, Robot myRobot) {
         MyPosition.myRobot = myRobot;
         currPos_l = l;
         currPos_r = r;
@@ -61,23 +61,23 @@ public class MyPosition {
         update();
     }
 
-    public static void giveMePositions(double l, double r, double a){
+    public static void giveMePositions(double l, double r, double a) {
         currPos_l = l;
         currPos_r = r;
         currPos_a = a;
         update();
     }
 
-    private static void update(){
+    private static void update() {
         PositioningCalculations();
     }
 
     /**
      * Updates our position on the field using the change from the encoders
      */
-    public static void PositioningCalculations(){
+    public static void PositioningCalculations() {
         double wheelLeftCurrent = -currPos_l;
-        double wheelRightCurrent= currPos_r;
+        double wheelRightCurrent = currPos_r;
         double wheelAuxCurrent = currPos_a;
 
         //compute how much the wheel data has changed
@@ -87,43 +87,39 @@ public class MyPosition {
 
 
         //get the real distance traveled using the movement scaling factors
-        double wheelLeftDeltaScale = wheelLeftDelta*moveScalingFactor/1000.0;
-        double wheelRightDeltaScale = wheelRightDelta*moveScalingFactor/1000.0;
-        double wheelAuxDeltaScale = wheelAuxDelta*auxScalingFactor/1000.00;
+        double wheelLeftDeltaScale = wheelLeftDelta * moveScalingFactor / 1000.0;
+        double wheelRightDeltaScale = wheelRightDelta * moveScalingFactor / 1000.0;
+        double wheelAuxDeltaScale = wheelAuxDelta * auxScalingFactor / 1000.00;
 
         //get how much our angle has changed
-        double angleIncrement = (wheelLeftDelta-wheelRightDelta)*turnScalingFactor/100000.0;
+        double angleIncrement = (wheelLeftDelta - wheelRightDelta) * turnScalingFactor / 100000.0;
 
 
         //but use absolute for our actual angle
-        double wheelRightTotal = currPos_r-wheelRightInitialReading;
-        double wheelLeftTotal = -(currPos_l-wheelLeftInitialReading);
+        double wheelRightTotal = currPos_r - wheelRightInitialReading;
+        double wheelLeftTotal = -(currPos_l - wheelLeftInitialReading);
 
         double worldAngleLast = worldAngle_rad;
-        worldAngle_rad = MathUtils.AngleWrap(((wheelLeftTotal-wheelRightTotal)*turnScalingFactor/100000.0) + lastResetAngle);
+        worldAngle_rad = MathUtils.AngleWrap(((wheelLeftTotal - wheelRightTotal) * turnScalingFactor / 100000.0) + lastResetAngle);
 
         //get the predicted amount the straif will go
-        double tracker_a_prediction = Math.toDegrees(angleIncrement)*(auxPredictionScalingFactor/10.0);
+        double tracker_a_prediction = Math.toDegrees(angleIncrement) * (auxPredictionScalingFactor / 10.0);
         //now subtract that from the actual
-        double r_xDistance = wheelAuxDeltaScale-tracker_a_prediction;
+        double r_xDistance = wheelAuxDeltaScale - tracker_a_prediction;
 
 
         //relativeY will by defa
-        double relativeY = (wheelLeftDeltaScale + wheelRightDeltaScale)/2.0;
+        double relativeY = (wheelLeftDeltaScale + wheelRightDeltaScale) / 2.0;
         double relativeX = r_xDistance;
-
 
 
         //if angleIncrement is > 0 we can use steven's dumb stupid and stupid well you know the point
         //equations because he is dumb
-        if(Math.abs(angleIncrement) > 0){
+        if (Math.abs(angleIncrement) > 0) {
             //gets the radius of the turn we are in
-            double radiusOfMovement = (wheelRightDeltaScale+wheelLeftDeltaScale)/(2*angleIncrement);
+            double radiusOfMovement = (wheelRightDeltaScale + wheelLeftDeltaScale) / (2 * angleIncrement);
             //get the radius of our straifing circle
-            double radiusOfStraif = r_xDistance/angleIncrement;
-
-
-
+            double radiusOfStraif = r_xDistance / angleIncrement;
 
 
             relativeY = (radiusOfMovement * Math.sin(angleIncrement)) - (radiusOfStraif * (1 - Math.cos(angleIncrement)));
@@ -131,7 +127,6 @@ public class MyPosition {
             relativeX = radiusOfMovement * (1 - Math.cos(angleIncrement)) + (radiusOfStraif * Math.sin(angleIncrement));
 
         }
-
 
 
         worldXPosition += (Math.cos(worldAngleLast) * relativeY) + (Math.sin(worldAngleLast) *
@@ -142,7 +137,6 @@ public class MyPosition {
 
         SpeedOmeter.yDistTraveled += relativeY;
         SpeedOmeter.xDistTraveled += r_xDistance;
-
 
 
         //save the last positions for later
@@ -160,9 +154,9 @@ public class MyPosition {
     /**
      * Updates our position on the field using the change from the encoders
      */
-    public static void PositioningCalculationsOld(){
+    public static void PositioningCalculationsOld() {
         double wheelLeftCurrent = currPos_l;
-        double wheelRightCurrent= -currPos_r;
+        double wheelRightCurrent = -currPos_r;
         double wheelAuxCurrent = currPos_a;
 
         //compute how much the wheel data has changed
@@ -172,31 +166,27 @@ public class MyPosition {
 
 
         //get the real distance traveled using the movement scaling factors
-        double wheelLeftDeltaScale = wheelLeftDelta*moveScalingFactor/1000.0;
-        double wheelRightDeltaScale = wheelRightDelta*moveScalingFactor/1000.0;
-        double wheelAuxDeltaScale = wheelAuxDelta*auxScalingFactor/1000.00;
-
+        double wheelLeftDeltaScale = wheelLeftDelta * moveScalingFactor / 1000.0;
+        double wheelRightDeltaScale = wheelRightDelta * moveScalingFactor / 1000.0;
+        double wheelAuxDeltaScale = wheelAuxDelta * auxScalingFactor / 1000.00;
 
 
         //get how much our angle has changed
-        double angleIncrement = (wheelLeftDelta-wheelRightDelta)*turnScalingFactor/100000.0;
-
+        double angleIncrement = (wheelLeftDelta - wheelRightDelta) * turnScalingFactor / 100000.0;
 
 
         //but use absolute for our actual angle
-        double wheelRightTotal = currPos_r-wheelRightInitialReading;
-        double wheelLeftTotal = -(currPos_l-wheelLeftInitialReading);
-        worldAngle_rad = MathUtils.AngleWrap(((wheelLeftTotal-wheelRightTotal)*turnScalingFactor/100000.0) + lastResetAngle);
-
-
+        double wheelRightTotal = currPos_r - wheelRightInitialReading;
+        double wheelLeftTotal = -(currPos_l - wheelLeftInitialReading);
+        worldAngle_rad = MathUtils.AngleWrap(((wheelLeftTotal - wheelRightTotal) * turnScalingFactor / 100000.0) + lastResetAngle);
 
 
         //relative y translation
-        double r_yDistance = (wheelRightDeltaScale+wheelLeftDeltaScale)/2;
+        double r_yDistance = (wheelRightDeltaScale + wheelLeftDeltaScale) / 2;
 
 
-        double tracker_a_prediction = Math.toDegrees(angleIncrement)*(auxPredictionScalingFactor/10.0);
-        double r_xDistance = wheelAuxDeltaScale-tracker_a_prediction;
+        double tracker_a_prediction = Math.toDegrees(angleIncrement) * (auxPredictionScalingFactor / 10.0);
+        double r_xDistance = wheelAuxDeltaScale - tracker_a_prediction;
 
 
         worldXPosition += (Math.cos(worldAngle_rad) * r_yDistance) + (Math.sin(worldAngle_rad) *
@@ -205,10 +195,8 @@ public class MyPosition {
                 r_xDistance);
 
 
-
         SpeedOmeter.yDistTraveled += r_yDistance;
         SpeedOmeter.xDistTraveled += r_xDistance;
-
 
 
         //save the last positions for later
@@ -223,18 +211,19 @@ public class MyPosition {
         currentTravelYDistance = r_yDistance;
 
     }
-    public static double subtractAngles(double angle1, double angle2){
-        return MathUtils.AngleWrap(angle1-angle2);
+
+    public static double subtractAngles(double angle1, double angle2) {
+        return MathUtils.AngleWrap(angle1 - angle2);
     }
 
 
-
-
-    /**USE THIS TO SET OUR POSITION**/
-    public static void setPosition(double x,double y,double angle){
+    /**
+     * USE THIS TO SET OUR POSITION
+     **/
+    public static void setPosition(double x, double y, double angle) {
         worldXPosition = x;
         worldYPosition = y;
-        worldAngle_rad= angle;
+        worldAngle_rad = angle;
 
         worldXPositionOld = x;
         worldYPositionOld = y;

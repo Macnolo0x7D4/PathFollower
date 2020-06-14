@@ -27,6 +27,7 @@ public class DcMotorVelocities {
 
     /**
      * Creates DcMotorVelocities Object from double[]
+     *
      * @param velocities Velocities [double[]]
      */
     public DcMotorVelocities(double[] velocities) {
@@ -35,6 +36,7 @@ public class DcMotorVelocities {
 
     /**
      * Returns a DcMotorVelocities as a double[]
+     *
      * @return Velocities [double[]]
      */
     public double[] getVelocities() {
@@ -43,15 +45,17 @@ public class DcMotorVelocities {
 
     /**
      * Returns DcMotorVelocity as a double
+     *
      * @param id DcMotor ID
      * @return Velocity [double]
      */
-    public double getVelocity(byte id){
+    public double getVelocity(byte id) {
         return velocities[id];
     }
 
     /**
      * Returns DcMotorVelocities as a string
+     *
      * @return Velocities [array to string]
      */
     @Override

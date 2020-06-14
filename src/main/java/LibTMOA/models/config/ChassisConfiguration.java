@@ -24,15 +24,13 @@ import java.util.List;
  */
 public class ChassisConfiguration {
     private final List<DcMotorBase> motors;
-
+    private final ExecutionModes mode;
     private double width;
     private int cpr;
     private int gearRatio;
     private double diameter;
     private double cpi;
     private double conversion;
-
-    private final ExecutionModes mode;
 
     /**
      * Creates an instance of a Simple Chassis Configuration.

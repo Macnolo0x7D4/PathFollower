@@ -27,6 +27,7 @@ public class MecanumDirectives {
 
     /**
      * Creates a MecanumDirectives object from Vd, Td and Vt.
+     *
      * @param vd Desired Magnitude [0 - 1]
      * @param td Desired Angle [0 - 2 * Math.PI]
      * @param vt Desired Rotation [-1 - 1]
@@ -39,6 +40,7 @@ public class MecanumDirectives {
 
     /**
      * Creates a MecanumDirectives object from Vd and Td.
+     *
      * @param vd Desired Magnitude [0 - 1]
      * @param td Desired Angle [0 - 2 * Math.PI]
      */
@@ -50,6 +52,7 @@ public class MecanumDirectives {
 
     /**
      * Returns Desired Magnitude
+     *
      * @return Desired Magnitude [double]
      */
     public double getVd() {
@@ -58,6 +61,7 @@ public class MecanumDirectives {
 
     /**
      * Returns Desired Angle
+     *
      * @return Desired Angle [double]
      */
     public double getTd() {
@@ -66,6 +70,7 @@ public class MecanumDirectives {
 
     /**
      * Returns Desired Rotation
+     *
      * @return Desired Rotation [double]
      */
     public double getVt() {
@@ -74,9 +79,10 @@ public class MecanumDirectives {
 
     /**
      * Returns array with directives
+     *
      * @return MecanumDirectives as an array
      */
-    public double[] getDirectives(){
+    public double[] getDirectives() {
         double[] directives = new double[3];
         directives[0] = vd;
         directives[1] = td;
@@ -86,6 +92,7 @@ public class MecanumDirectives {
 
     /**
      * Returns string with directives
+     *
      * @return MecanumDirectives as a string
      */
     @Override

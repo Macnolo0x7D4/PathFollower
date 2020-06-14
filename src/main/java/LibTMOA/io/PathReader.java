@@ -17,29 +17,27 @@
 
 package LibTMOA.io;
 
-import java.io.FileReader;
-import java.io.IOException;
-
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.FileReader;
+import java.io.IOException;
+
 public class PathReader {
     private final JSONParser parser;
+    private final String file;
     private JSONArray path;
 
-    private final String file;
-
-    public PathReader(String file){
+    public PathReader(String file) {
         this.parser = new JSONParser();
         this.file = file;
 
         parseObject();
     }
 
-    private void parseObject(){
-        try (FileReader reader = new FileReader(this.file))
-        {
+    private void parseObject() {
+        try (FileReader reader = new FileReader(this.file)) {
             Object obj = parser.parse(reader);
 
             JSONArray path = (JSONArray) obj;
@@ -50,11 +48,11 @@ public class PathReader {
         }
     }
 
-    public JSONArray getRawPath(){
+    public JSONArray getRawPath() {
         return this.path;
     }
 
-    public Object getInitialPosition(){
+    public Object getInitialPosition() {
         return this.path.stream().findFirst().get();
     }
 

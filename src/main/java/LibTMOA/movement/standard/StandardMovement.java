@@ -19,10 +19,9 @@ package LibTMOA.movement.standard;
 
 import LibTMOA.math.mecanum.CalculatePower;
 import LibTMOA.math.mecanum.CalculateVelocities;
-import LibTMOA.models.exceptions.InvalidJoystickCoordinatesException;
 import LibTMOA.models.exceptions.InvalidMecanumDirectiveException;
-import LibTMOA.models.structures.JoystickCoordinates;
 import LibTMOA.models.structures.DcMotorVelocities;
+import LibTMOA.models.structures.JoystickCoordinates;
 import LibTMOA.models.structures.MecanumDirectives;
 import LibTMOA.utils.VelocityChecker;
 
@@ -32,13 +31,14 @@ import LibTMOA.utils.VelocityChecker;
 public class StandardMovement {
     /**
      * Returns double[] (with DcMotor powers) if IntegrityChecker returns !null.
+     *
      * @param directives MecanumDirectives
      * @return Velocities
      */
-    public static DcMotorVelocities move(MecanumDirectives directives){
-        try{
+    public static DcMotorVelocities move(MecanumDirectives directives) {
+        try {
             VelocityChecker.checkVelocity(directives);
-        } catch (InvalidMecanumDirectiveException exception){
+        } catch (InvalidMecanumDirectiveException exception) {
             exception.printStackTrace();
             directives = null;
         }
@@ -69,8 +69,8 @@ public class StandardMovement {
     }
 
     private static DcMotorVelocities velocitiesCreator(MecanumDirectives directives) {
-        if (directives == null){
-            double[] defaultVelocities = {0,0,0,0};
+        if (directives == null) {
+            double[] defaultVelocities = {0, 0, 0, 0};
             return new DcMotorVelocities(defaultVelocities);
         }
 
@@ -79,13 +79,13 @@ public class StandardMovement {
         double vt = directives.getVt();
 
         for (int i = 0; i < velocities.length; i++) {
-            if(i == 0 || i == 3){
+            if (i == 0 || i == 3) {
                 velocities[i] = CalculatePower.calc(directives, true);
             } else {
                 velocities[i] = CalculatePower.calc(directives, false);
             }
 
-            if(i % 2 == 0){
+            if (i % 2 == 0) {
                 velocities[i] = velocities[i] + vt;
             } else {
                 velocities[i] = velocities[i] - vt;

@@ -19,8 +19,9 @@ package LibTMOA;
 
 import LibTMOA.io.PathProcessor;
 import LibTMOA.io.PathReader;
-import LibTMOA.utils.CurvePoint;
 import LibTMOA.models.config.OpMode;
+import LibTMOA.utils.CurvePoint;
+
 import java.util.List;
 
 import static LibTMOA.movement.road.RobotMovement.followCurve;

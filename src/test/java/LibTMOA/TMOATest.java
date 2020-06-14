@@ -26,9 +26,22 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
-
 public class TMOATest {
+    public static ChassisConfiguration getTestingConfiguration() {
+        return new ChassisConfiguration(
+                List.of(
+                        new DcMotorTestDriver((byte) 0),
+                        new DcMotorTestDriver((byte) 1),
+                        new DcMotorTestDriver((byte) 2),
+                        new DcMotorTestDriver((byte) 3)
+                ),
+                16.16,
+                28,
+                20,
+                2.952755906
+        );
+    }
+
     @Test
     public void testSomeLibraryMethod() {
         TMOA classUnderTest = new TMOA(getTestingConfiguration());
@@ -50,7 +63,7 @@ public class TMOATest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        while(true){
+        while (true) {
 
             opMode.loop();
 
@@ -64,21 +77,6 @@ public class TMOATest {
             ComputerDebugging.sendLogPoint(new FloatPoint(Robot.worldXPosition, Robot.worldYPosition));
             ComputerDebugging.markEndOfUpdate();
         }
-    }
-
-    public static ChassisConfiguration getTestingConfiguration() {
-        return new ChassisConfiguration(
-            List.of(
-                    new DcMotorTestDriver((byte) 0),
-                    new DcMotorTestDriver((byte) 1),
-                    new DcMotorTestDriver((byte) 2),
-                    new DcMotorTestDriver((byte) 3)
-            ),
-            16.16,
-            28,
-            20,
-            2.952755906
-        );
     }
 }
 

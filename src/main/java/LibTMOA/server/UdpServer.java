@@ -18,39 +18,38 @@
 package LibTMOA.server;
 
 
+import LibTMOA.utils.Range;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.concurrent.Semaphore;
 
-import LibTMOA.utils.Range;
-
-public class UdpServer implements Runnable{
+public class UdpServer implements Runnable {
+    public static boolean kill = false;
     //puerto
     private final int clientPort;
-    public static boolean kill = false;
+    private final Semaphore sendLock = new Semaphore(1);
+    //tiempo de la ultima actualizacion
+    private long lastSendMillis = 0;
+    private String lastUpdate = "";
+    private String currentUpdate = "";
+
 
     public UdpServer(int clientPort) {
         this.clientPort = clientPort;
     }
 
-
-    private Semaphore sendLock = new Semaphore(1);
-
-
-
-    //tiempo de la ultima actualizacion
-    private long lastSendMillis = 0;
-
-
     @Override
     public void run() {
-        while(true){
-            if(kill){break;}
+        while (true) {
+            if (kill) {
+                break;
+            }
             try {
                 //no mandar valores rapido
-                if(System.currentTimeMillis()-lastSendMillis < 50) {
+                if (System.currentTimeMillis() - lastSendMillis < 50) {
                     continue;
                 }
 
@@ -60,12 +59,11 @@ public class UdpServer implements Runnable{
                 sendLock.acquire();
 
 
-
-                if(currentUpdate.length() > 0){
+                if (currentUpdate.length() > 0) {
 
                     splitAndSend(currentUpdate);
-                                       currentUpdate = "";
-                }else{
+                    currentUpdate = "";
+                } else {
 
                 }
 
@@ -78,7 +76,6 @@ public class UdpServer implements Runnable{
 
     }
 
-
     public void splitAndSend(String message) {
 
         int startIndex = 0;
@@ -89,20 +86,18 @@ public class UdpServer implements Runnable{
             endIndex = Range.clip(startIndex + 600, 0, message.length() - 1);
 
 
-
             while (message.charAt(endIndex) != '%') {
                 endIndex--;//move backwards searching for the separator
             }
 
-            sendUdpRAW(message.substring(startIndex,endIndex+1));
+            sendUdpRAW(message.substring(startIndex, endIndex + 1));
 
-            startIndex = endIndex+1;
+            startIndex = endIndex + 1;
         } while (endIndex != message.length() - 1);//terminate if we have reached the end
     }
 
-
-    private void sendUdpRAW(String message){
-        try(DatagramSocket serverSocket = new DatagramSocket()){
+    private void sendUdpRAW(String message) {
+        try (DatagramSocket serverSocket = new DatagramSocket()) {
             DatagramPacket datagramPacket = new DatagramPacket(
                     message.getBytes(),
                     message.length(),
@@ -116,18 +111,12 @@ public class UdpServer implements Runnable{
         }
     }
 
+    public void addMessage(String string) {
 
-
-    private String lastUpdate = "";
-    private String currentUpdate = "";
-
-
-    public void addMessage(String string){
-
-        if(!sendLock.tryAcquire()){
+        if (!sendLock.tryAcquire()) {
 
             lastUpdate = string;
-        }else{
+        } else {
             currentUpdate = string;
             sendLock.release();
         }

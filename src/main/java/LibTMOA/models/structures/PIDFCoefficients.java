@@ -17,15 +17,13 @@
 
 package LibTMOA.models.structures;
 
-import LibTMOA.utils.Constants;
-
 public class PIDFCoefficients {
     private final double kP;
     private final double kI;
     private final double kD;
     private final double kF;
 
-    private PIDValues values;
+    private final PIDValues values;
 
     public PIDFCoefficients(double kP, double kI, double kD, double kF) {
         this.kP = kP;
@@ -37,7 +35,6 @@ public class PIDFCoefficients {
     }
 
     /**
-     *
      * @param kP
      * @param kI
      * @param kD
@@ -69,7 +66,7 @@ public class PIDFCoefficients {
         return kF;
     }
 
-    public PIDValues getPIDValues(){
+    public PIDValues getPIDValues() {
         return values;
     }
 }

@@ -17,77 +17,71 @@
 
 package LibTMOA.controllers;
 
-import static LibTMOA.robot.VariablesOfMovement.*;
-
-import LibTMOA.models.config.DcMotorBase;
-import LibTMOA.movement.road.RobotInXYMovement;
 import LibTMOA.robot.DriveTrain;
 import LibTMOA.robot.MyPosition;
 import LibTMOA.robot.RevMotor;
-import LibTMOA.utils.SpeedOmeter;
 import LibTMOA.utils.Range;
+import LibTMOA.utils.SpeedOmeter;
+
+import static LibTMOA.robot.VariablesOfMovement.*;
 
 public class Robot {
     public static boolean usingComputer = true;
-
-    /**
-     * Creates a robot simulation
-     */
-    public Robot(){
-        worldXPosition = 100;
-        worldYPosition = 140;
-        worldAngle_rad = Math.toRadians(-180);
-    }
-
+    public static double xSpeed = 0;
+    public static double ySpeed = 0;
+    public static double turnSpeed = 0;
+    public static double worldXPosition;
+    public static double worldYPosition;
+    public static double worldAngle_rad;
     //robotprueba
     public RevMotor tl;
     public RevMotor tr;
     public RevMotor bl;
     public RevMotor br;
-    public static double xSpeed = 0;
-    public static double ySpeed = 0;
-    public static double turnSpeed = 0;
     private DriveTrain myDriveTrain;
-
-    public static double worldXPosition;
-    public static double worldYPosition;
-    public static double worldAngle_rad;
+    //last update time
+    private long lastUpdateTime = 0;
 
 
-    public double getXPos(){
+    /**
+     * Creates a robot simulation
+     */
+    public Robot() {
+        worldXPosition = 100;
+        worldYPosition = 140;
+        worldAngle_rad = Math.toRadians(-180);
+    }
+
+    public double getXPos() {
         return worldXPosition;
     }
 
-    public double getYPos(){
+    public double getYPos() {
         return worldYPosition;
     }
-
 
     public double getWorldAngle_rad() {
         return worldAngle_rad;
     }
 
-
-    //last update time
-    private long lastUpdateTime = 0;
-
     /**
      * Calculates the change in position of the robot
      */
-    public void update(){
+    public void update() {
         //tiempo
         long currentTimeMillis = System.currentTimeMillis();
 
-        double elapsedTime = (currentTimeMillis - lastUpdateTime)/1000.0;
+        double elapsedTime = (currentTimeMillis - lastUpdateTime) / 1000.0;
 
         lastUpdateTime = currentTimeMillis;
-        if(elapsedTime > 1){return;}
-
+        if (elapsedTime > 1) {
+            return;
+        }
 
 
         //incrementa la posicion
-        double totalSpeed = Math.hypot(xSpeed,ySpeed);
-        double angle = Math.atan2(ySpeed,xSpeed) - Math.toRadians(90);
+        double totalSpeed = Math.hypot(xSpeed, ySpeed);
+        double angle = Math.atan2(ySpeed, xSpeed) - Math.toRadians(90);
         double outputAngle = worldAngle_rad + angle;
         worldXPosition += totalSpeed * Math.cos(outputAngle) * elapsedTime * 1000 * 0.2;
         worldYPosition += totalSpeed * Math.sin(outputAngle) * elapsedTime * 1000 * 0.2;
@@ -95,9 +89,9 @@ public class Robot {
         worldAngle_rad += movement_turn * elapsedTime * 20 / (2 * Math.PI);
 
 
-        xSpeed += Range.clip((movement_x-xSpeed)/0.2,-1,1) * elapsedTime;
-        ySpeed += Range.clip((movement_y-ySpeed)/0.2,-1,1) * elapsedTime;
-        turnSpeed += Range.clip((movement_turn-turnSpeed)/0.2,-1,1) * elapsedTime;
+        xSpeed += Range.clip((movement_x - xSpeed) / 0.2, -1, 1) * elapsedTime;
+        ySpeed += Range.clip((movement_y - ySpeed) / 0.2, -1, 1) * elapsedTime;
+        turnSpeed += Range.clip((movement_turn - turnSpeed) / 0.2, -1, 1) * elapsedTime;
 
 
         SpeedOmeter.yDistTraveled += ySpeed * elapsedTime * 1000;
@@ -111,22 +105,21 @@ public class Robot {
         turnSpeed *= 1.0 - (elapsedTime);
 
 
-
-
-
-    }
-    public void init(){
-        myDriveTrain=new DriveTrain(tl,tr,bl,br);
     }
 
-    public void CurvoidStartPos(){
-        for (int i=0; i<2; i++){
-            MyPosition.initialize(myDriveTrain.Tright.getCurrPosition(),myDriveTrain.Tleft.getCurrPosition(),myDriveTrain.Bleft.getCurrPosition(),this);
+    public void init() {
+        myDriveTrain = new DriveTrain(tl, tr, bl, br);
+    }
+
+    public void CurvoidStartPos() {
+        for (int i = 0; i < 2; i++) {
+            MyPosition.initialize(myDriveTrain.Tright.getCurrPosition(), myDriveTrain.Tleft.getCurrPosition(), myDriveTrain.Bleft.getCurrPosition(), this);
 
         }
     }
-    public void loop(){
-            MyPosition.giveMePositions(myDriveTrain.Tright.getCurrPosition(),myDriveTrain.Tleft.getCurrPosition(),myDriveTrain.Bleft.getCurrPosition());
+
+    public void loop() {
+        MyPosition.giveMePositions(myDriveTrain.Tright.getCurrPosition(), myDriveTrain.Tleft.getCurrPosition(), myDriveTrain.Bleft.getCurrPosition());
     }
 
 }

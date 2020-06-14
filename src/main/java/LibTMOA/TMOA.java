@@ -17,12 +17,12 @@
 
 package LibTMOA;
 
+import LibTMOA.models.config.ChassisConfiguration;
+import LibTMOA.models.config.DcMotorBase;
 import LibTMOA.models.structures.DcMotorVelocities;
 import LibTMOA.models.structures.JoystickCoordinates;
 import LibTMOA.models.structures.MecanumDirectives;
 import LibTMOA.movement.standard.StandardMovement;
-import LibTMOA.models.config.ChassisConfiguration;
-import LibTMOA.models.config.DcMotorBase;
 import LibTMOA.utils.MathUtils;
 
 import java.util.List;
@@ -32,7 +32,7 @@ import java.util.List;
  */
 public class TMOA {
 
-    private ChassisConfiguration config;
+    private final ChassisConfiguration config;
 
     /**
      * Creates an instance of the Trigonometric Mecanum Omnidirectional Algorithm.
@@ -70,6 +70,7 @@ public class TMOA {
 
     /**
      * Indicates to DcMotor driver the specific power to get the expected movement.
+     *
      * @param directives MecanumDirectives
      */
     public void move(MecanumDirectives directives) {
@@ -91,7 +92,7 @@ public class TMOA {
 
         for (DcMotorBase dcMotor : motors) {
             dcMotor.setPower(MathUtils.roundPower(
-                    velocities.getVelocity((byte)motors.indexOf(dcMotor))
+                    velocities.getVelocity((byte) motors.indexOf(dcMotor))
             ));
         }
     }

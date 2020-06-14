@@ -25,10 +25,12 @@ import LibTMOA.models.structures.MecanumDirectives;
 public class CalculatePower {
     /**
      * Returns power value (for FR,RL).
+     *
      * @param directives MecanumDirectives
      * @return Power Value
      */
-    @Deprecated public static double calc1(MecanumDirectives directives) {
+    @Deprecated
+    public static double calc1(MecanumDirectives directives) {
         double vd = Math.abs(directives.getVd());
         double td = directives.getTd();
         double vt = directives.getVt();
@@ -38,10 +40,12 @@ public class CalculatePower {
 
     /**
      * Returns power value (for FL,RR).
+     *
      * @param directives MecanumDirectives
      * @return Power Value
      */
-    @Deprecated public static double calc2(MecanumDirectives directives) {
+    @Deprecated
+    public static double calc2(MecanumDirectives directives) {
         double vd = Math.abs(directives.getVd());
         double td = directives.getTd();
         double vt = directives.getVt();
@@ -51,7 +55,8 @@ public class CalculatePower {
 
     /**
      * Returns Power value
-     * @param diagonal Selects diagonal. If 'diagonal' is true, selects FL and RR, else FR and RL.
+     *
+     * @param diagonal   Selects diagonal. If 'diagonal' is true, selects FL and RR, else FR and RL.
      * @param directives MecanumDirectives
      * @return Power Value
      */
@@ -59,7 +64,7 @@ public class CalculatePower {
         double vd = Math.abs(directives.getVd());
         double td = directives.getTd();
 
-        if(!diagonal)
+        if (!diagonal)
             return vd * Math.sin(td - (Math.PI / 4));
         else
             return vd * Math.cos(td - (Math.PI / 4));

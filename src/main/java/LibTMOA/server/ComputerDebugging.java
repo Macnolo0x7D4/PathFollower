@@ -17,19 +17,20 @@
 
 package LibTMOA.server;
 
-import java.text.DecimalFormat;
 import LibTMOA.controllers.Robot;
 import LibTMOA.math.road.FloatPoint;
+
+import java.text.DecimalFormat;
 
 public class ComputerDebugging {
     private static UdpServer udpServer;
     private static StringBuilder messageBuilder = new StringBuilder();
-    private static DecimalFormat df = new DecimalFormat("#.00");
+    private static final DecimalFormat df = new DecimalFormat("#.00");
 
     /**
      * Initializes udp server and starts it's thread
      */
-    public ComputerDebugging(){
+    public ComputerDebugging() {
         UdpServer.kill = false;
         udpServer = new UdpServer(11115);
         Thread runner = new Thread(udpServer);
@@ -37,13 +38,14 @@ public class ComputerDebugging {
     }
 
 
-
     /**
      * Sends the robot location to the debug computer
      */
-    public static void sendRobotLocation(Robot robot){
+    public static void sendRobotLocation(Robot robot) {
         //si no se usa lacompu
-        if(!Robot.usingComputer){return;}
+        if (!Robot.usingComputer) {
+            return;
+        }
 
         //manda la direcciondel robot
         messageBuilder.append("ROBOT,");
@@ -58,10 +60,13 @@ public class ComputerDebugging {
 
     /**
      * Sends the location of any point you would like to send
+     *
      * @param floatPoint the point you want to send
      */
     public static void sendKeyPoint(FloatPoint floatPoint) {
-        if(!Robot.usingComputer){return;}
+        if (!Robot.usingComputer) {
+            return;
+        }
 
 
         messageBuilder.append("P,")
@@ -74,10 +79,13 @@ public class ComputerDebugging {
 
     /**
      * This is a point you don't want to clear every update
+     *
      * @param floatPoint the point you want to send
      */
     public static void sendLogPoint(FloatPoint floatPoint) {
-        if(!Robot.usingComputer){return;}
+        if (!Robot.usingComputer) {
+            return;
+        }
 
 
         messageBuilder.append("LP,")
@@ -90,12 +98,15 @@ public class ComputerDebugging {
 
     /**
      * Used for debugging lines
+     *
      * @param point1
      * @param point2
      */
-    public static void sendLine(FloatPoint point1, FloatPoint point2){
+    public static void sendLine(FloatPoint point1, FloatPoint point2) {
         //no compu
-        if(!Robot.usingComputer){return;}
+        if (!Robot.usingComputer) {
+            return;
+        }
         messageBuilder.append("LINE,")
                 .append(df.format(point1.x))
                 .append(",")
@@ -112,7 +123,9 @@ public class ComputerDebugging {
      * This kills the udpServer background thread
      */
     public static void stopAll() {
-        if(!Robot.usingComputer){return;}
+        if (!Robot.usingComputer) {
+            return;
+        }
 
         UdpServer.kill = true;
     }
@@ -121,7 +134,9 @@ public class ComputerDebugging {
      * Sends the data accumulated over the update by adding it to the udpServer
      */
     public static void markEndOfUpdate() {
-        if(!Robot.usingComputer){return;}
+        if (!Robot.usingComputer) {
+            return;
+        }
         messageBuilder.append("CLEAR,%");
 
 //        udpServer.addMessage(messageBuilder.toString());
@@ -133,7 +148,9 @@ public class ComputerDebugging {
      * Forces a clear log
      */
     public static void clearLogPoints() {
-        if(!Robot.usingComputer){return;}
+        if (!Robot.usingComputer) {
+            return;
+        }
         udpServer.splitAndSend("CLEARLOG,%");
 
     }

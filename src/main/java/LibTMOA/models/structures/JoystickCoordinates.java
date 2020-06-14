@@ -26,6 +26,7 @@ public class JoystickCoordinates {
 
     /**
      * Creates JoystickCoordinates from [y, x]
+     *
      * @param y Ordinate [double]
      * @param x Abscissa [double]
      */
@@ -36,6 +37,7 @@ public class JoystickCoordinates {
 
     /**
      * Returns Ordinate value
+     *
      * @return Ordinate [double]
      */
     public double getY() {
@@ -44,6 +46,7 @@ public class JoystickCoordinates {
 
     /**
      * Returns Abscissa value
+     *
      * @return Abscissa [double]
      */
     public double getX() {
@@ -52,9 +55,11 @@ public class JoystickCoordinates {
 
     /**
      * Returns JoystickCoordinates as an array of doubles
+     *
      * @return Pose2D [double[]]
      */
-    @Deprecated public double[] getPosition(){
+    @Deprecated
+    public double[] getPosition() {
         double[] pos = new double[2];
 
         pos[0] = y;
@@ -65,6 +70,7 @@ public class JoystickCoordinates {
 
     /**
      * Return JoystickCoordinates as a string
+     *
      * @return JoystickCoordinates [string]
      */
     @Override

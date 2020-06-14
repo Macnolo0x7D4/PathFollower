@@ -39,10 +39,11 @@ public class PIDController {
     private double errorTolerance_p = 0.05;
     private double errorTolerance_v = Double.POSITIVE_INFINITY;
 
-    private double period;
+    private final double period;
 
     /**
      * Creates an instance of PID Controller
+     *
      * @param coefficients PIDFCoefficients
      */
     public PIDController(PIDFCoefficients coefficients) {
@@ -70,9 +71,9 @@ public class PIDController {
     /**
      * Implements calculation onto the DcMotorBase.
      *
-     * @param motor DcMotorBase
+     * @param motor  DcMotorBase
      * @param values PIDValues
-     * @param speed The maximum speed the motor should rotate.
+     * @param speed  The maximum speed the motor should rotate.
      */
     public void control(DcMotorBase motor, PIDValues values, double speed) {
         final double sp = values.getSp();
@@ -85,7 +86,7 @@ public class PIDController {
     /**
      * Implements calculation onto the DcMotorBase.
      *
-     * @param motor DcMotorBase
+     * @param motor  DcMotorBase
      * @param values PIDValues
      */
     public void control(DcMotorBase motor, PIDValues values) {
@@ -96,9 +97,9 @@ public class PIDController {
      * Implements calculation onto the DcMotorBase.
      *
      * @param motor The affected DcMotorBase.
-     * @param pv The setpoint of the calculation
+     * @param pv    The setpoint of the calculation
      */
-    public void control(DcMotorBase motor, double pv){
+    public void control(DcMotorBase motor, double pv) {
         final PIDValues values = new PIDValues(this.setPoint, pv);
         control(motor, values);
     }
@@ -108,18 +109,8 @@ public class PIDController {
      *
      * @param motor DcMotorBase
      */
-    public void control(DcMotorBase motor){
+    public void control(DcMotorBase motor) {
         control(motor, this.prevErrorVal);
-    }
-
-
-    /**
-     * Sets the error which is considered tolerable for use with {@link #atSetPoint()}.
-     *
-     * @param positionTolerance Pose2D error which is tolerable.
-     */
-    public void setTolerance(double positionTolerance) {
-        setTolerance(positionTolerance, Double.POSITIVE_INFINITY);
     }
 
     /**
@@ -188,6 +179,15 @@ public class PIDController {
      */
     public double[] getTolerance() {
         return new double[]{errorTolerance_p, errorTolerance_v};
+    }
+
+    /**
+     * Sets the error which is considered tolerable for use with {@link #atSetPoint()}.
+     *
+     * @param positionTolerance Pose2D error which is tolerable.
+     */
+    public void setTolerance(double positionTolerance) {
+        setTolerance(positionTolerance, Double.POSITIVE_INFINITY);
     }
 
     /**

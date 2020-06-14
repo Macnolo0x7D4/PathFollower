@@ -25,6 +25,7 @@ import LibTMOA.models.structures.JoystickCoordinates;
 public class CalculateVelocities {
     /**
      * Returns angle from coordinates.
+     *
      * @param coordinates JoystickCoordinates
      * @return Angle [0 - 2 * Math.PI] or '0' if not pass integrity check
      */
@@ -34,6 +35,7 @@ public class CalculateVelocities {
 
     /**
      * Returns magnitude from coordinates.
+     *
      * @param coordinates JoystickCoordinates
      * @return Magnitude [0 - 1] or '0' if not pass integrity check
      */

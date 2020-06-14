@@ -26,24 +26,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PathProcessor {
-    private JSONArray json;
+    private final JSONArray json;
 
-    public PathProcessor(JSONArray json){
+    public PathProcessor(JSONArray json) {
         this.json = json;
     }
 
-    public Pose2D getPosition(JSONObject object){
+    public Pose2D getPosition(JSONObject object) {
         Long x = (Long) object.get("x");
         Long y = (Long) object.get("y");
 
         return new Pose2D((double) x, (double) y);
     }
 
-    public JSONObject getInstructionByIndex(int index){
+    public JSONObject getInstructionByIndex(int index) {
         return (JSONObject) json.get(index);
     }
 
-    public CurvePoint createCurvePointFromInstruction(JSONObject object){
+    public CurvePoint createCurvePointFromInstruction(JSONObject object) {
         double x = (double) object.get("x");
         double y = (double) object.get("y");
 
@@ -57,11 +57,11 @@ public class PathProcessor {
         return new CurvePoint(x, y, moveSpeed, turnSpeed, followDistance, slowDownTurnRadians, slowDownTurnAmount);
     }
 
-    public List<CurvePoint> createFunctionalPath(){
+    public List<CurvePoint> createFunctionalPath() {
         List<CurvePoint> list = new ArrayList<>();
 
         // json.forEach( object -> list.add(createCurvePointFromInstruction((JSONObject) object)));
-        for ( Object object : json){
+        for (Object object : json) {
             list.add(createCurvePointFromInstruction((JSONObject) object));
         }
 

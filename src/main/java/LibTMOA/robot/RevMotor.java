@@ -16,40 +16,41 @@
  */
 
 package LibTMOA.robot;
+
 import LibTMOA.models.config.DcMotorBase;
 
 
-
 public class RevMotor {
+    public static int numHardwareUsesThisUpdate = 0;
     public DcMotorBase myMotor;
     public boolean isMaster;
-    private int currPosition =0; //medida en ticks
+    private int currPosition = 0; //medida en ticks
+    private double lastPower = -1;
 
-
-    public static  int numHardwareUsesThisUpdate=0;
-
-    public RevMotor(DcMotorBase motor, boolean master){
-        myMotor=motor;
-        isMaster=master;
+    public RevMotor(DcMotorBase motor, boolean master) {
+        myMotor = motor;
+        isMaster = master;
     }
-    private double lastPower=-1;
 
-    public void setPower(double Power){
-        double powerApply=Power;
-        if(Math.abs(powerApply-lastPower)>0.05||powerApply ==0 && lastPower !=0){
+    public static void endUpdate() {
+        numHardwareUsesThisUpdate = 0;
+    }
+
+    public void setPower(double Power) {
+        double powerApply = Power;
+        if (Math.abs(powerApply - lastPower) > 0.05 || powerApply == 0 && lastPower != 0) {
             myMotor.setPower(powerApply);
             numHardwareUsesThisUpdate++;
-            lastPower=powerApply;
+            lastPower = powerApply;
         }
     }
-    public void encoderReading(int position){
-        currPosition=position;
+
+    public void encoderReading(int position) {
+        currPosition = position;
     }
-    public int getCurrPosition(){
+
+    public int getCurrPosition() {
         return currPosition;
-    }
-    public static void endUpdate(){
-        numHardwareUsesThisUpdate=0;
     }
 
 }

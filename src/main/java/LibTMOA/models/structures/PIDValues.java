@@ -27,7 +27,7 @@ public class PIDValues {
     /**
      * Creates PID Values with DEFAULT Configuration [0, 0, Constants.DEFAULT_PERIOD]
      */
-    public PIDValues(){
+    public PIDValues() {
         this.sp = 0;
         this.pv = 0;
         this.period = Constants.DEFAULT_PERIOD;
@@ -35,8 +35,9 @@ public class PIDValues {
 
     /**
      * Creates PID Values with desired values.
-     * @param sp The setpoint of the calculation.
-     * @param pv The previous value of the calculation.
+     *
+     * @param sp     The setpoint of the calculation.
+     * @param pv     The previous value of the calculation.
      * @param period
      */
     public PIDValues(double sp, double pv, double period) {
@@ -47,6 +48,7 @@ public class PIDValues {
 
     /**
      * Creates PID Values with desired values.
+     *
      * @param sp The setpoint of the calculation.
      * @param pv The previous value of the calculation.
      */
@@ -57,6 +59,7 @@ public class PIDValues {
 
     /**
      * Returns the setpoint of the calculation.
+     *
      * @return SetPoint
      */
     public double getSp() {
@@ -65,6 +68,7 @@ public class PIDValues {
 
     /**
      * Sets the setpoint of the calculation.
+     *
      * @param sp SetPoint
      */
     public void setSp(double sp) {
@@ -73,6 +77,7 @@ public class PIDValues {
 
     /**
      * Returns the previous value of the calculation.
+     *
      * @return Previous Value
      */
     public double getPv() {
@@ -81,6 +86,7 @@ public class PIDValues {
 
     /**
      * Sets the previous value of the calculation.
+     *
      * @param pv Previous Value
      */
     public void setPv(double pv) {

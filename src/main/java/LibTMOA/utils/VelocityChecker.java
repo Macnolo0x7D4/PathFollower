@@ -29,6 +29,7 @@ import LibTMOA.models.structures.MecanumDirectives;
 public class VelocityChecker {
     /**
      * Throws InvalidMecanumDirectiveException if magnitude does not pass.
+     *
      * @param Vd Magnitude [0 - 1]
      * @throws InvalidMecanumDirectiveException InvalidMecanumDirectiveException
      */
@@ -39,16 +40,18 @@ public class VelocityChecker {
 
     /**
      * Throws InvalidMecanumDirectiveException if angle does not pass.
+     *
      * @param Td Angle [-Math.PI - Math.PI]
      * @throws InvalidMecanumDirectiveException InvalidMecanumDirectiveException
      */
-    public static void checkAngle(double Td) throws InvalidMecanumDirectiveException{
-        if(!(Td <= (2 * Math.PI) && Td >= 0))
+    public static void checkAngle(double Td) throws InvalidMecanumDirectiveException {
+        if (!(Td <= (2 * Math.PI) && Td >= 0))
             throw new InvalidMecanumDirectiveException("Check Angle.");
     }
 
     /**
      * Throws InvalidMecanumDirectiveException if directives do not pass.
+     *
      * @param directives MecanumDirectives
      * @throws InvalidMecanumDirectiveException InvalidMecanumDirectiveException
      */
@@ -60,7 +63,7 @@ public class VelocityChecker {
         if (!(vd <= 1 && vd >= 0))
             throw new InvalidMecanumDirectiveException("Check Magnitude: " + vd);
 
-        if(!(Math.abs(td) <= Math.PI))
+        if (!(Math.abs(td) <= Math.PI))
             throw new InvalidMecanumDirectiveException("Check Angle: " + td);
 
         if (!(vt <= 1 && vt >= -1))
@@ -73,16 +76,16 @@ public class VelocityChecker {
      *
      * @param coordinate JoystickCoordinate
      * @throws InvalidJoystickCoordinatesException InvalidJoystickCoordinatesException
-     * @throws InvalidMecanumDirectiveException InvalidMecanumDirectiveException
+     * @throws InvalidMecanumDirectiveException    InvalidMecanumDirectiveException
      */
-    public static void checkCoordinates(JoystickCoordinates coordinate) throws InvalidJoystickCoordinatesException,InvalidMecanumDirectiveException {
-        if(Math.abs(coordinate.getY()) > 1)
+    public static void checkCoordinates(JoystickCoordinates coordinate) throws InvalidJoystickCoordinatesException, InvalidMecanumDirectiveException {
+        if (Math.abs(coordinate.getY()) > 1)
             throw new InvalidJoystickCoordinatesException("Check Ordinate Coordinate: " + coordinate.getY());
 
-        if(Math.abs(coordinate.getX()) > 1)
+        if (Math.abs(coordinate.getX()) > 1)
             throw new InvalidJoystickCoordinatesException("Check Abscissa Coordinate: " + coordinate.getX());
 
-        if(!(Math.abs((coordinate.getX() + coordinate.getY()) / 2) <= 1))
+        if (!(Math.abs((coordinate.getX() + coordinate.getY()) / 2) <= 1))
             throw new InvalidJoystickCoordinatesException();
 
         double vd = CalculateVelocities.getSpeed(coordinate);

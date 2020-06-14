@@ -17,11 +17,7 @@
 
 package LibTMOA.robot;
 
-import LibTMOA.models.config.DcMotorBase;
-import LibTMOA.movement.encoder.Encoders;
-import static LibTMOA.robot.VariablesOfMovement.movement_x;
-import static LibTMOA.robot.VariablesOfMovement.movement_y;
-import static LibTMOA.robot.VariablesOfMovement.movement_turn;
+import static LibTMOA.robot.VariablesOfMovement.*;
 
 
 public class DriveTrain {
@@ -29,8 +25,9 @@ public class DriveTrain {
     public RevMotor Bright;
     public RevMotor Tleft;
     public RevMotor Bleft;
+    private final long lastUpdateTime = 0;
 
-    public DriveTrain(RevMotor Tr, RevMotor Br, RevMotor Tl,RevMotor Bl){
+    public DriveTrain(RevMotor Tr, RevMotor Br, RevMotor Tl, RevMotor Bl) {
         Tright = Tr;
         Bright = Br;
         Tleft = Tl;
@@ -38,30 +35,35 @@ public class DriveTrain {
 
 
     }
-    private long lastUpdateTime = 0;
 
-    /**converts movement_y, movement_x, movement_turn into motor powers */
+    /**
+     * converts movement_y, movement_x, movement_turn into motor powers
+     */
     public void ApplyMovement() {
 
-        double tl_power_raw = movement_y-movement_turn+movement_x*1.5;
-        double bl_power_raw = movement_y-movement_turn- movement_x*1.5;
-        double br_power_raw = -movement_y-movement_turn-movement_x*1.5;
-        double tr_power_raw = -movement_y-movement_turn+movement_x*1.5;
-
-
+        double tl_power_raw = movement_y - movement_turn + movement_x * 1.5;
+        double bl_power_raw = movement_y - movement_turn - movement_x * 1.5;
+        double br_power_raw = -movement_y - movement_turn - movement_x * 1.5;
+        double tr_power_raw = -movement_y - movement_turn + movement_x * 1.5;
 
 
         //find the maximum of the powers
         double maxRawPower = Math.abs(tl_power_raw);
-        if(Math.abs(bl_power_raw) > maxRawPower){ maxRawPower = Math.abs(bl_power_raw);}
-        if(Math.abs(br_power_raw) > maxRawPower){ maxRawPower = Math.abs(br_power_raw);}
-        if(Math.abs(tr_power_raw) > maxRawPower){ maxRawPower = Math.abs(tr_power_raw);}
+        if (Math.abs(bl_power_raw) > maxRawPower) {
+            maxRawPower = Math.abs(bl_power_raw);
+        }
+        if (Math.abs(br_power_raw) > maxRawPower) {
+            maxRawPower = Math.abs(br_power_raw);
+        }
+        if (Math.abs(tr_power_raw) > maxRawPower) {
+            maxRawPower = Math.abs(tr_power_raw);
+        }
 
         //if the maximum is greater than 1, scale all the powers down to preserve the shape
         double scaleDownAmount = 1.0;
-        if(maxRawPower > 1.0){
+        if (maxRawPower > 1.0) {
             //when max power is multiplied by this ratio, it will be 1.0, and others less
-            scaleDownAmount = 1.0/maxRawPower;
+            scaleDownAmount = 1.0 / maxRawPower;
         }
         tl_power_raw *= scaleDownAmount;
         bl_power_raw *= scaleDownAmount;
