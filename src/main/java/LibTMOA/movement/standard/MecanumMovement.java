@@ -28,7 +28,7 @@ import LibTMOA.utils.VelocityChecker;
 /**
  * A class with necessary methods to work with SIMPLE or ENCODER mode.
  */
-public class StandardMovement {
+public class MecanumMovement {
     /**
      * Returns double[] (with DcMotor powers) if IntegrityChecker returns !null.
      *

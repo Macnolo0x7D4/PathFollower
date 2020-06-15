@@ -72,6 +72,15 @@ public class ChassisConfiguration {
     }
 
     /**
+     * Returns a desired DcMotor.
+     *
+     * @return DcMotorBase
+     */
+    public DcMotorBase getMotor(byte id) {
+        return this.motors.stream().filter( dcMotorBase -> dcMotorBase.getId() == id).findFirst().orElseThrow();
+    }
+
+    /**
      * Returns ExecutionMode (enum) of TMOA runtime.
      *
      * @return ExecutionMode [SIMPLE, ENCODER, COMPLEX]

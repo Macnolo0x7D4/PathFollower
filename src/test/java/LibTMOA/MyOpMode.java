@@ -67,9 +67,6 @@ public class MyOpMode extends OpMode {
             "  }\n" +
             "]";
 
-
-    //"[{'x': 0.0,'y': 0.0,'move_speed': 0.5,'turn_speed': 0.5,'follow_distance': 50.0,'slow_down_turn_radians': 50.0,'slow_down_turn_amount': 1.0}]";
-
     List<CurvePoint> functionalPath;
 
     @Override

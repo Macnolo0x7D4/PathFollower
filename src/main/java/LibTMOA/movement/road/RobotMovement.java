@@ -26,7 +26,7 @@ import LibTMOA.utils.Range;
 import java.util.ArrayList;
 import java.util.List;
 
-import static LibTMOA.controllers.Robot.*;
+import LibTMOA.controllers.Robot;
 import static LibTMOA.robot.VariablesOfMovement.*;
 import static LibTMOA.utils.MathUtils.AngleWrap;
 import static LibTMOA.utils.MathUtils.lineCircleintersection;
@@ -38,7 +38,7 @@ public class RobotMovement {
             ComputerDebugging.sendLine(new FloatPoint(allPoints.get(i).x, allPoints.get(i).y), new FloatPoint(allPoints.get(i + 1).x, allPoints.get(i + 1).y));
         }
 
-        CurvePoint followMe = getFollowPointPath(allPoints, new Point(worldXPosition, worldYPosition), allPoints.get(0).followDistance);
+        CurvePoint followMe = getFollowPointPath(allPoints, new Point(Robot.getWorldXPosition(), Robot.getWorldYPosition()), allPoints.get(0).followDistance);
 
         ComputerDebugging.sendKeyPoint(new FloatPoint(followMe.x, followMe.y));
 
@@ -58,8 +58,8 @@ public class RobotMovement {
             double closestAngle = 100000000;
 
             for (Point thisIntersection : intersections) {
-                double angle = Math.atan2(thisIntersection.y - worldYPosition, thisIntersection.x - worldYPosition);
-                double deltaAngle = Math.abs(AngleWrap(angle - worldAngle_rad));
+                double angle = Math.atan2(thisIntersection.y - Robot.getWorldYPosition(), thisIntersection.x - Robot.getWorldYPosition());
+                double deltaAngle = Math.abs(AngleWrap(angle - Robot.getWorldAngle()));
 
                 if (deltaAngle < closestAngle) {
                     closestAngle = deltaAngle;
@@ -74,9 +74,9 @@ public class RobotMovement {
 
 
     public static void MoveToPosition(double x, double y, double Speed, double preferredTurnAngle, double turnSpeed) {
-        double distanceToTarget = Math.hypot(x - worldXPosition, y - worldYPosition);
-        double AbsoluteAngleToTarget = Math.atan2(y - worldYPosition, x - worldXPosition);
-        double RelativeAngleToTarget = AngleWrap(AbsoluteAngleToTarget - (worldAngle_rad - Math.toRadians(90)));
+        double distanceToTarget = Math.hypot(x - Robot.getWorldXPosition(), y - Robot.getWorldYPosition());
+        double AbsoluteAngleToTarget = Math.atan2(y - Robot.getWorldYPosition(), x - Robot.getWorldXPosition());
+        double RelativeAngleToTarget = AngleWrap(AbsoluteAngleToTarget - (Robot.getWorldAngle() - Math.toRadians(90)));
 
 
         double relativeX = Math.cos(RelativeAngleToTarget) * distanceToTarget;

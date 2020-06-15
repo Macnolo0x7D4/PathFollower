@@ -22,7 +22,7 @@ import LibTMOA.models.config.DcMotorBase;
 import LibTMOA.models.structures.DcMotorVelocities;
 import LibTMOA.models.structures.JoystickCoordinates;
 import LibTMOA.models.structures.MecanumDirectives;
-import LibTMOA.movement.standard.StandardMovement;
+import LibTMOA.movement.standard.MecanumMovement;
 import LibTMOA.utils.MathUtils;
 
 import java.util.List;
@@ -74,7 +74,7 @@ public class TMOA {
      * @param directives MecanumDirectives
      */
     public void move(MecanumDirectives directives) {
-        setMultiplePowers(StandardMovement.move(directives));
+        setMultiplePowers(MecanumMovement.move(directives));
     }
 
     /**
@@ -84,7 +84,7 @@ public class TMOA {
      * @param coordinates JoystickCoordinate
      */
     public void move(JoystickCoordinates coordinates) {
-        setMultiplePowers(StandardMovement.move(coordinates));
+        setMultiplePowers(MecanumMovement.move(coordinates));
     }
 
     private void setMultiplePowers(DcMotorVelocities velocities) {

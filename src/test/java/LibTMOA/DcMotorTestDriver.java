@@ -18,25 +18,43 @@
 package LibTMOA;
 
 import LibTMOA.models.config.DcMotorBase;
+import LibTMOA.models.config.EncoderBase;
 import LibTMOA.movement.encoder.Encoders;
 import LibTMOA.movement.encoder.ZeroPowerBehavior;
 
 class DcMotorTestDriver implements DcMotorBase {
 
     private final byte id;
-    private Encoders encoder;
-    private ZeroPowerBehavior zeroPowerBehavior;
+    private final boolean master;
+
     private double power;
     private boolean inverted;
 
+    public DcMotorTestDriver(byte id, boolean master) {
+        this.id = id;
+        this.master = master;
+    }
+
     public DcMotorTestDriver(byte id) {
         this.id = id;
+        this.master = false;
     }
 
     @Override
     public double getPower() {
         return inverted ? -power : power;
     }
+
+    /*
+        public void setPower(double Power) {
+            double powerApply = Power;
+            if (Math.abs(powerApply - lastPower) > 0.05 || powerApply == 0 && lastPower != 0) {
+                myMotor.setPower(powerApply);
+                numHardwareUsesThisUpdate++;
+                lastPower = powerApply;
+            }
+        }
+     */
 
     @Override
     public void setPower(double power) {
@@ -57,8 +75,31 @@ class DcMotorTestDriver implements DcMotorBase {
     }
 
     @Override
-    public void setMode(Encoders encoder) {
+    public EncoderBase getEncoder() {
+        return new EncoderTestDriver();
+    }
 
+    @Override
+    public boolean isMaster() {
+        return master;
+    }
+
+    @Override
+    public byte getId() {
+        return id;
+    }
+}
+
+class EncoderTestDriver implements EncoderBase{
+
+    private Encoders encoder;
+    private ZeroPowerBehavior zeroPowerBehavior;
+    private int numHardwareUsesThisUpdate = 0;
+    private long currentPosition = 0;
+
+    @Override
+    public void setMode(Encoders encoder) {
+        this.encoder = encoder;
     }
 
     @Override
@@ -67,7 +108,27 @@ class DcMotorTestDriver implements DcMotorBase {
     }
 
     @Override
-    public byte getId() {
-        return id;
+    public long getCurrentPosition() {
+        return this.currentPosition;
+    }
+
+    @Override
+    public void setCurrentPosition(long currentPosition) {
+        this.currentPosition = currentPosition;
+    }
+
+    @Override
+    public void endUpdate() {
+        numHardwareUsesThisUpdate = 0;
+    }
+
+    @Override
+    public Encoders getEncoderMode() {
+        return this.encoder;
+    }
+
+    @Override
+    public ZeroPowerBehavior getZeroPowerBehavior() {
+        return this.zeroPowerBehavior;
     }
 }

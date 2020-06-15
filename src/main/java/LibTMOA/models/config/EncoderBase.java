@@ -18,46 +18,25 @@
 package LibTMOA.models.config;
 
 import LibTMOA.movement.encoder.Encoders;
+import LibTMOA.movement.encoder.ZeroPowerBehavior;
 
-/**
- * The Interface where you need to configure your DcMotor Driver.
- */
-public interface DcMotorBase {
-
-    boolean isMaster();
-
+public interface EncoderBase {
     /**
-     * Returns the ID of your motor instance.
+     * Sets encoder from Encoders ENUM
      *
-     * @return ID [byte]
+     * @param encoder
      */
-    byte getId();
+    void setMode(Encoders encoder);
 
-    /**
-     * Returns current power of the motor.
-     *
-     * @return Power [double]
-     */
-    double getPower();
+    void setBrake(boolean brake);
 
-    /**
-     * Sets power for your motor instance.
-     *
-     * @param power Power [double]
-     */
-    void setPower(double power);
+    long getCurrentPosition();
 
-    /**
-     * Sets power 0 for motor instance.
-     */
-    void stop();
+    void setCurrentPosition(long currentPosition);
 
-    /**
-     * Sets inverted if inverted is true
-     *
-     * @param inverted Inverted [true, false]
-     */
-    void setInverted(boolean inverted);
+    void endUpdate();
 
-    EncoderBase getEncoder();
+    Encoders getEncoderMode();
+
+    ZeroPowerBehavior getZeroPowerBehavior();
 }

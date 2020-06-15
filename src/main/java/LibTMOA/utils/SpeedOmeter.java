@@ -18,7 +18,8 @@
 package LibTMOA.utils;
 
 
-import static LibTMOA.controllers.Robot.worldAngle_rad;
+import LibTMOA.controllers.Robot;
+
 import static LibTMOA.utils.MathUtils.AngleWrap;
 
 public class SpeedOmeter {
@@ -61,8 +62,8 @@ public class SpeedOmeter {
             }
 
 
-            angularVelocity = AngleWrap(worldAngle_rad - lastAngle) / elapsedTime;
-            lastAngle = worldAngle_rad;
+            angularVelocity = AngleWrap(Robot.getWorldAngle() - lastAngle) / elapsedTime;
+            lastAngle = Robot.getWorldAngle();
 
             yDistTraveled = 0;
             xDistTraveled = 0;

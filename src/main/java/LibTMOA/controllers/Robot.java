@@ -17,39 +17,36 @@
 
 package LibTMOA.controllers;
 
-import LibTMOA.robot.DriveTrain;
+import LibTMOA.TMOA;
+import LibTMOA.models.config.ChassisConfiguration;
 import LibTMOA.robot.MyPosition;
-import LibTMOA.robot.RevMotor;
 import LibTMOA.utils.Range;
 import LibTMOA.utils.SpeedOmeter;
 
 import static LibTMOA.robot.VariablesOfMovement.*;
 
 public class Robot {
-    public static boolean usingComputer = true;
-    public static double xSpeed = 0;
-    public static double ySpeed = 0;
-    public static double turnSpeed = 0;
-    public static double worldXPosition;
-    public static double worldYPosition;
-    public static double worldAngle_rad;
-    //robotprueba
-    public RevMotor tl;
-    public RevMotor tr;
-    public RevMotor bl;
-    public RevMotor br;
-    private DriveTrain myDriveTrain;
-    //last update time
+    private final TMOA tmoa;
+    private static boolean usingComputer = true;
+    private static double xSpeed = 0;
+    private static double ySpeed = 0;
+    private static double turnSpeed = 0;
+    private static double worldXPosition;
+    private static double worldYPosition;
+    private static double worldAngle;
+
     private long lastUpdateTime = 0;
 
 
     /**
      * Creates a robot simulation
      */
-    public Robot() {
+    public Robot(TMOA tmoa) {
+        this.tmoa = tmoa;
+
         worldXPosition = 100;
         worldYPosition = 140;
-        worldAngle_rad = Math.toRadians(-180);
+        worldAngle = Math.toRadians(-180);
     }
 
     public double getXPos() {
@@ -61,7 +58,7 @@ public class Robot {
     }
 
     public double getWorldAngle_rad() {
-        return worldAngle_rad;
+        return worldAngle;
     }
 
     /**
@@ -82,11 +79,11 @@ public class Robot {
         //incrementa la posicion
         double totalSpeed = Math.hypot(xSpeed, ySpeed);
         double angle = Math.atan2(ySpeed, xSpeed) - Math.toRadians(90);
-        double outputAngle = worldAngle_rad + angle;
+        double outputAngle = worldAngle + angle;
         worldXPosition += totalSpeed * Math.cos(outputAngle) * elapsedTime * 1000 * 0.2;
         worldYPosition += totalSpeed * Math.sin(outputAngle) * elapsedTime * 1000 * 0.2;
 
-        worldAngle_rad += movement_turn * elapsedTime * 20 / (2 * Math.PI);
+        worldAngle += movement_turn * elapsedTime * 20 / (2 * Math.PI);
 
 
         xSpeed += Range.clip((movement_x - xSpeed) / 0.2, -1, 1) * elapsedTime;
@@ -107,19 +104,32 @@ public class Robot {
 
     }
 
-    public void init() {
-        myDriveTrain = new DriveTrain(tl, tr, bl, br);
-    }
-
     public void CurvoidStartPos() {
+        ChassisConfiguration chassis = tmoa.getChassisInformation();
+
         for (int i = 0; i < 2; i++) {
-            MyPosition.initialize(myDriveTrain.Tright.getCurrPosition(), myDriveTrain.Tleft.getCurrPosition(), myDriveTrain.Bleft.getCurrPosition(), this);
+            MyPosition.initialize(chassis, this);
 
         }
     }
 
     public void loop() {
-        MyPosition.giveMePositions(myDriveTrain.Tright.getCurrPosition(), myDriveTrain.Tleft.getCurrPosition(), myDriveTrain.Bleft.getCurrPosition());
+        MyPosition.giveMePositions(tmoa.getChassisInformation());
     }
 
+    public static double getWorldXPosition() {
+        return worldXPosition;
+    }
+
+    public static double getWorldYPosition() {
+        return worldYPosition;
+    }
+
+    public static double getWorldAngle() {
+        return worldAngle;
+    }
+
+    public static boolean isUsingComputer() {
+        return usingComputer;
+    }
 }

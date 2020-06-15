@@ -18,6 +18,7 @@
 package LibTMOA.robot;
 
 import LibTMOA.controllers.Robot;
+import LibTMOA.models.config.ChassisConfiguration;
 import LibTMOA.utils.MathUtils;
 import LibTMOA.utils.SpeedOmeter;
 
@@ -53,18 +54,27 @@ public class MyPosition {
     public static double currentTravelYDistance = 0.0;
 
 
-    public static void initialize(double l, double r, double a, Robot myRobot) {
+    public static void initialize(ChassisConfiguration config, Robot myRobot) {
         MyPosition.myRobot = myRobot;
+
+        /*
         currPos_l = l;
         currPos_r = r;
         currPos_a = a;
+         */
+
+        currPos_l = config.getMotor((byte) 0).getEncoder().getCurrentPosition();
+        currPos_r = config.getMotor((byte) 1).getEncoder().getCurrentPosition();
+        currPos_a = config.getMotor((byte) 2).getEncoder().getCurrentPosition();
+
         update();
     }
 
-    public static void giveMePositions(double l, double r, double a) {
-        currPos_l = l;
-        currPos_r = r;
-        currPos_a = a;
+    public static void giveMePositions(ChassisConfiguration config) {
+        currPos_l = config.getMotor((byte) 0).getEncoder().getCurrentPosition();
+        currPos_r = config.getMotor((byte) 1).getEncoder().getCurrentPosition();
+        currPos_a = config.getMotor((byte) 2).getEncoder().getCurrentPosition();
+
         update();
     }
 

@@ -18,7 +18,6 @@
 package LibTMOA;
 
 import LibTMOA.controllers.Robot;
-import LibTMOA.math.road.FloatPoint;
 import LibTMOA.models.config.ChassisConfiguration;
 import LibTMOA.models.config.OpMode;
 import LibTMOA.server.ComputerDebugging;
@@ -50,7 +49,7 @@ public class TMOATest {
         // assertTrue("getDcMotor(2).getPower() == 1.0 should return 'true'", classUnderTest.getDcMotor((byte) 2).getPower() == 1.0);
 
         ComputerDebugging computerDebugging = new ComputerDebugging();
-        Robot robot = new Robot();
+        Robot robot = new Robot(classUnderTest);
         OpMode opMode = new MyOpMode();
         opMode.init();
 

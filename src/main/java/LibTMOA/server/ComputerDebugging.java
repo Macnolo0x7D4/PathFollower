@@ -43,7 +43,7 @@ public class ComputerDebugging {
      */
     public static void sendRobotLocation(Robot robot) {
         //si no se usa lacompu
-        if (!Robot.usingComputer) {
+        if (!Robot.isUsingComputer()) {
             return;
         }
 
@@ -64,7 +64,7 @@ public class ComputerDebugging {
      * @param floatPoint the point you want to send
      */
     public static void sendKeyPoint(FloatPoint floatPoint) {
-        if (!Robot.usingComputer) {
+        if (!Robot.isUsingComputer()) {
             return;
         }
 
@@ -83,7 +83,7 @@ public class ComputerDebugging {
      * @param floatPoint the point you want to send
      */
     public static void sendLogPoint(FloatPoint floatPoint) {
-        if (!Robot.usingComputer) {
+        if (!Robot.isUsingComputer()) {
             return;
         }
 
@@ -104,7 +104,7 @@ public class ComputerDebugging {
      */
     public static void sendLine(FloatPoint point1, FloatPoint point2) {
         //no compu
-        if (!Robot.usingComputer) {
+        if (!Robot.isUsingComputer()) {
             return;
         }
         messageBuilder.append("LINE,")
@@ -123,7 +123,7 @@ public class ComputerDebugging {
      * This kills the udpServer background thread
      */
     public static void stopAll() {
-        if (!Robot.usingComputer) {
+        if (!Robot.isUsingComputer()) {
             return;
         }
 
@@ -134,7 +134,7 @@ public class ComputerDebugging {
      * Sends the data accumulated over the update by adding it to the udpServer
      */
     public static void markEndOfUpdate() {
-        if (!Robot.usingComputer) {
+        if (!Robot.isUsingComputer()) {
             return;
         }
         messageBuilder.append("CLEAR,%");
@@ -148,7 +148,7 @@ public class ComputerDebugging {
      * Forces a clear log
      */
     public static void clearLogPoints() {
-        if (!Robot.usingComputer) {
+        if (!Robot.isUsingComputer()) {
             return;
         }
         udpServer.splitAndSend("CLEARLOG,%");
