@@ -58,12 +58,8 @@ public class TMOATest {
 
 
         long startTime = System.currentTimeMillis();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        while (true) {
+
+        /*while (true) {
 
             opMode.loop();
 
@@ -76,7 +72,7 @@ public class TMOATest {
             ComputerDebugging.sendRobotLocation(robot);
             ComputerDebugging.sendLogPoint(new FloatPoint(Robot.worldXPosition, Robot.worldYPosition));
             ComputerDebugging.markEndOfUpdate();
-        }
+        }*/
     }
 }
 
