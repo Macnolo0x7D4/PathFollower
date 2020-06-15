@@ -18,52 +18,33 @@
 package LibTMOA.io;
 
 import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
-import java.io.IOException;
-
-public class PathReader {
-    protected final JSONParser parser;
-    protected JSONArray path;
-
-    public PathReader(String file) {
-        this.parser = new JSONParser();
-        this.path = readFile(file);
-    }
-
-    protected PathReader(){
-        this.parser = new JSONParser();
-    }
-
-    private JSONArray readFile(String file) {
-        JSONArray read = null;
-        try (FileReader reader = new FileReader(file)) {
-            read = parseObject(reader);
-        } catch (IOException | ParseException e) {
+/**
+ * A PathReader for testing. Using String instead JSON.
+ */
+public class PathSimulator extends PathReader {
+    public PathSimulator(String json) {
+        super();
+        try{
+            super.path = (JSONArray) super.parser.parse(json);
+        } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        return read;
     }
 
+    @Override
     public JSONArray getRawPath() {
-        return this.path;
+        return super.path;
     }
 
+    @Override
     public Object getInitialPosition() {
-        return this.path.stream().findFirst().get();
-    }
-
-    private JSONArray parseObject(FileReader reader) throws IOException, ParseException {
-        Object obj = parser.parse(reader);
-
-        return (JSONArray) obj;
+        return super.getInitialPosition();
     }
 
     @Override
     public String toString() {
-        return path.toString();
+        return super.toString();
     }
 }

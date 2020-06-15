@@ -18,7 +18,7 @@
 package LibTMOA;
 
 import LibTMOA.io.PathProcessor;
-import LibTMOA.io.PathReader;
+import LibTMOA.io.PathSimulator;
 import LibTMOA.models.config.OpMode;
 import LibTMOA.utils.CurvePoint;
 
@@ -28,11 +28,54 @@ import static LibTMOA.movement.road.RobotMovement.followCurve;
 
 public class MyOpMode extends OpMode {
 
+    private static final String ROUTES = "[\n" +
+            "  {\n" +
+            "    \"x\": 0.0,\n" +
+            "    \"y\": 0.0,\n" +
+            "    \"move_speed\": 0.5,\n" +
+            "    \"turn_speed\": 0.5,\n" +
+            "    \"follow_distance\": 50.0,\n" +
+            "    \"slow_down_turn_radians\": 50.0,\n" +
+            "    \"slow_down_turn_amount\": 1.0\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"x\": 1.0,\n" +
+            "    \"y\": 1.0,\n" +
+            "    \"move_speed\": 0.5,\n" +
+            "    \"turn_speed\": 0.5,\n" +
+            "    \"follow_distance\": 50.0,\n" +
+            "    \"slow_down_turn_radians\": 50.0,\n" +
+            "    \"slow_down_turn_amount\": 1.0\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"x\": 2.0,\n" +
+            "    \"y\": 2.0,\n" +
+            "    \"move_speed\": 0.5,\n" +
+            "    \"turn_speed\": 0.5,\n" +
+            "    \"follow_distance\": 50.0,\n" +
+            "    \"slow_down_turn_radians\": 50.0,\n" +
+            "    \"slow_down_turn_amount\": 1.0\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"x\": 3.0,\n" +
+            "    \"y\": 3.0,\n" +
+            "    \"move_speed\": 0.5,\n" +
+            "    \"turn_speed\": 0.5,\n" +
+            "    \"follow_distance\": 50.0,\n" +
+            "    \"slow_down_turn_radians\": 50.0,\n" +
+            "    \"slow_down_turn_amount\": 1.0\n" +
+            "  }\n" +
+            "]";
+
+
+    //"[{'x': 0.0,'y': 0.0,'move_speed': 0.5,'turn_speed': 0.5,'follow_distance': 50.0,'slow_down_turn_radians': 50.0,'slow_down_turn_amount': 1.0}]";
+
     List<CurvePoint> functionalPath;
 
     @Override
     public void init() {
-        PathReader reader = new PathReader("/Users/manueldiaz/LibTMOA/src/test/java/LibTMOA/file.json");
+        // PathReader reader = new PathReader("./file.json");
+        PathSimulator reader = new PathSimulator(ROUTES);
 
         PathProcessor processor = new PathProcessor(reader.getRawPath());
 
