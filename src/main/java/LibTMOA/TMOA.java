@@ -17,10 +17,12 @@
 
 package LibTMOA;
 
-import LibTMOA.debug.Debugging;
+import LibTMOA.controllers.Robot;
+import LibTMOA.debug.ComputerDebugging;
 import LibTMOA.debug.Log;
 import LibTMOA.models.config.ChassisConfiguration;
 import LibTMOA.models.config.DcMotorBase;
+import LibTMOA.models.config.Telemetry;
 import LibTMOA.models.structures.DcMotorVelocities;
 import LibTMOA.models.structures.JoystickCoordinates;
 import LibTMOA.models.structures.MecanumDirectives;
@@ -33,22 +35,42 @@ import java.util.List;
  * The main class of the library.
  */
 public class TMOA {
-
+    private static final String ORIGIN = "Main Thread";
     private final ChassisConfiguration config;
-    private final Debugging debugging;
+    private final Robot robot;
 
     /**
      * Creates an instance of the Trigonometric Mecanum Omnidirectional Algorithm.
      *
      * @param config ChassisConfiguration
      */
-    public TMOA(ChassisConfiguration config, Debugging debugging) {
+    public TMOA(ChassisConfiguration config, Telemetry telemetry) {
         this.config = config;
-        this.debugging = debugging;
 
-        Log.println("The legendary Trigonometric Mecanum Omnidirectional Algorithm is Running!", "Main Thread");
+        Log.println("The legendary Trigonometric Mecanum Omnidirectional Algorithm is Running!", ORIGIN);
+        Log.println("This API was created by Manuel Diaz and Obed Garcia from WinT 3794.", ORIGIN);
+        Log.println("Chassis Configuration is set to: " + config.getMode(), ORIGIN);
 
+        if(telemetry == null){
+            Log.setDebuggingMode(false);
+            Log.println("The Telemetry Interface is invalid.");
+        } else {
+            Log.setTelemetry(telemetry);
+            Log.setDebuggingMode(true);
+            Log.println("Debug Mode is set to: " + telemetry.toString(), ORIGIN);
+        }
+
+        robot = new Robot(this);
         this.config.getMotors().forEach(motor -> motor.setInverted(motor.getId() % 2 == 0));
+
+        Log.update();
+    }
+
+    public void close(){
+        this.config.getMotors().forEach(DcMotorBase::stop);
+        Log.println("Gracefully stopped!", ORIGIN);
+        Log.update();
+        Log.setDebuggingMode(false);
     }
 
     /**
@@ -101,7 +123,7 @@ public class TMOA {
         }
     }
 
-    public Debugging getDebuggingMode() {
-        return debugging;
+    public Robot getRobot() {
+        return robot;
     }
 }

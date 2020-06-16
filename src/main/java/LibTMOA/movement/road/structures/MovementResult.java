@@ -15,11 +15,12 @@
  *
  */
 
-package LibTMOA.debug;
+package LibTMOA.movement.road.structures;
 
-public enum Debugging {
-    NO_LOG,
-    SERVER,
-    LOG_PRINTER,
-    LOG_FILE
+public class MovementResult {
+    public double turnDelta_rad;
+
+    public MovementResult(double turnDelta_rad) {
+        this.turnDelta_rad = turnDelta_rad;
+    }
 }

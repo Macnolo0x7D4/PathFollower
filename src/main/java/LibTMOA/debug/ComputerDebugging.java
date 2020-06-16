@@ -17,33 +17,19 @@
 
 package LibTMOA.debug;
 
-import LibTMOA.TMOA;
 import LibTMOA.controllers.Robot;
 import LibTMOA.models.structures.Pose2D;
 
 public class ComputerDebugging {
-    private static Debugging debuggingMode;
     private static final String ORIGIN = "Robot";
-
-    /**
-     * Initializes udp server and starts it's thread
-     */
-    public ComputerDebugging(Debugging debuggingMode) {
-        ComputerDebugging.debuggingMode = debuggingMode;
-    }
-
 
     /**
      * Sends the robot location to the debug computer
      */
-    public static void sendRobotLocation(Robot robot) {
-        if (ComputerDebugging.debuggingMode == Debugging.NO_LOG) {
-            return;
-        }
-
-        Log.println("X -> " + robot.getXPos(), ORIGIN);
-        Log.println("Y -> " + robot.getYPos(), ORIGIN);
-        Log.println("Theta -> " + robot.getWorldAngle(),ORIGIN);
+    public static void sendRobotLocation() {
+        Log.println("X -> " + Robot.getXPos(), ORIGIN);
+        Log.println("Y -> " + Robot.getYPos(), ORIGIN);
+        Log.println("Theta -> " + Robot.getWorldAngle(),ORIGIN);
     }
 
     /**
@@ -52,11 +38,7 @@ public class ComputerDebugging {
      * @param floatPoint the point you want to send
      */
     public static void sendKeyPoint(Pose2D floatPoint) {
-        if (ComputerDebugging.debuggingMode == Debugging.NO_LOG) {
-            return;
-        }
-
-        Log.println("Key Point -> { X:" + floatPoint.getX() + ", Y: " + floatPoint.getY() + " }", ORIGIN);
+        Log.println("Key IndexedPoint -> { X: " + floatPoint.getX() + ", Y: " + floatPoint.getY() + " }", ORIGIN);
     }
 
 
@@ -66,11 +48,7 @@ public class ComputerDebugging {
      * @param floatPoint the point you want to send
      */
     public static void sendLogPoint(Pose2D floatPoint) {
-        if (ComputerDebugging.debuggingMode == Debugging.NO_LOG) {
-            return;
-        }
-
-        Log.println("Log Point -> { X:" + floatPoint.getX() + ", Y: " + floatPoint.getY() + " }", ORIGIN);
+        Log.println("Log IndexedPoint -> { X: " + floatPoint.getX() + ", Y: " + floatPoint.getY() + " }", ORIGIN);
     }
 
 
@@ -81,10 +59,6 @@ public class ComputerDebugging {
      * @param point2 Pose2D TargetPoint
      */
     public static void sendLine(Pose2D point1, Pose2D point2) {
-        if (ComputerDebugging.debuggingMode == Debugging.NO_LOG) {
-            return;
-        }
-
-        Log.println("New Line -> { Initial Point: [ X: " + point1.getX() + ", Y: " + point1.getY() + " ], Target: [ X: " + point2.getX() + ", Y: " + point2.getY() + " ] }", ORIGIN);
+        Log.println("New Line -> { Initial IndexedPoint: [ X: " + point1.getX() + ", Y: " + point1.getY() + " ], Target: [ X: " + point2.getX() + ", Y: " + point2.getY() + " ] }", ORIGIN);
     }
 }

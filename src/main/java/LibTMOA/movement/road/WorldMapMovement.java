@@ -17,27 +17,29 @@
 
 package LibTMOA.movement.road;
 
+import LibTMOA.movement.road.structures.IndexedPoint;
+import LibTMOA.movement.road.structures.MovementResult;
 import LibTMOA.models.structures.Pose2D;
 import LibTMOA.debug.ComputerDebugging;
 import LibTMOA.utils.*;
 
 import java.util.ArrayList;
 
-import static LibTMOA.movement.road.RobotInXYMovement.profileStates.gunningIt;
+import static LibTMOA.movement.road.WorldMapMovement.profileStates.gunningIt;
 import static LibTMOA.robot.MyPosition.*;
 import static LibTMOA.robot.VariablesOfMovement.*;
 import static LibTMOA.utils.MathUtils.AngleWrap;
 
 
-public class RobotInXYMovement {
+public class WorldMapMovement {
     public static final double smallAdjustSpeed = 0.135;
-    public static profileStates state_movement_y_prof = gunningIt;
-    public static profileStates state_movement_x_prof = gunningIt;
-    public static profileStates state_turning_prof = gunningIt;
-    public static double movement_y_min = 0.091;
-    public static double movement_x_min = 0.11;
-    public static double movement_turn_min = 0.10;
-    //this is used for the last 10 degrees of turning with a point speed of 0.15 to remain just barely unstable
+    public static profileStates stateMovementYProf = gunningIt;
+    public static profileStates stateMovementXProf = gunningIt;
+    public static profileStates stateTurningProf = gunningIt;
+    public static double movementYMin = 0.091;
+    public static double movementXMin = 0.11;
+    public static double movementTurnMin = 0.10;
+
     public static String turnCurveVisual =
             "                   1" +
                     "                    " +
@@ -53,9 +55,9 @@ public class RobotInXYMovement {
 
     //inits our mini state machines for motion profiling
     public static void initForMove() {
-        state_movement_y_prof = gunningIt;
-        state_movement_x_prof = gunningIt;
-        state_turning_prof = gunningIt;
+        stateMovementYProf = gunningIt;
+        stateMovementXProf = gunningIt;
+        stateTurningProf = gunningIt;
     }
 
     public static void goToPosition(double targetX, double targetY, double point_angle, double movement_speed, double point_speed) {
@@ -80,33 +82,33 @@ public class RobotInXYMovement {
         double movement_y_power = (relative_y_to_point / (relative_abs_y + relative_abs_x)) * movement_speed;
 
         //el movimientose compone de dos partes la rapida y la desaceleración
-        if (state_movement_y_prof == profileStates.gunningIt) {
+        if (stateMovementYProf == profileStates.gunningIt) {
             if (relative_abs_y < Math.abs(SpeedOmeter.currSlipDistanceY() * 2) || relative_abs_y < 3) {
-                state_movement_y_prof = state_movement_y_prof.next();
+                stateMovementYProf = stateMovementYProf.next();
             }
         }
-        if (state_movement_y_prof == profileStates.slipping) {
+        if (stateMovementYProf == profileStates.slipping) {
             movement_y_power = 0;
             if (Math.abs(SpeedOmeter.getSpeedY()) < 0.03) {
-                state_movement_y_prof = state_movement_y_prof.next();
+                stateMovementYProf = stateMovementYProf.next();
             }
         }
-        if (state_movement_y_prof == profileStates.fineAdjustment) {
+        if (stateMovementYProf == profileStates.fineAdjustment) {
             movement_y_power = Range.clip(((relative_y_to_point / 8.0) * 0.15), -0.15, 0.15);
         }
 
-        if (state_movement_x_prof == profileStates.gunningIt) {
+        if (stateMovementXProf == profileStates.gunningIt) {
             if (relative_abs_x < Math.abs(SpeedOmeter.currSlipDistanceY() * 1.2) || relative_abs_x < 3) {
-                state_movement_x_prof = state_movement_x_prof.next();
+                stateMovementXProf = stateMovementXProf.next();
             }
         }
-        if (state_movement_x_prof == profileStates.slipping) {
+        if (stateMovementXProf == profileStates.slipping) {
             movement_x_power = 0;
             if (Math.abs(SpeedOmeter.getSpeedY()) < 0.03) {
-                state_movement_x_prof = state_movement_x_prof.next();
+                stateMovementXProf = stateMovementXProf.next();
             }
         }
-        if (state_movement_x_prof == profileStates.fineAdjustment) {
+        if (stateMovementXProf == profileStates.fineAdjustment) {
             movement_x_power = Range.clip(((relative_x_to_point / 2.5) * smallAdjustSpeed), -smallAdjustSpeed, smallAdjustSpeed);
         }
 
@@ -114,22 +116,21 @@ public class RobotInXYMovement {
         double turnPower = 0;
 
 
-        if (state_turning_prof == profileStates.gunningIt) {
+        if ( stateTurningProf == profileStates.gunningIt) {
             turnPower = rad_to_target > 0 ? point_speed : -point_speed;
             if (Math.abs(rad_to_target) < Math.abs(SpeedOmeter.currSlipAngle() * 1.2) || Math.abs(rad_to_target) < Math.toRadians(3.0)) {
-                state_turning_prof = state_turning_prof.next();
+                stateTurningProf = stateTurningProf.next();
             }
 
         }
-        if (state_turning_prof == profileStates.slipping) {
+        if (stateTurningProf == profileStates.slipping) {
             if (Math.abs(SpeedOmeter.getDegPerSecond()) < 60) {
-                state_turning_prof = state_turning_prof.next();
+                stateTurningProf = stateTurningProf.next();
             }
 
         }
 
-        if (state_turning_prof == profileStates.fineAdjustment) {
-            //de 0 a 1
+        if (stateTurningProf == profileStates.fineAdjustment) {
             turnPower = (rad_to_target / Math.toRadians(10)) * smallAdjustSpeed;
             turnPower = Range.clip(turnPower, -smallAdjustSpeed, smallAdjustSpeed);
         }
@@ -142,10 +143,10 @@ public class RobotInXYMovement {
     }
 
     //angulo relativo hacia noventa grados (adelante)
-    public static movementResult gunToPosition(double targetX, double targetY, double point_angle,
-                                               double movement_speed, double point_speed,
-                                               double slowDownTurnRadians, double slowDownMovementFromTurnError,
-                                               boolean stop) {
+    public static MovementResult gunToPosition(double targetX, double targetY, double point_angle,
+                                     double movement_speed, double point_speed,
+                                     double slowDownTurnRadians, double slowDownMovementFromTurnError,
+                                     boolean stop) {
 
 
         double currSlipY = (SpeedOmeter.currSlipDistanceY() * Math.sin(worldAngle_rad)) +
@@ -237,15 +238,14 @@ public class RobotInXYMovement {
         movement_x *= errorTurnSoScaleDownMovement;
         movement_y *= errorTurnSoScaleDownMovement;
 
-        movementResult r = new movementResult(relativePointAngle);
-        return r;
+        return new MovementResult(relativePointAngle);
     }
 
 
     // va lo mas rapido posible manteniendose lo mas posible hacia adelante para mantener tiempo y ser masefectivo
     //baja la velocidad y para
 
-    public static movementResult pointAngle(double point_angle, double point_speed, double decelerationRadians) {
+    public static MovementResult pointAngle(double point_angle, double point_speed, double decelerationRadians) {
 
         double relativePointAngle = AngleWrap(point_angle - worldAngle_rad);
         double velocityAdjustedRelativePointAngle = AngleWrap(relativePointAngle - SpeedOmeter.currSlipAngle());
@@ -259,22 +259,21 @@ public class RobotInXYMovement {
         //deslize
         movement_turn *= Range.clip(Math.abs(relativePointAngle) / Math.toRadians(3), 0, 1);
 
-        movementResult r = new movementResult(relativePointAngle);
-        return r;
+        return new MovementResult(relativePointAngle);
     }
 
     private static void allComponentsMinPower() {
         if (Math.abs(movement_x) > Math.abs(movement_y)) {
             if (Math.abs(movement_x) > Math.abs(movement_turn)) {
-                movement_x = minPower(movement_x, movement_x_min);
+                movement_x = minPower(movement_x, movementXMin);
             } else {
-                movement_turn = minPower(movement_turn, movement_turn_min);
+                movement_turn = minPower(movement_turn, movementTurnMin);
             }
         } else {
             if (Math.abs(movement_y) > Math.abs(movement_turn)) {
-                movement_y = minPower(movement_y, movement_y_min);
+                movement_y = minPower(movement_y, movementYMin);
             } else {
-                movement_turn = minPower(movement_turn, movement_turn_min);
+                movement_turn = minPower(movement_turn, movementTurnMin);
             }
         }
     }
@@ -309,8 +308,8 @@ public class RobotInXYMovement {
         ArrayList<CurvePoint> pathExtended = (ArrayList<CurvePoint>) allPoints.clone();
 
         //en que posicion estamos
-        pointWithIndex clippedToPath = clipToPath(allPoints, worldXPosition, worldYPosition);
-        int currFollowIndex = clippedToPath.index + 1;
+        IndexedPoint clippedToPath = clipToPath(allPoints, worldXPosition, worldYPosition);
+        int currFollowIndex = clippedToPath.getIndex() + 1;
 
         //calc el punto a seguir
         CurvePoint followMe = getFollowPointPath(pathExtended, worldXPosition, worldYPosition,
@@ -328,8 +327,8 @@ public class RobotInXYMovement {
 
 
         double clipedDistToFinalEnd = Math.hypot(
-                clippedToPath.x - allPoints.get(allPoints.size() - 1).x,
-                clippedToPath.y - allPoints.get(allPoints.size() - 1).y);
+                clippedToPath.getX() - allPoints.get(allPoints.size() - 1).x,
+                clippedToPath.getY() - allPoints.get(allPoints.size() - 1).y);
 
 
         if (clipedDistToFinalEnd <= followMe.followDistance + 15 ||
@@ -352,7 +351,7 @@ public class RobotInXYMovement {
 
         currFollowAngle += subtractAngles(followAngle, Math.toRadians(90));
 
-        movementResult result = pointAngle(currFollowAngle, allPoints.get(currFollowIndex).turnSpeed, Math.toRadians(45));
+        MovementResult result = pointAngle(currFollowAngle, allPoints.get(currFollowIndex).turnSpeed, Math.toRadians(45));
         movement_x *= 1 - Range.clip(Math.abs(result.turnDelta_rad) / followMe.slowDownTurnRadians, 0, followMe.slowDownTurnAmount);
         movement_y *= 1 - Range.clip(Math.abs(result.turnDelta_rad) / followMe.slowDownTurnRadians, 0, followMe.slowDownTurnAmount);
 
@@ -376,7 +375,7 @@ public class RobotInXYMovement {
         return extended;
     }
 
-    public static pointWithIndex clipToPath(ArrayList<CurvePoint> pathPoints, double xPos, double yPos) {
+    public static IndexedPoint clipToPath(ArrayList<CurvePoint> pathPoints, double xPos, double yPos) {
         double closestClippedDistance = 10000000;//start this off rediculously high
 
         int closestClippedIndex = 0;
@@ -403,7 +402,7 @@ public class RobotInXYMovement {
             }
         }
 
-        return new pointWithIndex(clippedToLine.x, clippedToLine.y, closestClippedIndex);
+        return new IndexedPoint(clippedToLine.x, clippedToLine.y, closestClippedIndex);
     }
 
     public static CurvePoint getFollowPointPath(ArrayList<CurvePoint> pathPoints,
@@ -412,12 +411,12 @@ public class RobotInXYMovement {
                                                 double followRadius) {
 
 
-        pointWithIndex clippedToLine = clipToPath(pathPoints, xPos, yPos);
-        int currFollowIndex = clippedToLine.index;//this is the index of the first point on the path we are following
+        IndexedPoint clippedToLine = clipToPath(pathPoints, xPos, yPos);
+        int currFollowIndex = clippedToLine.getIndex();//this is the index of the first point on the path we are following
 
 
         CurvePoint followMe = new CurvePoint(pathPoints.get(currFollowIndex + 1));
-        followMe.setPoint(new Point(clippedToLine.x, clippedToLine.y));
+        followMe.setPoint(new Point(clippedToLine.getX(), clippedToLine.getY()));
 
         //ir por todos los puntos de la interseccion
         for (int i = 0; i < pathPoints.size() - 1; i++) {
@@ -430,9 +429,7 @@ public class RobotInXYMovement {
                             startLine.x, startLine.y, endLine.x, endLine.y);
 
             double closestDistance = 1000000;
-            for (int p = 0; p < intersections.size(); p++) {
-
-                Point thisIntersection = intersections.get(p);
+            for (Point thisIntersection : intersections) {
 
                 double dist = Math.hypot(thisIntersection.x - pathPoints.get(pathPoints.size() - 1).x,
                         thisIntersection.y - pathPoints.get(pathPoints.size() - 1).y);
@@ -528,14 +525,6 @@ public class RobotInXYMovement {
         }
     }
 
-    public static class movementResult {
-        public double turnDelta_rad;
-
-        public movementResult(double turnDelta_rad) {
-            this.turnDelta_rad = turnDelta_rad;
-        }
-    }
-
     static class myPoint {
         public double x;
         public double y;
@@ -548,16 +537,5 @@ public class RobotInXYMovement {
         }
     }
 
-    public static class pointWithIndex {
-        private final double x;
-        private final double y;
-        private final int index;
 
-
-        public pointWithIndex(double xPos, double yPos, int index) {
-            this.x = xPos;
-            this.y = yPos;
-            this.index = index;
-        }
-    }
 }

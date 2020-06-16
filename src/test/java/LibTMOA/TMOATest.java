@@ -18,8 +18,7 @@
 package LibTMOA;
 
 import LibTMOA.controllers.Robot;
-import LibTMOA.debug.Debugging;
-import LibTMOA.debug.Log;
+import LibTMOA.debug.telemetries.ConsolePrinter;
 import LibTMOA.models.config.ChassisConfiguration;
 import LibTMOA.models.config.OpMode;
 import LibTMOA.models.structures.EncoderProperties;
@@ -49,17 +48,12 @@ public class TMOATest {
 
     @Test
     public void testSomeLibraryMethod() {
-        TMOA classUnderTest = new TMOA(getTestingConfiguration(), Debugging.LOG_PRINTER);
+        TMOA classUnderTest = new TMOA(getTestingConfiguration(), new ConsolePrinter());
 
         // classUnderTest.getChassisInformation().getMotors().forEach(dcMotor -> System.out.println("[Motor " + dcMotor.getId() + "]: " + dcMotor.getPower()));
         // assertTrue("getDcMotor(2).getPower() == 1.0 should return 'true'", classUnderTest.getDcMotor((byte) 2).getPower() == 1.0);
-
-        ComputerDebugging computerDebugging = new ComputerDebugging(Debugging.LOG_PRINTER);
-        Robot robot = new Robot(classUnderTest);
         OpMode opMode = new MyOpMode();
         opMode.init();
-
-        long startTime = System.currentTimeMillis();
 
         // while (true) {
 
@@ -70,14 +64,12 @@ public class TMOATest {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            robot.update();
-            ComputerDebugging.sendRobotLocation(robot);
+            classUnderTest.getRobot().update();
+            ComputerDebugging.sendRobotLocation();
             ComputerDebugging.sendLogPoint(new Pose2D(Robot.getXPos(), Robot.getYPos()));
         // }
 
-        Log.println("Gracefully stopped!", "Main Thread");
-
-        Log.update(classUnderTest.getDebuggingMode());
+        classUnderTest.close();
     }
 }
 

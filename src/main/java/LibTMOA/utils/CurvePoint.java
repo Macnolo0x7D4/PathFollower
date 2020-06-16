@@ -17,8 +17,6 @@
 
 package LibTMOA.utils;
 
-import LibTMOA.debug.Log;
-
 public class CurvePoint {
     public double x;
     public double y;
@@ -40,8 +38,6 @@ public class CurvePoint {
         this.pointLength = followDistance;
         this.slowDownTurnRadians = slowDownTurnRadians;
         this.slowDownTurnAmount = slowDownTurnAmount;
-
-        Log.println("New " + this.toString(), "Main Thread");
     }
 
 

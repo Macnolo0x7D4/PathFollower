@@ -64,7 +64,6 @@ public class Robot {
      * Calculates the change in position of the robot
      */
     public void update() {
-        //tiempo
         long currentTimeMillis = System.currentTimeMillis();
 
         double elapsedTime = (currentTimeMillis - lastUpdateTime) / 1000.0;
