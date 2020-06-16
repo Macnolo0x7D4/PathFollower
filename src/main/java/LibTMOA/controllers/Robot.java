@@ -27,7 +27,7 @@ import static LibTMOA.robot.VariablesOfMovement.*;
 
 public class Robot {
     private final TMOA tmoa;
-    private static boolean usingComputer = true;
+    private static boolean usingComputer = false;
     private static double xSpeed = 0;
     private static double ySpeed = 0;
     private static double turnSpeed = 0;

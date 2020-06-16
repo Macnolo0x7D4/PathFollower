@@ -76,6 +76,8 @@ public class TMOATest {
             ComputerDebugging.sendLogPoint(new FloatPoint(Robot.getWorldXPosition(), Robot.getWorldYPosition()));
             ComputerDebugging.markEndOfUpdate();
         // }
+
+        System.out.println("[Main Thread]: Gracefully stopped!");
     }
 }
 

@@ -32,7 +32,6 @@ import static LibTMOA.utils.MathUtils.AngleWrap;
 import static LibTMOA.utils.MathUtils.lineCircleintersection;
 
 public class RobotMovement {
-
     public static void followCurve(List<CurvePoint> allPoints, double followAngle) {
         for (int i = 0; i < allPoints.size() - 1; i++) {
             ComputerDebugging.sendLine(new FloatPoint(allPoints.get(i).x, allPoints.get(i).y), new FloatPoint(allPoints.get(i + 1).x, allPoints.get(i + 1).y));
