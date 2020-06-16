@@ -39,10 +39,10 @@ public class DriveTrainMovement {
     public void ApplyMovement() {
         List<Double> rawVelocities = new ArrayList<>();
 
-        rawVelocities.add(movement_y - movement_turn + movement_x * 1.5); // fl
-        rawVelocities.add(-movement_y - movement_turn + movement_x * 1.5); //fr
-        rawVelocities.add(movement_y - movement_turn - movement_x * 1.5); // rl
-        rawVelocities.add(-movement_y - movement_turn - movement_x * 1.5); // rr
+        rawVelocities.add(movementY - movementTurn + movementX * 1.5); // fl
+        rawVelocities.add(-movementY - movementTurn + movementX * 1.5); //fr
+        rawVelocities.add(movementY - movementTurn - movementX * 1.5); // rl
+        rawVelocities.add(-movementY - movementTurn - movementX * 1.5); // rr
 
         Optional<Double> maxRawPower = rawVelocities.stream().max(Comparator.naturalOrder());
 

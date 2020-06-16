@@ -18,14 +18,15 @@
 package LibTMOA.movement.road;
 
 import LibTMOA.movement.road.structures.IndexedPoint;
+import LibTMOA.movement.road.structures.LinePoint;
 import LibTMOA.movement.road.structures.MovementResult;
 import LibTMOA.models.structures.Pose2D;
 import LibTMOA.debug.ComputerDebugging;
+import LibTMOA.movement.road.structures.ProfileStates;
 import LibTMOA.utils.*;
 
 import java.util.ArrayList;
-
-import static LibTMOA.movement.road.WorldMapMovement.profileStates.gunningIt;
+import static LibTMOA.movement.road.structures.ProfileStates.*;
 import static LibTMOA.robot.MyPosition.*;
 import static LibTMOA.robot.VariablesOfMovement.*;
 import static LibTMOA.utils.MathUtils.AngleWrap;
@@ -33,9 +34,9 @@ import static LibTMOA.utils.MathUtils.AngleWrap;
 
 public class WorldMapMovement {
     public static final double smallAdjustSpeed = 0.135;
-    public static profileStates stateMovementYProf = gunningIt;
-    public static profileStates stateMovementXProf = gunningIt;
-    public static profileStates stateTurningProf = gunningIt;
+    public static ProfileStates stateMovementYProf = gunningIt;
+    public static ProfileStates stateMovementXProf = gunningIt;
+    public static ProfileStates stateTurningProf = gunningIt;
     public static double movementYMin = 0.091;
     public static double movementXMin = 0.11;
     public static double movementTurnMin = 0.10;
@@ -82,33 +83,33 @@ public class WorldMapMovement {
         double movement_y_power = (relative_y_to_point / (relative_abs_y + relative_abs_x)) * movement_speed;
 
         //el movimientose compone de dos partes la rapida y la desaceleración
-        if (stateMovementYProf == profileStates.gunningIt) {
+        if (stateMovementYProf == ProfileStates.gunningIt) {
             if (relative_abs_y < Math.abs(SpeedOmeter.currSlipDistanceY() * 2) || relative_abs_y < 3) {
                 stateMovementYProf = stateMovementYProf.next();
             }
         }
-        if (stateMovementYProf == profileStates.slipping) {
+        if (stateMovementYProf == ProfileStates.slipping) {
             movement_y_power = 0;
             if (Math.abs(SpeedOmeter.getSpeedY()) < 0.03) {
                 stateMovementYProf = stateMovementYProf.next();
             }
         }
-        if (stateMovementYProf == profileStates.fineAdjustment) {
+        if (stateMovementYProf == ProfileStates.fineAdjustment) {
             movement_y_power = Range.clip(((relative_y_to_point / 8.0) * 0.15), -0.15, 0.15);
         }
 
-        if (stateMovementXProf == profileStates.gunningIt) {
+        if (stateMovementXProf == ProfileStates.gunningIt) {
             if (relative_abs_x < Math.abs(SpeedOmeter.currSlipDistanceY() * 1.2) || relative_abs_x < 3) {
                 stateMovementXProf = stateMovementXProf.next();
             }
         }
-        if (stateMovementXProf == profileStates.slipping) {
+        if (stateMovementXProf == ProfileStates.slipping) {
             movement_x_power = 0;
             if (Math.abs(SpeedOmeter.getSpeedY()) < 0.03) {
                 stateMovementXProf = stateMovementXProf.next();
             }
         }
-        if (stateMovementXProf == profileStates.fineAdjustment) {
+        if (stateMovementXProf == ProfileStates.fineAdjustment) {
             movement_x_power = Range.clip(((relative_x_to_point / 2.5) * smallAdjustSpeed), -smallAdjustSpeed, smallAdjustSpeed);
         }
 
@@ -116,28 +117,28 @@ public class WorldMapMovement {
         double turnPower = 0;
 
 
-        if ( stateTurningProf == profileStates.gunningIt) {
+        if ( stateTurningProf == ProfileStates.gunningIt) {
             turnPower = rad_to_target > 0 ? point_speed : -point_speed;
             if (Math.abs(rad_to_target) < Math.abs(SpeedOmeter.currSlipAngle() * 1.2) || Math.abs(rad_to_target) < Math.toRadians(3.0)) {
                 stateTurningProf = stateTurningProf.next();
             }
 
         }
-        if (stateTurningProf == profileStates.slipping) {
+        if (stateTurningProf == ProfileStates.slipping) {
             if (Math.abs(SpeedOmeter.getDegPerSecond()) < 60) {
                 stateTurningProf = stateTurningProf.next();
             }
 
         }
 
-        if (stateTurningProf == profileStates.fineAdjustment) {
+        if (stateTurningProf == ProfileStates.fineAdjustment) {
             turnPower = (rad_to_target / Math.toRadians(10)) * smallAdjustSpeed;
             turnPower = Range.clip(turnPower, -smallAdjustSpeed, smallAdjustSpeed);
         }
 
-        movement_turn = turnPower;
-        movement_x = movement_x_power;
-        movement_y = movement_y_power;
+        movementTurn = turnPower;
+        movementX = movement_x_power;
+        movementY = movement_y_power;
 
         allComponentsMinPower();
     }
@@ -189,8 +190,8 @@ public class WorldMapMovement {
         }
 
 
-        movement_x = Range.clip(movement_x_power, -movement_speed, movement_speed);
-        movement_y = Range.clip(movement_y_power, -movement_speed, movement_speed);
+        movementX = Range.clip(movement_x_power, -movement_speed, movement_speed);
+        movementY = Range.clip(movement_y_power, -movement_speed, movement_speed);
 
 
         double actualRelativePointAngle = (point_angle - Math.toRadians(90));
@@ -214,29 +215,29 @@ public class WorldMapMovement {
         double turnSpeed = (velocityAdjustedRelativePointAngle / decelerationDistance) * point_speed;
 
 
-        movement_turn = Range.clip(turnSpeed, -point_speed, point_speed);
+        movementTurn = Range.clip(turnSpeed, -point_speed, point_speed);
 
         if (distanceToPoint < 10) {
-            movement_turn = 0;
+            movementTurn = 0;
         }
 
         allComponentsMinPower();
 
 
         //dar efecto dedeslize
-        movement_x *= Range.clip((relative_abs_x / 6.0), 0, 1);
-        movement_y *= Range.clip((relative_abs_y / 6.0), 0, 1);
+        movementX *= Range.clip((relative_abs_x / 6.0), 0, 1);
+        movementY *= Range.clip((relative_abs_y / 6.0), 0, 1);
 
-        movement_turn *= Range.clip(Math.abs(relativePointAngle) / Math.toRadians(2), 0, 1);
+        movementTurn *= Range.clip(Math.abs(relativePointAngle) / Math.toRadians(2), 0, 1);
 
 
         double errorTurnSoScaleDownMovement = Range.clip(1.0 - Math.abs(relativePointAngle / slowDownTurnRadians), 1.0 - slowDownMovementFromTurnError, 1);
         //no desacelerar si no giramos mientras la distancia es menor a 0
-        if (Math.abs(movement_turn) < 0.00001) {
+        if (Math.abs(movementTurn) < 0.00001) {
             errorTurnSoScaleDownMovement = 1;
         }
-        movement_x *= errorTurnSoScaleDownMovement;
-        movement_y *= errorTurnSoScaleDownMovement;
+        movementX *= errorTurnSoScaleDownMovement;
+        movementY *= errorTurnSoScaleDownMovement;
 
         return new MovementResult(relativePointAngle);
     }
@@ -252,28 +253,28 @@ public class WorldMapMovement {
 
         double turnSpeed = (velocityAdjustedRelativePointAngle / decelerationRadians) * point_speed;
 
-        movement_turn = Range.clip(turnSpeed, -point_speed, point_speed);
+        movementTurn = Range.clip(turnSpeed, -point_speed, point_speed);
 
         allComponentsMinPower();
 
         //deslize
-        movement_turn *= Range.clip(Math.abs(relativePointAngle) / Math.toRadians(3), 0, 1);
+        movementTurn *= Range.clip(Math.abs(relativePointAngle) / Math.toRadians(3), 0, 1);
 
         return new MovementResult(relativePointAngle);
     }
 
     private static void allComponentsMinPower() {
-        if (Math.abs(movement_x) > Math.abs(movement_y)) {
-            if (Math.abs(movement_x) > Math.abs(movement_turn)) {
-                movement_x = minPower(movement_x, movementXMin);
+        if (Math.abs(movementX) > Math.abs(movementY)) {
+            if (Math.abs(movementX) > Math.abs(movementTurn)) {
+                movementX = minPower(movementX, movementXMin);
             } else {
-                movement_turn = minPower(movement_turn, movementTurnMin);
+                movementTurn = minPower(movementTurn, movementTurnMin);
             }
         } else {
-            if (Math.abs(movement_y) > Math.abs(movement_turn)) {
-                movement_y = minPower(movement_y, movementYMin);
+            if (Math.abs(movementY) > Math.abs(movementTurn)) {
+                movementY = minPower(movementY, movementYMin);
             } else {
-                movement_turn = minPower(movement_turn, movementTurnMin);
+                movementTurn = minPower(movementTurn, movementTurnMin);
             }
         }
     }
@@ -352,8 +353,8 @@ public class WorldMapMovement {
         currFollowAngle += subtractAngles(followAngle, Math.toRadians(90));
 
         MovementResult result = pointAngle(currFollowAngle, allPoints.get(currFollowIndex).turnSpeed, Math.toRadians(45));
-        movement_x *= 1 - Range.clip(Math.abs(result.turnDelta_rad) / followMe.slowDownTurnRadians, 0, followMe.slowDownTurnAmount);
-        movement_y *= 1 - Range.clip(Math.abs(result.turnDelta_rad) / followMe.slowDownTurnRadians, 0, followMe.slowDownTurnAmount);
+        movementX *= 1 - Range.clip(Math.abs(result.turnDelta_rad) / followMe.slowDownTurnRadians, 0, followMe.slowDownTurnAmount);
+        movementY *= 1 - Range.clip(Math.abs(result.turnDelta_rad) / followMe.slowDownTurnRadians, 0, followMe.slowDownTurnAmount);
 
 
         return clipedDistToFinalEnd < 10;//if we are less than 10 cm to the target, return true
@@ -487,7 +488,7 @@ public class WorldMapMovement {
         return new Point(xTarget, yTarget);
     }
 
-    public static myPoint pointAlongLine(double lineX1, double lineY1, double lineX2, double lineY2,
+    public static LinePoint pointAlongLine(double lineX1, double lineY1, double lineX2, double lineY2,
                                          double robotX, double robotY,
                                          double followDistance) {
         Point clipedToLine = clipToLine(lineX1, lineY1, lineX2, lineY2, robotX, robotY);
@@ -507,35 +508,6 @@ public class WorldMapMovement {
             pointIsOnLine = true;
         }
 
-        return new myPoint(xTarget, yTarget, pointIsOnLine);
+        return new LinePoint(xTarget, yTarget, pointIsOnLine);
     }
-
-
-    public enum profileStates {
-        gunningIt,
-        slipping,
-        fineAdjustment,
-
-        memes;
-
-        private static final profileStates[] vals = values();
-
-        public profileStates next() {
-            return vals[(this.ordinal() + 1) % vals.length];
-        }
-    }
-
-    static class myPoint {
-        public double x;
-        public double y;
-        public boolean onLine;
-
-        public myPoint(double X, double Y, boolean isOnLine) {
-            x = X;
-            y = Y;
-            onLine = isOnLine;
-        }
-    }
-
-
 }

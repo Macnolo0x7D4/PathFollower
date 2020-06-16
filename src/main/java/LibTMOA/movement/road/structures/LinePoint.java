@@ -15,11 +15,16 @@
  *
  */
 
-package LibTMOA.robot;
+package LibTMOA.movement.road.structures;
 
-public class VariablesOfMovement {
-    public static double movementX = 0;
-    public static double movementY = 0;
-    public static double movementTurn = 0;
+public class LinePoint {
+    public double x;
+    public double y;
+    public boolean onLine;
 
+    public LinePoint(double X, double Y, boolean isOnLine) {
+        x = X;
+        y = Y;
+        onLine = isOnLine;
+    }
 }

@@ -15,11 +15,17 @@
  *
  */
 
-package LibTMOA.robot;
+package LibTMOA.movement.road.structures;
 
-public class VariablesOfMovement {
-    public static double movementX = 0;
-    public static double movementY = 0;
-    public static double movementTurn = 0;
+public enum ProfileStates {
+    gunningIt,
+    slipping,
+    fineAdjustment,
+    memes;
 
+    private static final ProfileStates[] vals = values();
+
+    public ProfileStates next() {
+        return vals[(this.ordinal() + 1) % vals.length];
+    }
 }

@@ -41,7 +41,9 @@ public class RobotMovement {
 
         ComputerDebugging.sendKeyPoint(new Pose2D(followMe.x, followMe.y));
 
-        MoveToPosition(followMe.x, followMe.y, followMe.moveSpeed, followAngle, followMe.turnSpeed);
+        moveToPosition(followMe.x, followMe.y, followMe.moveSpeed, followAngle, followMe.turnSpeed);
+
+        ComputerDebugging.sendKeyPoint(new Pose2D(followMe.x, followMe.y));
     }
 
     public static CurvePoint getFollowPointPath(List<CurvePoint> pathPoints, Point robotLocation, double followRadius) {
@@ -70,26 +72,27 @@ public class RobotMovement {
     }
 
 
-    public static void MoveToPosition(double x, double y, double Speed, double preferredTurnAngle, double turnSpeed) {
+    public static void moveToPosition(double x, double y, double Speed, double preferredTurnAngle, double turnSpeed) {
         double distanceToTarget = Math.hypot(x - Robot.getXPos(), y - Robot.getYPos());
-        double AbsoluteAngleToTarget = Math.atan2(y - Robot.getYPos(), x - Robot.getXPos());
-        double RelativeAngleToTarget = AngleWrap(AbsoluteAngleToTarget - (Robot.getWorldAngle() - Math.toRadians(90)));
+        double absoluteAngleToTarget = Math.atan2(y - Robot.getYPos(), x - Robot.getXPos());
+        double relativeAngleToTarget = AngleWrap(absoluteAngleToTarget - (Robot.getWorldAngle() - Math.toRadians(90)));
 
 
-        double relativeX = Math.cos(RelativeAngleToTarget) * distanceToTarget;
-        double relativeY = Math.sin(RelativeAngleToTarget) * distanceToTarget;
+        double relativeX = Math.cos(relativeAngleToTarget) * distanceToTarget;
+        double relativeY = Math.sin(relativeAngleToTarget) * distanceToTarget;
 
-        double MovementXPower = relativeX / (Math.abs(relativeX) + Math.abs(relativeY));
-        double MovementYPower = relativeY / (Math.abs(relativeX) + Math.abs(relativeY));
+        double v = Math.abs(relativeX) + Math.abs(relativeY);
+        double movementXPower = relativeX / v;
+        double movementYPower = relativeY / v;
 
-        movement_x = MovementXPower * Speed;
-        movement_y = MovementYPower * Speed;
+        movementX = movementXPower * Speed;
+        movementY = movementYPower * Speed;
 
-        double relativeTurnAngle = RelativeAngleToTarget - Math.toRadians(180) + preferredTurnAngle;
-        movement_turn = Range.clip(relativeTurnAngle / Math.toRadians(30), -1, 1) * turnSpeed;
+        double relativeTurnAngle = relativeAngleToTarget - Math.toRadians(180) + preferredTurnAngle;
+        movementTurn = Range.clip(relativeTurnAngle / Math.toRadians(30), -1, 1) * turnSpeed;
 
         if (distanceToTarget < 10) {
-            movement_turn = 0;
+            movementTurn = 0;
         }
 
     }

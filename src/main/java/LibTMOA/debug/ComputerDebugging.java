@@ -38,7 +38,7 @@ public class ComputerDebugging {
      * @param floatPoint the point you want to send
      */
     public static void sendKeyPoint(Pose2D floatPoint) {
-        Log.println("Key IndexedPoint -> { X: " + floatPoint.getX() + ", Y: " + floatPoint.getY() + " }", ORIGIN);
+        Log.println("Key Point -> { X: " + floatPoint.getX() + ", Y: " + floatPoint.getY() + " }", ORIGIN);
     }
 
 
@@ -48,7 +48,7 @@ public class ComputerDebugging {
      * @param floatPoint the point you want to send
      */
     public static void sendLogPoint(Pose2D floatPoint) {
-        Log.println("Log IndexedPoint -> { X: " + floatPoint.getX() + ", Y: " + floatPoint.getY() + " }", ORIGIN);
+        Log.println("Log Point -> { X: " + floatPoint.getX() + ", Y: " + floatPoint.getY() + " }", ORIGIN);
     }
 
 
@@ -59,6 +59,6 @@ public class ComputerDebugging {
      * @param point2 Pose2D TargetPoint
      */
     public static void sendLine(Pose2D point1, Pose2D point2) {
-        Log.println("New Line -> { Initial IndexedPoint: [ X: " + point1.getX() + ", Y: " + point1.getY() + " ], Target: [ X: " + point2.getX() + ", Y: " + point2.getY() + " ] }", ORIGIN);
+        Log.println("New Line -> { Initial Pos: [ X: " + point1.getX() + ", Y: " + point1.getY() + " ], Target Pos: [ X: " + point2.getX() + ", Y: " + point2.getY() + " ] }", ORIGIN);
     }
 }
