@@ -17,9 +17,6 @@
 
 package LibTMOA.movement.road;
 
-//import android.util.Log;
-//import com.qualcomm.robotcore.util.Range;
-
 import LibTMOA.math.road.FloatPoint;
 import LibTMOA.server.ComputerDebugging;
 import LibTMOA.utils.*;

@@ -17,6 +17,8 @@
 
 package LibTMOA.models.config;
 
+import LibTMOA.models.structures.EncoderProperties;
+
 import java.util.List;
 
 /**
@@ -24,13 +26,9 @@ import java.util.List;
  */
 public class ChassisConfiguration {
     private final List<DcMotorBase> motors;
+    private final List<EncoderBase> additionalEncoders;
     private final ExecutionModes mode;
-    private double width;
-    private int cpr;
-    private int gearRatio;
-    private double diameter;
-    private double cpi;
-    private double conversion;
+    private final EncoderProperties encoderProperties;
 
     /**
      * Creates an instance of a Simple Chassis Configuration.
@@ -39,27 +37,36 @@ public class ChassisConfiguration {
      */
     public ChassisConfiguration(List<DcMotorBase> motors) {
         this.mode = ExecutionModes.SIMPLE;
+        this.encoderProperties = null;
+        this.additionalEncoders = null;
         this.motors = motors;
     }
 
     /**
      * Creates an instance of an Using-Encoders Chassis Configuration.
      *
-     * @param motors    A List of 4 DcMotorBase (not interface, your driver). Order: LF, RF, LB, RB.
-     * @param width
-     * @param cpr
-     * @param gearRatio
-     * @param diameter
+     * @param motors A List of 4 DcMotorBase (not interface, your driver). Order: LF, RF, LB, RB.
+     * @param encoderProperties A EncoderProperties Object
      */
-    public ChassisConfiguration(List<DcMotorBase> motors, double width, int cpr, int gearRatio, double diameter) {
+    public ChassisConfiguration(List<DcMotorBase> motors, EncoderProperties encoderProperties) {
         this.mode = ExecutionModes.ENCODER;
+        this.encoderProperties = encoderProperties;
+        this.additionalEncoders = null;
         this.motors = motors;
-        this.width = width;
-        this.cpr = cpr;
-        this.gearRatio = gearRatio;
-        this.diameter = diameter;
+    }
 
-        this.cpi = (cpr * gearRatio) / (Math.PI * diameter);
+    /**
+     * Creates an instance of an Using-Encoders Chassis Configuration.
+     *
+     * @param motors A List of 4 DcMotorBase (not interface, your driver). Order: LF, RF, LB, RB.
+     * @param encoderProperties A EncoderProperties Object
+     * @param additionalEncoders A List of Additional Encoders for Odometry.
+     */
+    public ChassisConfiguration(List<DcMotorBase> motors, EncoderProperties encoderProperties, List<EncoderBase> additionalEncoders) {
+        this.mode = ExecutionModes.COMPLEX;
+        this.encoderProperties = encoderProperties;
+        this.additionalEncoders = additionalEncoders;
+        this.motors = motors;
     }
 
     /**
@@ -89,27 +96,23 @@ public class ChassisConfiguration {
         return mode;
     }
 
-    public double getWidth() {
-        return width;
+    /**
+     * Returns the current EncoderProperties.
+     * @return EncoderProperties.
+     */
+    public EncoderProperties getEncoderProperties() {
+        if (mode != ExecutionModes.SIMPLE) {
+            return encoderProperties;
+        }
+
+        return null;
     }
 
-    public int getCpr() {
-        return cpr;
-    }
-
-    public int getGearRatio() {
-        return gearRatio;
-    }
-
-    public double getDiameter() {
-        return diameter;
-    }
-
-    public double getCpi() {
-        return cpi;
-    }
-
-    public double getConversion() {
-        return conversion;
+    /**
+     * Returns a list with current additional encoders.
+     * @return Additional Encoders
+     */
+    public List<EncoderBase> getAdditionalEncoders() {
+        return additionalEncoders;
     }
 }

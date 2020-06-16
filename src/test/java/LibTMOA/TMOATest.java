@@ -18,8 +18,10 @@
 package LibTMOA;
 
 import LibTMOA.controllers.Robot;
+import LibTMOA.math.road.FloatPoint;
 import LibTMOA.models.config.ChassisConfiguration;
 import LibTMOA.models.config.OpMode;
+import LibTMOA.models.structures.EncoderProperties;
 import LibTMOA.server.ComputerDebugging;
 import org.junit.Test;
 
@@ -34,10 +36,12 @@ public class TMOATest {
                         new DcMotorTestDriver((byte) 2),
                         new DcMotorTestDriver((byte) 3)
                 ),
-                16.16,
-                28,
-                20,
-                2.952755906
+                new EncoderProperties(
+                        16.16,
+                        28,
+                        20,
+                        2.952755906
+                )
         );
     }
 
@@ -58,7 +62,7 @@ public class TMOATest {
 
         long startTime = System.currentTimeMillis();
 
-        /*while (true) {
+        // while (true) {
 
             opMode.loop();
 
@@ -69,9 +73,9 @@ public class TMOATest {
             }
             robot.update();
             ComputerDebugging.sendRobotLocation(robot);
-            ComputerDebugging.sendLogPoint(new FloatPoint(Robot.worldXPosition, Robot.worldYPosition));
+            ComputerDebugging.sendLogPoint(new FloatPoint(Robot.getWorldXPosition(), Robot.getWorldYPosition()));
             ComputerDebugging.markEndOfUpdate();
-        }*/
+        // }
     }
 }
 
