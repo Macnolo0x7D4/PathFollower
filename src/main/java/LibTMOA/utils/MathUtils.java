@@ -17,8 +17,7 @@
 
 package LibTMOA.utils;
 
-import LibTMOA.math.road.FloatPoint;
-
+import LibTMOA.models.structures.Pose2D;
 import java.util.ArrayList;
 
 import static java.lang.Math.pow;
@@ -77,11 +76,11 @@ public class MathUtils {
     /**
      * Takes intersection of two lines defined by one point and their slopes
      */
-    public static FloatPoint lineIntersecion(FloatPoint point1, double m1, FloatPoint point2, double m2) {
-        double xIntercept = ((-m2 * point2.x) + point2.y + (m1 * point1.x) - point1.y) / (m1 - m2);//solves for the x pos of the intercept
-        double yIntercept = m1 * (xIntercept - point1.x) + point1.y;//plug into any equation to get y
+    public static Pose2D lineIntersecion(Pose2D point1, double m1, Pose2D point2, double m2) {
+        double xIntercept = ((-m2 * point2.getX()) + point2.getY() + (m1 * point1.getX()) - point1.getY()) / (m1 - m2);//solves for the x pos of the intercept
+        double yIntercept = m1 * (xIntercept - point1.getX()) + point1.getY();//plug into any equation to get y
 
-        return new FloatPoint(xIntercept, yIntercept);
+        return new Pose2D(xIntercept, yIntercept);
     }
 
     /**
@@ -142,8 +141,9 @@ public class MathUtils {
             yRoot1 += circleY;
 
             //make sure it was within range of the segment
-            double minX = lineX1 < lineX2 ? lineX1 : lineX2;
-            double maxX = lineX1 > lineX2 ? lineX1 : lineX2;
+            double minX = Math.min(lineX1, lineX2);
+            double maxX = Math.max(lineX1, lineX2);
+
             if (xRoot1 > minX && xRoot1 < maxX) {
                 allPoints.add(new Point(xRoot1, yRoot1));
             }
@@ -208,32 +208,29 @@ public class MathUtils {
 
         ArrayList<Point> allPoints = new ArrayList<>();
 
-        try {
-            double xRoot1 = (-quadraticB + sqrt(pow(quadraticB, 2) - (4 * quadraticA * quadraticC))) / (2.0 * quadraticA);
-            double yRoot1 = m1 * (xRoot1 - x1) + y1;
+        double xRoot1 = (-quadraticB + sqrt(pow(quadraticB, 2) - (4 * quadraticA * quadraticC))) / (2.0 * quadraticA);
+        double yRoot1 = m1 * (xRoot1 - x1) + y1;
 
-            xRoot1 += circlecenter.x;
-            yRoot1 += circlecenter.y;
+        xRoot1 += circlecenter.x;
+        yRoot1 += circlecenter.y;
 
-            double minX = Math.min(linePoint1.x, linePoint2.x);
-            double maxX = Math.max(linePoint1.x, linePoint2.x);
+        double minX = Math.min(linePoint1.x, linePoint2.x);
+        double maxX = Math.max(linePoint1.x, linePoint2.x);
 
-            if (xRoot1 > minX && xRoot1 < maxX) {
-                allPoints.add(new Point(xRoot1, yRoot1));
-            }
-
-            double xRoot2 = (-quadraticB - sqrt(pow(quadraticB, 2) - (4 * quadraticA * quadraticC))) / (2.0 * quadraticA);
-            double yRoot2 = m1 * (xRoot2 - x1) + y1;
-
-            xRoot2 += circlecenter.x;
-            yRoot2 += circlecenter.y;
-
-            if (xRoot2 > minX && xRoot2 < maxX) {
-                allPoints.add(new Point(xRoot2, yRoot2));
-            }
-        } catch (Exception e) {
-
+        if (xRoot1 > minX && xRoot1 < maxX) {
+            allPoints.add(new Point(xRoot1, yRoot1));
         }
+
+        double xRoot2 = (-quadraticB - sqrt(pow(quadraticB, 2) - (4 * quadraticA * quadraticC))) / (2.0 * quadraticA);
+        double yRoot2 = m1 * (xRoot2 - x1) + y1;
+
+        xRoot2 += circlecenter.x;
+        yRoot2 += circlecenter.y;
+
+        if (xRoot2 > minX && xRoot2 < maxX) {
+            allPoints.add(new Point(xRoot2, yRoot2));
+        }
+
         return allPoints;
 
     }

@@ -17,10 +17,9 @@
 
 package LibTMOA;
 
+import LibTMOA.debug.Log;
 import LibTMOA.models.config.DcMotorBase;
 import LibTMOA.models.config.EncoderBase;
-import LibTMOA.movement.encoder.Encoders;
-import LibTMOA.movement.encoder.ZeroPowerBehavior;
 
 class DcMotorTestDriver implements DcMotorBase {
 
@@ -58,7 +57,7 @@ class DcMotorTestDriver implements DcMotorBase {
 
     @Override
     public void setPower(double power) {
-        System.out.println("[Motor " + getId() + "]: Now, power is: " + power);
+        Log.println("Now, power is: " + power, getOrigin());
         this.power = power;
     }
 
@@ -71,7 +70,7 @@ class DcMotorTestDriver implements DcMotorBase {
     public void setInverted(boolean inverted) {
         this.inverted = inverted;
         if (inverted)
-            System.out.println("[Motor " + getId() + "]: Inverted!");
+            Log.println("Inverted!", getOrigin());
     }
 
     @Override
@@ -87,5 +86,9 @@ class DcMotorTestDriver implements DcMotorBase {
     @Override
     public byte getId() {
         return id;
+    }
+
+    private String getOrigin(){
+        return "Motor " + getId();
     }
 }

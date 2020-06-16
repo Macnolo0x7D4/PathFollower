@@ -27,7 +27,6 @@ import static LibTMOA.robot.VariablesOfMovement.*;
 
 public class Robot {
     private final TMOA tmoa;
-    private static boolean usingComputer = false;
     private static double xSpeed = 0;
     private static double ySpeed = 0;
     private static double turnSpeed = 0;
@@ -49,15 +48,15 @@ public class Robot {
         worldAngle = Math.toRadians(-180);
     }
 
-    public double getXPos() {
+    public static double getXPos() {
         return worldXPosition;
     }
 
-    public double getYPos() {
+    public static double getYPos() {
         return worldYPosition;
     }
 
-    public double getWorldAngle_rad() {
+    public static double getWorldAngle() {
         return worldAngle;
     }
 
@@ -105,7 +104,7 @@ public class Robot {
     }
 
     public void CurvoidStartPos() {
-        ChassisConfiguration chassis = tmoa.getChassisInformation();
+        ChassisConfiguration chassis = tmoa.getChassisConfiguration();
 
         for (int i = 0; i < 2; i++) {
             MyPosition.initialize(chassis, this);
@@ -114,22 +113,6 @@ public class Robot {
     }
 
     public void loop() {
-        MyPosition.giveMePositions(tmoa.getChassisInformation());
-    }
-
-    public static double getWorldXPosition() {
-        return worldXPosition;
-    }
-
-    public static double getWorldYPosition() {
-        return worldYPosition;
-    }
-
-    public static double getWorldAngle() {
-        return worldAngle;
-    }
-
-    public static boolean isUsingComputer() {
-        return usingComputer;
+        MyPosition.giveMePositions(tmoa.getChassisConfiguration());
     }
 }

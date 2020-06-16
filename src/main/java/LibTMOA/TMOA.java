@@ -17,6 +17,8 @@
 
 package LibTMOA;
 
+import LibTMOA.debug.Debugging;
+import LibTMOA.debug.Log;
 import LibTMOA.models.config.ChassisConfiguration;
 import LibTMOA.models.config.DcMotorBase;
 import LibTMOA.models.structures.DcMotorVelocities;
@@ -33,18 +35,20 @@ import java.util.List;
 public class TMOA {
 
     private final ChassisConfiguration config;
+    private final Debugging debugging;
 
     /**
      * Creates an instance of the Trigonometric Mecanum Omnidirectional Algorithm.
      *
      * @param config ChassisConfiguration
      */
-    public TMOA(ChassisConfiguration config) {
+    public TMOA(ChassisConfiguration config, Debugging debugging) {
         this.config = config;
+        this.debugging = debugging;
+
+        Log.println("The legendary Trigonometric Mecanum Omnidirectional Algorithm is Running!", "Main Thread");
 
         this.config.getMotors().forEach(motor -> motor.setInverted(motor.getId() % 2 == 0));
-
-        System.out.println("[Main Thread]: The legendary Trigonometric Mecanum Omnidirectional Algorithm is Running!");
     }
 
     /**
@@ -52,7 +56,7 @@ public class TMOA {
      *
      * @return ChassisConfiguration
      */
-    public ChassisConfiguration getChassisInformation() {
+    public ChassisConfiguration getChassisConfiguration() {
         return this.config;
     }
 
@@ -95,5 +99,9 @@ public class TMOA {
                     velocities.getVelocity((byte) motors.indexOf(dcMotor))
             ));
         }
+    }
+
+    public Debugging getDebuggingMode() {
+        return debugging;
     }
 }

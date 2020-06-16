@@ -17,6 +17,8 @@
 
 package LibTMOA.utils;
 
+import LibTMOA.debug.Log;
+
 public class CurvePoint {
     public double x;
     public double y;
@@ -39,7 +41,7 @@ public class CurvePoint {
         this.slowDownTurnRadians = slowDownTurnRadians;
         this.slowDownTurnAmount = slowDownTurnAmount;
 
-        System.out.println("[Main Thread]: New " + this.toString());
+        Log.println("New " + this.toString(), "Main Thread");
     }
 
 

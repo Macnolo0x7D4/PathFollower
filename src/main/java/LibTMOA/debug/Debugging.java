@@ -15,14 +15,11 @@
  *
  */
 
-package LibTMOA.math.road;
+package LibTMOA.debug;
 
-public class FloatPoint {
-    public double x;
-    public double y;
-
-    public FloatPoint(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
+public enum Debugging {
+    NO_LOG,
+    SERVER,
+    LOG_PRINTER,
+    LOG_FILE
 }

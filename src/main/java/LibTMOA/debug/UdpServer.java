@@ -15,7 +15,7 @@
  *
  */
 
-package LibTMOA.server;
+package LibTMOA.debug;
 
 
 import LibTMOA.utils.Range;

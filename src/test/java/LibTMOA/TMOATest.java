@@ -18,11 +18,13 @@
 package LibTMOA;
 
 import LibTMOA.controllers.Robot;
-import LibTMOA.math.road.FloatPoint;
+import LibTMOA.debug.Debugging;
+import LibTMOA.debug.Log;
 import LibTMOA.models.config.ChassisConfiguration;
 import LibTMOA.models.config.OpMode;
 import LibTMOA.models.structures.EncoderProperties;
-import LibTMOA.server.ComputerDebugging;
+import LibTMOA.debug.ComputerDebugging;
+import LibTMOA.models.structures.Pose2D;
 import org.junit.Test;
 
 import java.util.List;
@@ -47,18 +49,15 @@ public class TMOATest {
 
     @Test
     public void testSomeLibraryMethod() {
-        TMOA classUnderTest = new TMOA(getTestingConfiguration());
+        TMOA classUnderTest = new TMOA(getTestingConfiguration(), Debugging.LOG_PRINTER);
 
         // classUnderTest.getChassisInformation().getMotors().forEach(dcMotor -> System.out.println("[Motor " + dcMotor.getId() + "]: " + dcMotor.getPower()));
         // assertTrue("getDcMotor(2).getPower() == 1.0 should return 'true'", classUnderTest.getDcMotor((byte) 2).getPower() == 1.0);
 
-        ComputerDebugging computerDebugging = new ComputerDebugging();
+        ComputerDebugging computerDebugging = new ComputerDebugging(Debugging.LOG_PRINTER);
         Robot robot = new Robot(classUnderTest);
         OpMode opMode = new MyOpMode();
         opMode.init();
-
-        ComputerDebugging.clearLogPoints();
-
 
         long startTime = System.currentTimeMillis();
 
@@ -73,11 +72,12 @@ public class TMOATest {
             }
             robot.update();
             ComputerDebugging.sendRobotLocation(robot);
-            ComputerDebugging.sendLogPoint(new FloatPoint(Robot.getWorldXPosition(), Robot.getWorldYPosition()));
-            ComputerDebugging.markEndOfUpdate();
+            ComputerDebugging.sendLogPoint(new Pose2D(Robot.getXPos(), Robot.getYPos()));
         // }
 
-        System.out.println("[Main Thread]: Gracefully stopped!");
+        Log.println("Gracefully stopped!", "Main Thread");
+
+        Log.update(classUnderTest.getDebuggingMode());
     }
 }
 

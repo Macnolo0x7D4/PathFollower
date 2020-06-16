@@ -17,8 +17,8 @@
 
 package LibTMOA.movement.road;
 
-import LibTMOA.math.road.FloatPoint;
-import LibTMOA.server.ComputerDebugging;
+import LibTMOA.models.structures.Pose2D;
+import LibTMOA.debug.ComputerDebugging;
 import LibTMOA.utils.CurvePoint;
 import LibTMOA.utils.Point;
 import LibTMOA.utils.Range;
@@ -34,12 +34,12 @@ import static LibTMOA.utils.MathUtils.lineCircleintersection;
 public class RobotMovement {
     public static void followCurve(List<CurvePoint> allPoints, double followAngle) {
         for (int i = 0; i < allPoints.size() - 1; i++) {
-            ComputerDebugging.sendLine(new FloatPoint(allPoints.get(i).x, allPoints.get(i).y), new FloatPoint(allPoints.get(i + 1).x, allPoints.get(i + 1).y));
+            ComputerDebugging.sendLine(new Pose2D(allPoints.get(i).x, allPoints.get(i).y), new Pose2D(allPoints.get(i + 1).x, allPoints.get(i + 1).y));
         }
 
-        CurvePoint followMe = getFollowPointPath(allPoints, new Point(Robot.getWorldXPosition(), Robot.getWorldYPosition()), allPoints.get(0).followDistance);
+        CurvePoint followMe = getFollowPointPath(allPoints, new Point(Robot.getXPos(), Robot.getYPos()), allPoints.get(0).followDistance);
 
-        ComputerDebugging.sendKeyPoint(new FloatPoint(followMe.x, followMe.y));
+        ComputerDebugging.sendKeyPoint(new Pose2D(followMe.x, followMe.y));
 
         MoveToPosition(followMe.x, followMe.y, followMe.moveSpeed, followAngle, followMe.turnSpeed);
     }
@@ -57,7 +57,7 @@ public class RobotMovement {
             double closestAngle = 100000000;
 
             for (Point thisIntersection : intersections) {
-                double angle = Math.atan2(thisIntersection.y - Robot.getWorldYPosition(), thisIntersection.x - Robot.getWorldYPosition());
+                double angle = Math.atan2(thisIntersection.y - Robot.getYPos(), thisIntersection.x - Robot.getYPos());
                 double deltaAngle = Math.abs(AngleWrap(angle - Robot.getWorldAngle()));
 
                 if (deltaAngle < closestAngle) {
@@ -65,16 +65,14 @@ public class RobotMovement {
                     followMe.setPoint(thisIntersection);
                 }
             }
-
-
         }
         return followMe;
     }
 
 
     public static void MoveToPosition(double x, double y, double Speed, double preferredTurnAngle, double turnSpeed) {
-        double distanceToTarget = Math.hypot(x - Robot.getWorldXPosition(), y - Robot.getWorldYPosition());
-        double AbsoluteAngleToTarget = Math.atan2(y - Robot.getWorldYPosition(), x - Robot.getWorldXPosition());
+        double distanceToTarget = Math.hypot(x - Robot.getXPos(), y - Robot.getYPos());
+        double AbsoluteAngleToTarget = Math.atan2(y - Robot.getYPos(), x - Robot.getXPos());
         double RelativeAngleToTarget = AngleWrap(AbsoluteAngleToTarget - (Robot.getWorldAngle() - Math.toRadians(90)));
 
 

@@ -17,8 +17,8 @@
 
 package LibTMOA.movement.road;
 
-import LibTMOA.math.road.FloatPoint;
-import LibTMOA.server.ComputerDebugging;
+import LibTMOA.models.structures.Pose2D;
+import LibTMOA.debug.ComputerDebugging;
 import LibTMOA.utils.*;
 
 import java.util.ArrayList;
@@ -300,8 +300,8 @@ public class RobotInXYMovement {
     public static boolean followCurve(ArrayList<CurvePoint> allPoints, double followAngle, boolean allowSkipping) {
 
         for (int i = 0; i < allPoints.size() - 1; i++) {
-            ComputerDebugging.sendLine(new FloatPoint(allPoints.get(i).x, allPoints.get(i).y),
-                    new FloatPoint(allPoints.get(i + 1).x, allPoints.get(i + 1).y));
+            ComputerDebugging.sendLine(new Pose2D(allPoints.get(i).x, allPoints.get(i).y),
+                    new Pose2D(allPoints.get(i + 1).x, allPoints.get(i + 1).y));
         }
 
 
@@ -340,8 +340,8 @@ public class RobotInXYMovement {
         }
 
 
-        ComputerDebugging.sendKeyPoint(new FloatPoint(pointToMe.x, pointToMe.y));
-        ComputerDebugging.sendKeyPoint(new FloatPoint(followMe.x, followMe.y));
+        ComputerDebugging.sendKeyPoint(new Pose2D(pointToMe.x, pointToMe.y));
+        ComputerDebugging.sendKeyPoint(new Pose2D(followMe.x, followMe.y));
 
 
         gunToPosition(followMe.x, followMe.y, followAngle,
