@@ -20,9 +20,7 @@ package LibTMOA;
 import LibTMOA.controllers.Robot;
 import LibTMOA.debug.ComputerDebugging;
 import LibTMOA.debug.Log;
-import LibTMOA.models.config.ChassisConfiguration;
-import LibTMOA.models.config.DcMotorBase;
-import LibTMOA.models.config.Telemetry;
+import LibTMOA.models.config.*;
 import LibTMOA.models.structures.DcMotorVelocities;
 import LibTMOA.models.structures.JoystickCoordinates;
 import LibTMOA.models.structures.MecanumDirectives;
@@ -30,6 +28,7 @@ import LibTMOA.movement.standard.MecanumMovement;
 import LibTMOA.utils.MathUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The main class of the library.
@@ -49,6 +48,7 @@ public class TMOA {
 
         Log.println("The legendary Trigonometric Mecanum Omnidirectional Algorithm is Running!", ORIGIN);
         Log.println("This API was created by Manuel Diaz and Obed Garcia from WinT 3794.", ORIGIN);
+        Log.println("Chassis Configuration Type is: " + config.getType(), ORIGIN);
         Log.println("Chassis Configuration is set to: " + config.getMode(), ORIGIN);
 
         if(telemetry == null){
@@ -60,8 +60,12 @@ public class TMOA {
             Log.println("Debug Mode is set to: " + telemetry.toString(), ORIGIN);
         }
 
-        robot = new Robot(this);
-        this.config.getMotors().forEach(motor -> motor.setInverted(motor.getId() % 2 == 0));
+        if(config.getMode() == ExecutionModes.COMPLEX || config.getMode() == ExecutionModes.ENCODER) {
+            robot = new Robot(this);
+            this.config.getMotors().forEach(motor -> motor.setInverted(motor.getId() % 2 == 0));
+        } else {
+            robot = null;
+        }
 
         Log.update();
     }
@@ -100,7 +104,11 @@ public class TMOA {
      * @param directives MecanumDirectives
      */
     public void move(MecanumDirectives directives) {
-        setMultiplePowers(MecanumMovement.move(directives));
+        if(this.config.getType() == ChassisTypes.MECANUM) {
+            setMultiplePowers(MecanumMovement.move(directives));
+        } else {
+            Log.println("Your Chassis Type is not compatible with the desired method");
+        }
     }
 
     /**
@@ -110,7 +118,11 @@ public class TMOA {
      * @param coordinates JoystickCoordinate
      */
     public void move(JoystickCoordinates coordinates) {
-        setMultiplePowers(MecanumMovement.move(coordinates));
+        if(this.config.getType() == ChassisTypes.MECANUM) {
+            setMultiplePowers(MecanumMovement.move(coordinates));
+        } else {
+            Log.println("Your Chassis Type is not compatible with the desired method");
+        }
     }
 
     private void setMultiplePowers(DcMotorVelocities velocities) {
@@ -123,7 +135,11 @@ public class TMOA {
         }
     }
 
-    public Robot getRobot() {
-        return robot;
+    public Optional<Robot> getRobot() {
+        if(robot == null){
+            Log.println("Robot is not available if you are not executing COMPLEX mode.");
+            return Optional.empty();
+        }
+        return Optional.of(robot);
     }
 }

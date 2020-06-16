@@ -36,7 +36,7 @@ public class DriveTrainMovement {
     /**
      * converts movement_y, movement_x, movement_turn into motor powers
      */
-    public void ApplyMovement() {
+    public void applyMovement() {
         List<Double> rawVelocities = new ArrayList<>();
 
         rawVelocities.add(movementY - movementTurn + movementX * 1.5); // fl

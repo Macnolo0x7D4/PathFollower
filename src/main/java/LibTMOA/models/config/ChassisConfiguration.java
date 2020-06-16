@@ -29,17 +29,19 @@ public class ChassisConfiguration {
     private final List<EncoderBase> additionalEncoders;
     private final ExecutionModes mode;
     private final EncoderProperties encoderProperties;
+    private final ChassisTypes tank;
 
     /**
      * Creates an instance of a Simple Chassis Configuration.
      *
      * @param motors A List of 4 DcMotorBase (not interface, your driver). Order: FL, FR, BL, BR.
      */
-    public ChassisConfiguration(List<DcMotorBase> motors) {
+    public ChassisConfiguration(List<DcMotorBase> motors, ChassisTypes tank) {
         this.mode = ExecutionModes.SIMPLE;
         this.encoderProperties = null;
         this.additionalEncoders = null;
         this.motors = motors;
+        this.tank = tank;
     }
 
     /**
@@ -48,11 +50,12 @@ public class ChassisConfiguration {
      * @param motors A List of 4 DcMotorBase (not interface, your driver). Order: LF, RF, LB, RB.
      * @param encoderProperties A EncoderProperties Object
      */
-    public ChassisConfiguration(List<DcMotorBase> motors, EncoderProperties encoderProperties) {
+    public ChassisConfiguration(List<DcMotorBase> motors, EncoderProperties encoderProperties, ChassisTypes tank) {
         this.mode = ExecutionModes.ENCODER;
         this.encoderProperties = encoderProperties;
         this.additionalEncoders = null;
         this.motors = motors;
+        this.tank = tank;
     }
 
     /**
@@ -62,11 +65,12 @@ public class ChassisConfiguration {
      * @param encoderProperties A EncoderProperties Object
      * @param additionalEncoders A List of Additional Encoders for Odometry.
      */
-    public ChassisConfiguration(List<DcMotorBase> motors, EncoderProperties encoderProperties, List<EncoderBase> additionalEncoders) {
+    public ChassisConfiguration(List<DcMotorBase> motors, EncoderProperties encoderProperties, List<EncoderBase> additionalEncoders, ChassisTypes tank) {
         this.mode = ExecutionModes.COMPLEX;
         this.encoderProperties = encoderProperties;
         this.additionalEncoders = additionalEncoders;
         this.motors = motors;
+        this.tank = tank;
     }
 
     /**
@@ -114,5 +118,9 @@ public class ChassisConfiguration {
      */
     public List<EncoderBase> getAdditionalEncoders() {
         return additionalEncoders;
+    }
+
+    public ChassisTypes getType() {
+        return tank;
     }
 }

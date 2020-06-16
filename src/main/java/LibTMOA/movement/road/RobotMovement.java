@@ -42,8 +42,6 @@ public class RobotMovement {
         ComputerDebugging.sendKeyPoint(new Pose2D(followMe.x, followMe.y));
 
         moveToPosition(followMe.x, followMe.y, followMe.moveSpeed, followAngle, followMe.turnSpeed);
-
-        ComputerDebugging.sendKeyPoint(new Pose2D(followMe.x, followMe.y));
     }
 
     public static CurvePoint getFollowPointPath(List<CurvePoint> pathPoints, Point robotLocation, double followRadius) {

@@ -20,6 +20,7 @@ package LibTMOA;
 import LibTMOA.controllers.Robot;
 import LibTMOA.debug.telemetries.ConsolePrinter;
 import LibTMOA.models.config.ChassisConfiguration;
+import LibTMOA.models.config.ChassisTypes;
 import LibTMOA.models.config.OpMode;
 import LibTMOA.models.structures.EncoderProperties;
 import LibTMOA.debug.ComputerDebugging;
@@ -42,7 +43,8 @@ public class TMOATest {
                         28,
                         20,
                         2.952755906
-                )
+                ),
+                ChassisTypes.DRIVE_TRAIN
         );
     }
 
@@ -64,6 +66,7 @@ public class TMOATest {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
             classUnderTest.getRobot().update();
             ComputerDebugging.sendRobotLocation();
             ComputerDebugging.sendLogPoint(new Pose2D(Robot.getXPos(), Robot.getYPos()));
