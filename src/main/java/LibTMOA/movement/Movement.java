@@ -15,11 +15,11 @@
  *
  */
 
-package LibTMOA.models.config;
+package LibTMOA.movement;
 
-public abstract class OpMode {
+import LibTMOA.models.structures.DcMotorVelocities;
 
-    public abstract void init();
-
-    public abstract void loop();
+public interface Movement {
+    void move(DcMotorVelocities dcMotorVelocities);
+    void apply();
 }

@@ -47,7 +47,7 @@ public class ChassisConfiguration {
     /**
      * Creates an instance of an Using-Encoders Chassis Configuration.
      *
-     * @param motors A List of 4 DcMotorBase (not interface, your driver). Order: LF, RF, LB, RB.
+     * @param motors            A List of 4 DcMotorBase (not interface, your driver). Order: LF, RF, LB, RB.
      * @param encoderProperties A EncoderProperties Object
      */
     public ChassisConfiguration(List<DcMotorBase> motors, EncoderProperties encoderProperties, ChassisTypes tank) {
@@ -61,8 +61,8 @@ public class ChassisConfiguration {
     /**
      * Creates an instance of an Using-Encoders Chassis Configuration.
      *
-     * @param motors A List of 4 DcMotorBase (not interface, your driver). Order: LF, RF, LB, RB.
-     * @param encoderProperties A EncoderProperties Object
+     * @param motors             A List of 4 DcMotorBase (not interface, your driver). Order: LF, RF, LB, RB.
+     * @param encoderProperties  A EncoderProperties Object
      * @param additionalEncoders A List of Additional Encoders for Odometry.
      */
     public ChassisConfiguration(List<DcMotorBase> motors, EncoderProperties encoderProperties, List<EncoderBase> additionalEncoders, ChassisTypes tank) {
@@ -88,7 +88,7 @@ public class ChassisConfiguration {
      * @return DcMotorBase
      */
     public DcMotorBase getMotor(byte id) {
-        return this.motors.stream().filter( dcMotorBase -> dcMotorBase.getId() == id).findFirst().orElseThrow();
+        return this.motors.stream().filter(dcMotorBase -> dcMotorBase.getId() == id).findFirst().orElseThrow();
     }
 
     /**
@@ -102,6 +102,7 @@ public class ChassisConfiguration {
 
     /**
      * Returns the current EncoderProperties.
+     *
      * @return EncoderProperties.
      */
     public EncoderProperties getEncoderProperties() {
@@ -114,6 +115,7 @@ public class ChassisConfiguration {
 
     /**
      * Returns a list with current additional encoders.
+     *
      * @return Additional Encoders
      */
     public List<EncoderBase> getAdditionalEncoders() {

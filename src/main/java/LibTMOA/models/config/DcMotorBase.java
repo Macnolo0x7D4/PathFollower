@@ -17,8 +17,6 @@
 
 package LibTMOA.models.config;
 
-import LibTMOA.movement.encoder.Encoders;
-
 /**
  * The Interface where you need to configure your DcMotor Driver.
  */

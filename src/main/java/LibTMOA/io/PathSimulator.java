@@ -26,7 +26,7 @@ import org.json.simple.parser.ParseException;
 public class PathSimulator extends PathReader {
     public PathSimulator(String json) {
         super();
-        try{
+        try {
             super.path = (JSONArray) super.parser.parse(json);
         } catch (ParseException e) {
             e.printStackTrace();

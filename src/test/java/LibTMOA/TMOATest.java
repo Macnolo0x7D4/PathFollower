@@ -17,19 +17,60 @@
 
 package LibTMOA;
 
-import LibTMOA.controllers.Robot;
 import LibTMOA.debug.telemetries.ConsolePrinter;
+import LibTMOA.io.PathProcessor;
+import LibTMOA.io.PathSimulator;
 import LibTMOA.models.config.ChassisConfiguration;
 import LibTMOA.models.config.ChassisTypes;
-import LibTMOA.models.config.OpMode;
 import LibTMOA.models.structures.EncoderProperties;
-import LibTMOA.debug.ComputerDebugging;
-import LibTMOA.models.structures.Pose2D;
+import LibTMOA.utils.CurvePoint;
 import org.junit.Test;
 
 import java.util.List;
 
 public class TMOATest {
+    private static boolean running = false;
+    private static final String ROUTES = "[\n" +
+            "  {\n" +
+            "    \"x\": 0.0,\n" +
+            "    \"y\": 0.0,\n" +
+            "    \"move_speed\": 0.5,\n" +
+            "    \"turn_speed\": 0.5,\n" +
+            "    \"follow_distance\": 50.0,\n" +
+            "    \"slow_down_turn_radians\": 50.0,\n" +
+            "    \"slow_down_turn_amount\": 1.0\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"x\": 1.0,\n" +
+            "    \"y\": 1.0,\n" +
+            "    \"move_speed\": 0.5,\n" +
+            "    \"turn_speed\": 0.5,\n" +
+            "    \"follow_distance\": 50.0,\n" +
+            "    \"slow_down_turn_radians\": 50.0,\n" +
+            "    \"slow_down_turn_amount\": 1.0\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"x\": 2.0,\n" +
+            "    \"y\": 2.0,\n" +
+            "    \"move_speed\": 0.5,\n" +
+            "    \"turn_speed\": 0.5,\n" +
+            "    \"follow_distance\": 50.0,\n" +
+            "    \"slow_down_turn_radians\": 50.0,\n" +
+            "    \"slow_down_turn_amount\": 1.0\n" +
+            "  },\n" +
+            "  {\n" +
+            "    \"x\": 3.0,\n" +
+            "    \"y\": 3.0,\n" +
+            "    \"move_speed\": 0.5,\n" +
+            "    \"turn_speed\": 0.5,\n" +
+            "    \"follow_distance\": 50.0,\n" +
+            "    \"slow_down_turn_radians\": 50.0,\n" +
+            "    \"slow_down_turn_amount\": 1.0\n" +
+            "  }\n" +
+            "]";
+
+    List<CurvePoint> functionalPath;
+
     public static ChassisConfiguration getTestingConfiguration() {
         return new ChassisConfiguration(
                 List.of(
@@ -54,25 +95,15 @@ public class TMOATest {
 
         // classUnderTest.getChassisInformation().getMotors().forEach(dcMotor -> System.out.println("[Motor " + dcMotor.getId() + "]: " + dcMotor.getPower()));
         // assertTrue("getDcMotor(2).getPower() == 1.0 should return 'true'", classUnderTest.getDcMotor((byte) 2).getPower() == 1.0);
-        OpMode opMode = new MyOpMode();
-        opMode.init();
 
-        // while (true) {
+        // PathReader reader = new PathReader("./file.json");
+        PathSimulator reader = new PathSimulator(ROUTES);
 
-            opMode.loop();
+        PathProcessor processor = new PathProcessor(reader.getRawPath());
 
-            try {
-                Thread.sleep(30);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        functionalPath = processor.createFunctionalPath();
 
-            classUnderTest.getRobot().update();
-            ComputerDebugging.sendRobotLocation();
-            ComputerDebugging.sendLogPoint(new Pose2D(Robot.getXPos(), Robot.getYPos()));
-        // }
-
-        classUnderTest.close();
+        classUnderTest.startPathFollower(functionalPath, Math.toRadians(90));
     }
 }
 

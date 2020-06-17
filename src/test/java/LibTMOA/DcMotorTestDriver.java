@@ -88,7 +88,7 @@ class DcMotorTestDriver implements DcMotorBase {
         return id;
     }
 
-    private String getOrigin(){
+    private String getOrigin() {
         return "Motor " + getId();
     }
 }

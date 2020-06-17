@@ -24,6 +24,7 @@ public interface Telemetry {
 
     /**
      * Prints log
+     *
      * @param log Log [String]
      */
     void print(String log);

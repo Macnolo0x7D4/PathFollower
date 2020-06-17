@@ -33,7 +33,7 @@ public class PathReader {
         this.path = readFile(file);
     }
 
-    protected PathReader(){
+    protected PathReader() {
         this.parser = new JSONParser();
     }
 

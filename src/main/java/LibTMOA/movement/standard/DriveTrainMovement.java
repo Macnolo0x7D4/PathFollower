@@ -18,14 +18,19 @@
 package LibTMOA.movement.standard;
 
 import LibTMOA.models.config.ChassisConfiguration;
+import LibTMOA.models.structures.DcMotorVelocities;
+import LibTMOA.movement.Movement;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static LibTMOA.robot.VariablesOfMovement.*;
 
 
-public class DriveTrainMovement {
+public class DriveTrainMovement implements Movement {
     private final ChassisConfiguration config;
     private final long lastUpdateTime = 0;
 
@@ -36,7 +41,8 @@ public class DriveTrainMovement {
     /**
      * converts movement_y, movement_x, movement_turn into motor powers
      */
-    public void applyMovement() {
+    @Override
+    public void apply() {
         List<Double> rawVelocities = new ArrayList<>();
 
         rawVelocities.add(movementY - movementTurn + movementX * 1.5); // fl
@@ -48,9 +54,13 @@ public class DriveTrainMovement {
 
         final double scaleDownAmount = maxRawPower.get() > 1.0 ? 1.0 / maxRawPower.get() : 1.0;
 
-        final List<Double> finalVelocities = rawVelocities.stream().map( power -> power *= scaleDownAmount).collect(Collectors.toList());
+        final List<Double> finalVelocities = rawVelocities.stream().map(power -> power *= scaleDownAmount).collect(Collectors.toList());
 
-        finalVelocities.forEach( power -> config.getMotor((byte)finalVelocities.indexOf(power)).setPower(power));
+        finalVelocities.forEach(power -> config.getMotor((byte) finalVelocities.indexOf(power)).setPower(power));
+    }
+
+    @Override
+    public void move(DcMotorVelocities dcMotorVelocities) {
     }
 }
 

@@ -29,7 +29,7 @@ public class ComputerDebugging {
     public static void sendRobotLocation() {
         Log.println("X -> " + Robot.getXPos(), ORIGIN);
         Log.println("Y -> " + Robot.getYPos(), ORIGIN);
-        Log.println("Theta -> " + Robot.getWorldAngle(),ORIGIN);
+        Log.println("Theta -> " + Robot.getWorldAngle(), ORIGIN);
     }
 
     /**

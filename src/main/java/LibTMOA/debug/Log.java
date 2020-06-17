@@ -24,15 +24,15 @@ public class Log {
     private static boolean debuggingMode = false;
     private static Telemetry telemetry;
 
-    public static void println(String log, String origin){
+    public static void println(String log, String origin) {
         builder.append("[").append(origin).append("]: ").append(log).append('\n');
     }
 
-    public static void println(String log){
+    public static void println(String log) {
         builder.append(log).append('\n');
     }
 
-    public static void update(){
+    public static void update() {
         telemetry.print(builder.toString());
         telemetry.update();
         builder = new StringBuilder();

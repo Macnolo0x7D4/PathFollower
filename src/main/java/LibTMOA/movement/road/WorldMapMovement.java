@@ -17,16 +17,17 @@
 
 package LibTMOA.movement.road;
 
+import LibTMOA.debug.ComputerDebugging;
+import LibTMOA.models.structures.Pose2D;
 import LibTMOA.movement.road.structures.IndexedPoint;
 import LibTMOA.movement.road.structures.LinePoint;
 import LibTMOA.movement.road.structures.MovementResult;
-import LibTMOA.models.structures.Pose2D;
-import LibTMOA.debug.ComputerDebugging;
 import LibTMOA.movement.road.structures.ProfileStates;
 import LibTMOA.utils.*;
 
 import java.util.ArrayList;
-import static LibTMOA.movement.road.structures.ProfileStates.*;
+
+import static LibTMOA.movement.road.structures.ProfileStates.gunningIt;
 import static LibTMOA.robot.MyPosition.*;
 import static LibTMOA.robot.VariablesOfMovement.*;
 import static LibTMOA.utils.MathUtils.AngleWrap;
@@ -117,7 +118,7 @@ public class WorldMapMovement {
         double turnPower = 0;
 
 
-        if ( stateTurningProf == ProfileStates.gunningIt) {
+        if (stateTurningProf == ProfileStates.gunningIt) {
             turnPower = rad_to_target > 0 ? point_speed : -point_speed;
             if (Math.abs(rad_to_target) < Math.abs(SpeedOmeter.currSlipAngle() * 1.2) || Math.abs(rad_to_target) < Math.toRadians(3.0)) {
                 stateTurningProf = stateTurningProf.next();
@@ -145,9 +146,9 @@ public class WorldMapMovement {
 
     //angulo relativo hacia noventa grados (adelante)
     public static MovementResult gunToPosition(double targetX, double targetY, double point_angle,
-                                     double movement_speed, double point_speed,
-                                     double slowDownTurnRadians, double slowDownMovementFromTurnError,
-                                     boolean stop) {
+                                               double movement_speed, double point_speed,
+                                               double slowDownTurnRadians, double slowDownMovementFromTurnError,
+                                               boolean stop) {
 
 
         double currSlipY = (SpeedOmeter.currSlipDistanceY() * Math.sin(worldAngle_rad)) +
@@ -489,8 +490,8 @@ public class WorldMapMovement {
     }
 
     public static LinePoint pointAlongLine(double lineX1, double lineY1, double lineX2, double lineY2,
-                                         double robotX, double robotY,
-                                         double followDistance) {
+                                           double robotX, double robotY,
+                                           double followDistance) {
         Point clipedToLine = clipToLine(lineX1, lineY1, lineX2, lineY2, robotX, robotY);
 
 

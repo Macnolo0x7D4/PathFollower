@@ -24,7 +24,12 @@ import LibTMOA.models.config.*;
 import LibTMOA.models.structures.DcMotorVelocities;
 import LibTMOA.models.structures.JoystickCoordinates;
 import LibTMOA.models.structures.MecanumDirectives;
+import LibTMOA.models.structures.Pose2D;
+import LibTMOA.movement.Movement;
+import LibTMOA.movement.road.RobotMovement;
+import LibTMOA.movement.standard.DriveTrainMovement;
 import LibTMOA.movement.standard.MecanumMovement;
+import LibTMOA.utils.CurvePoint;
 import LibTMOA.utils.MathUtils;
 
 import java.util.List;
@@ -35,6 +40,7 @@ import java.util.Optional;
  */
 public class TMOA {
     private static final String ORIGIN = "Main Thread";
+    private static boolean runningPathFollower = false;
     private final ChassisConfiguration config;
     private final Robot robot;
 
@@ -51,7 +57,7 @@ public class TMOA {
         Log.println("Chassis Configuration Type is: " + config.getType(), ORIGIN);
         Log.println("Chassis Configuration is set to: " + config.getMode(), ORIGIN);
 
-        if(telemetry == null){
+        if (telemetry == null) {
             Log.setDebuggingMode(false);
             Log.println("The Telemetry Interface is invalid.");
         } else {
@@ -60,7 +66,7 @@ public class TMOA {
             Log.println("Debug Mode is set to: " + telemetry.toString(), ORIGIN);
         }
 
-        if(config.getMode() == ExecutionModes.COMPLEX || config.getMode() == ExecutionModes.ENCODER) {
+        if (config.getMode() == ExecutionModes.COMPLEX || config.getMode() == ExecutionModes.ENCODER) {
             robot = new Robot(this);
             this.config.getMotors().forEach(motor -> motor.setInverted(motor.getId() % 2 == 0));
         } else {
@@ -70,7 +76,8 @@ public class TMOA {
         Log.update();
     }
 
-    public void close(){
+    public void close() {
+        runningPathFollower = false;
         this.config.getMotors().forEach(DcMotorBase::stop);
         Log.println("Gracefully stopped!", ORIGIN);
         Log.update();
@@ -104,7 +111,7 @@ public class TMOA {
      * @param directives MecanumDirectives
      */
     public void move(MecanumDirectives directives) {
-        if(this.config.getType() == ChassisTypes.MECANUM) {
+        if (this.config.getType() == ChassisTypes.MECANUM) {
             setMultiplePowers(MecanumMovement.move(directives));
         } else {
             Log.println("Your Chassis Type is not compatible with the desired method");
@@ -118,7 +125,7 @@ public class TMOA {
      * @param coordinates JoystickCoordinate
      */
     public void move(JoystickCoordinates coordinates) {
-        if(this.config.getType() == ChassisTypes.MECANUM) {
+        if (this.config.getType() == ChassisTypes.MECANUM) {
             setMultiplePowers(MecanumMovement.move(coordinates));
         } else {
             Log.println("Your Chassis Type is not compatible with the desired method");
@@ -136,10 +143,45 @@ public class TMOA {
     }
 
     public Optional<Robot> getRobot() {
-        if(robot == null){
+        if (robot == null) {
             Log.println("Robot is not available if you are not executing COMPLEX mode.");
             return Optional.empty();
         }
         return Optional.of(robot);
+    }
+
+    public void startPathFollower(List<CurvePoint> curvePoints, double followAngle){
+        runningPathFollower = true;
+        Log.println("Process initialized!", "PathFollower");
+
+        Movement chassis;
+
+        switch(this.config.getType()){
+            default:
+                chassis = new DriveTrainMovement(this.getChassisConfiguration());
+        }
+
+        while(TMOA.isPathFollowerRunning()){
+            try {
+                Thread.sleep(30);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            this.getRobot().orElseThrow().update();
+
+            RobotMovement.followCurve(curvePoints, followAngle);
+
+            ComputerDebugging.sendRobotLocation();
+            ComputerDebugging.sendLogPoint(new Pose2D(Robot.getXPos(), Robot.getYPos()));
+
+            chassis.apply();
+
+            Log.update();
+        }
+    }
+
+    private static synchronized boolean isPathFollowerRunning(){
+        return runningPathFollower;
     }
 }

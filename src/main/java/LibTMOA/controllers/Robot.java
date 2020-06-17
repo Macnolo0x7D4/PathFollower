@@ -18,7 +18,6 @@
 package LibTMOA.controllers;
 
 import LibTMOA.TMOA;
-import LibTMOA.debug.Log;
 import LibTMOA.models.config.ChassisConfiguration;
 import LibTMOA.robot.MyPosition;
 import LibTMOA.utils.Range;
@@ -27,14 +26,13 @@ import LibTMOA.utils.SpeedOmeter;
 import static LibTMOA.robot.VariablesOfMovement.*;
 
 public class Robot {
-    private final TMOA tmoa;
     private static double xSpeed = 0;
     private static double ySpeed = 0;
     private static double turnSpeed = 0;
     private static double worldXPosition;
     private static double worldYPosition;
     private static double worldAngle;
-
+    private final TMOA tmoa;
     private long lastUpdateTime = 0;
 
 

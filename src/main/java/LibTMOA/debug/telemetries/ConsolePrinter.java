@@ -26,10 +26,11 @@ public class ConsolePrinter implements Telemetry {
     }
 
     @Override
-    public void update() { }
+    public void update() {
+    }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Console Printer";
     }
 }

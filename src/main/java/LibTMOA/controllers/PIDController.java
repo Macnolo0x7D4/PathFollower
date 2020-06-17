@@ -27,19 +27,15 @@ import LibTMOA.models.structures.PIDValues;
 public class PIDController {
 
     private final double kP, kI, kD, kF;
+    private final double period;
     private double setPoint;
     private double measuredValue;
-
     private double errorVal_p;
     private double errorVal_v;
-
     private double totalError;
     private double prevErrorVal;
-
     private double errorTolerance_p = 0.05;
     private double errorTolerance_v = Double.POSITIVE_INFINITY;
-
-    private final double period;
 
     /**
      * Creates an instance of PID Controller
