@@ -1,0 +1,38 @@
+[
+  {
+    "x": 0.0,
+    "y": 0.0,
+    "move_speed": 0.5,
+    "turn_speed": 0.5,
+    "follow_distance": 50.0,
+    "slow_down_turn_radians": 50.0,
+    "slow_down_turn_amount": 1.0
+  },
+  {
+    "x": 1.0,
+    "y": 1.0,
+    "move_speed": 0.5,
+    "turn_speed": 0.5,
+    "follow_distance": 50.0,
+    "slow_down_turn_radians": 50.0,
+    "slow_down_turn_amount": 1.0
+  },
+  {
+    "x": 2.0,
+    "y": 2.0,
+    "move_speed": 0.5,
+    "turn_speed": 0.5,
+    "follow_distance": 50.0,
+    "slow_down_turn_radians": 50.0,
+    "slow_down_turn_amount": 1.0
+  },
+  {
+    "x": 3.0,
+    "y": 3.0,
+    "move_speed": 0.5,
+    "turn_speed": 0.5,
+    "follow_distance": 50.0,
+    "slow_down_turn_radians": 50.0,
+    "slow_down_turn_amount": 1.0
+  }
+]
