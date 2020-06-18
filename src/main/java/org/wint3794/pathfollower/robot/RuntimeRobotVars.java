@@ -17,7 +17,7 @@
 
 package org.wint3794.pathfollower.robot;
 
-public class VariablesOfMovement {
+public class RuntimeRobotVars {
     public static double movementX = 0;
     public static double movementY = 0;
     public static double movementTurn = 0;
