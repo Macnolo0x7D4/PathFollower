@@ -18,6 +18,7 @@
 package LibTMOA;
 
 import LibTMOA.debug.telemetries.ConsolePrinter;
+import LibTMOA.debug.telemetries.Server;
 import LibTMOA.io.PathProcessor;
 import LibTMOA.io.PathSimulator;
 import LibTMOA.models.config.ChassisConfiguration;
@@ -103,7 +104,8 @@ public class TMOATest {
 
         functionalPath = processor.createFunctionalPath();
 
-        classUnderTest.startPathFollower(functionalPath, Math.toRadians(90));
+        // classUnderTest.startPathFollower(functionalPath, Math.toRadians(90));
+        classUnderTest.close();
     }
 }
 

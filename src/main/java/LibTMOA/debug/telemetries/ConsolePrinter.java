@@ -17,17 +17,19 @@
 
 package LibTMOA.debug.telemetries;
 
-import LibTMOA.models.config.Telemetry;
+import LibTMOA.io.Telemetry;
 
 public class ConsolePrinter implements Telemetry {
+    @Override
+    public void init() { }
+
     @Override
     public void print(String log) {
         System.out.print(log);
     }
 
     @Override
-    public void update() {
-    }
+    public void close() {}
 
     @Override
     public String toString() {

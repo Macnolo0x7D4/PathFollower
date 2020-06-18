@@ -20,6 +20,7 @@ package LibTMOA;
 import LibTMOA.controllers.Robot;
 import LibTMOA.debug.ComputerDebugging;
 import LibTMOA.debug.Log;
+import LibTMOA.io.Telemetry;
 import LibTMOA.models.config.*;
 import LibTMOA.models.structures.DcMotorVelocities;
 import LibTMOA.models.structures.JoystickCoordinates;
@@ -62,6 +63,7 @@ public class TMOA {
             Log.println("The Telemetry Interface is invalid.");
         } else {
             Log.setTelemetry(telemetry);
+            Log.initializer();
             Log.setDebuggingMode(true);
             Log.println("Debug Mode is set to: " + telemetry.toString(), ORIGIN);
         }
@@ -82,6 +84,7 @@ public class TMOA {
         Log.println("Gracefully stopped!", ORIGIN);
         Log.update();
         Log.setDebuggingMode(false);
+        Log.close();
     }
 
     /**

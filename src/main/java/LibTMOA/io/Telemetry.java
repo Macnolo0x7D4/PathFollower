@@ -15,12 +15,17 @@
  *
  */
 
-package LibTMOA.models.config;
+package LibTMOA.io;
 
 /**
  * A Telemetry interface for Log Printer
  */
 public interface Telemetry {
+
+    /**
+     * Initializes Telemetry
+     */
+    void init();
 
     /**
      * Prints log
@@ -32,5 +37,5 @@ public interface Telemetry {
     /**
      * Updates telemetry (optional)
      */
-    void update();
+    void close();
 }

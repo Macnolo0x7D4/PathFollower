@@ -17,12 +17,16 @@
 
 package LibTMOA.debug;
 
-import LibTMOA.models.config.Telemetry;
+import LibTMOA.io.Telemetry;
 
 public class Log {
     private static StringBuilder builder = new StringBuilder();
     private static boolean debuggingMode = false;
     private static Telemetry telemetry;
+
+    public static void initializer() {
+        telemetry.init();
+    }
 
     public static void println(String log, String origin) {
         builder.append("[").append(origin).append("]: ").append(log).append('\n');
@@ -34,8 +38,11 @@ public class Log {
 
     public static void update() {
         telemetry.print(builder.toString());
-        telemetry.update();
         builder = new StringBuilder();
+    }
+
+    public static void close(){
+        telemetry.close();
     }
 
     public static void setTelemetry(Telemetry telemetry) {
