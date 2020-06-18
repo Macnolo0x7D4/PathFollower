@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 WinT 3794 (Manuel Díaz Rojo and Alexis Obed García Hernández)
+ * Copyright 2020 WinT 3794 (Manuel Diaz Rojo and Alexis Obed Garcia Hernandez)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import org.wint3794.pathfollower.models.config.ChassisConfiguration;
 import org.wint3794.pathfollower.models.config.ChassisTypes;
 import org.wint3794.pathfollower.models.config.DcMotorBase;
 import org.wint3794.pathfollower.models.config.ExecutionModes;
+import org.wint3794.pathfollower.models.exceptions.NotCompatibleConfigurationException;
 import org.wint3794.pathfollower.models.structures.DcMotorVelocities;
 import org.wint3794.pathfollower.models.structures.JoystickCoordinates;
 import org.wint3794.pathfollower.models.structures.MecanumDirectives;
@@ -33,6 +34,7 @@ import org.wint3794.pathfollower.movement.Movement;
 import org.wint3794.pathfollower.movement.road.RobotMovement;
 import org.wint3794.pathfollower.movement.standard.DriveTrainMovement;
 import org.wint3794.pathfollower.movement.standard.MecanumMovement;
+import org.wint3794.pathfollower.utils.Constants;
 import org.wint3794.pathfollower.utils.CurvePoint;
 import org.wint3794.pathfollower.utils.MathUtils;
 
@@ -44,14 +46,14 @@ import java.util.Optional;
  */
 public class PathFollower {
     private static final String ORIGIN = "Main Thread";
-    private static boolean runningPathFollower = false;
     private final ChassisConfiguration config;
+    private Movement chassis;
     private final Robot robot;
 
     /**
      * Creates an instance of the legendary PathFollower.
      *
-     * @param config ChassisConfiguration
+     * @param config The Chassis Configuration that will be used in API runtime.
      */
     public PathFollower(ChassisConfiguration config, Telemetry telemetry) {
         this.config = config;
@@ -63,10 +65,10 @@ public class PathFollower {
 
         if (telemetry == null) {
             Log.setDebuggingMode(false);
-            Log.println("The Telemetry Interface is invalid.");
+            Log.println("The Telemetry Interface is invalid.", ORIGIN);
         } else {
             Log.setTelemetry(telemetry);
-            Log.initializer();
+            Log.init();
             Log.setDebuggingMode(true);
             Log.println("Debug Mode is set to: " + telemetry.toString(), ORIGIN);
         }
@@ -81,12 +83,10 @@ public class PathFollower {
         Log.update();
     }
 
-    private static synchronized boolean isPathFollowerRunning() {
-        return runningPathFollower;
-    }
-
+    /**
+     * Stops the motors, closes connections and finishes the execution of this API.
+     */
     public void close() {
-        runningPathFollower = false;
         this.config.getMotors().forEach(DcMotorBase::stop);
         Log.println("Gracefully stopped!", ORIGIN);
         Log.update();
@@ -97,7 +97,7 @@ public class PathFollower {
     /**
      * Returns the current chassis configuration, including objects and values.
      *
-     * @return ChassisConfiguration
+     * @return The current Chassis Configuration.
      */
     public ChassisConfiguration getChassisConfiguration() {
         return this.config;
@@ -107,16 +107,17 @@ public class PathFollower {
      * Returns a DcMotor object. Useful if you want to manually send instructions or get its data.
      *
      * @param id The DcMotor Identifier
-     * @return DcMotor Object
+     * @return Optional {@link org.wint3794.pathfollower.models.config.DcMotorBase}
      */
-    public DcMotorBase getDcMotor(byte id) {
-        return this.config.getMotors().stream()
+    public Optional<DcMotorBase> getDcMotor(byte id) {
+        return Optional.of(this.config.getMotors().stream()
                 .filter(dcMotor -> dcMotor.getId() == id)
-                .findFirst().get();
+                .findFirst().get());
     }
 
     /**
      * Indicates to DcMotor driver the specific power to get the expected movement.
+     * This method is only available for MECANUM chassis.
      *
      * @param directives MecanumDirectives
      */
@@ -124,21 +125,28 @@ public class PathFollower {
         if (this.config.getType() == ChassisTypes.MECANUM) {
             setMultiplePowers(MecanumMovement.move(directives));
         } else {
-            Log.println("Your Chassis Type is not compatible with the desired method");
+            Log.println("Your Chassis Type is not compatible with the desired method", ORIGIN);
         }
     }
 
     /**
      * Indicates to DcMotor driver the specific power to get the expected movement.
-     * Also, calculates the arc-tangent to get its length and its angle. Useful when using joysticks.
+     * Also, calculates the arc-tangent to get its length and its angle.
+     * This method is only available for MECANUM or SWERVE chassis.
+     * Useful when using joysticks.
      *
      * @param coordinates JoystickCoordinate
      */
     public void move(JoystickCoordinates coordinates) {
-        if (this.config.getType() == ChassisTypes.MECANUM) {
-            setMultiplePowers(MecanumMovement.move(coordinates));
-        } else {
-            Log.println("Your Chassis Type is not compatible with the desired method");
+        switch(this.config.getType()){
+            case MECANUM:
+                setMultiplePowers(MecanumMovement.move(coordinates));
+                break;
+            case SWERVE:
+                break;
+            default:
+                Log.println("Your Chassis Type is not compatible with the desired method.", ORIGIN);
+                break;
         }
     }
 
@@ -152,26 +160,54 @@ public class PathFollower {
         }
     }
 
+    /**
+     * Returns Robot Object if you are running COMPLEX mode.
+     * @return Optional {@link org.wint3794.pathfollower.controllers.Robot}
+     */
     public Optional<Robot> getRobot() {
         if (robot == null) {
-            Log.println("Robot is not available if you are not executing COMPLEX mode.");
+            Log.println("Robot is not available if you are not executing COMPLEX or ENCODER mode.", ORIGIN);
             return Optional.empty();
         }
         return Optional.of(robot);
     }
 
-    public void startPathFollower(List<CurvePoint> curvePoints, double followAngle) {
-        runningPathFollower = true;
-        Log.println("Process initialized!", "PathFollower");
+    /**
+     * Initialize PathFollower Engine. Method only available for COMPLEX or ENCODER mode.
+     * @throws NotCompatibleConfigurationException Only if your configuration is invalid for this method.
+     */
+    public void init() throws NotCompatibleConfigurationException {
+        if(this.config.getMode() != ExecutionModes.SIMPLE){
+            Log.println("Process initialized!", "PathFollower");
 
-        Movement chassis;
-
-        switch (this.config.getType()) {
-            default:
-                chassis = new DriveTrainMovement(this.getChassisConfiguration());
+            switch (this.config.getType()) {
+                case MECANUM:
+                    this.chassis = new MecanumMovement();
+                    break;
+                default:
+                    this.chassis = new DriveTrainMovement(this.getChassisConfiguration());
+                    break;
+            }
+        } else {
+            Log.println("Your execution mode is not compatible with this method.",ORIGIN);
+            throw new NotCompatibleConfigurationException("Your execution mode is not compatible.");
         }
+    }
 
-        while (PathFollower.isPathFollowerRunning()) {
+    /**
+     * Calculates and move your robot. Use in loop. Only for COMPLEX or ENCODER Mode.
+     * @param curvePoints The list with all CurvePoints [List {@link org.wint3794.pathfollower.utils.CurvePoint}].
+     * @param followAngle The preferred turn angle. [-Math.PI - Math.PI]. The angle is in radians.
+     * @throws NotCompatibleConfigurationException Only if your configuration is invalid for this method.
+     */
+    public void calculate(List<CurvePoint> curvePoints, double followAngle) throws NotCompatibleConfigurationException {
+        if(this.config.getMode() != ExecutionModes.SIMPLE) {
+            if (chassis == null) {
+                Log.println("Chassis is not initialized. Please initialize chassis before executing this action.",ORIGIN);
+                Log.update();
+                return;
+            }
+
             try {
                 Thread.sleep(30);
             } catch (InterruptedException e) {
@@ -185,9 +221,20 @@ public class PathFollower {
             ComputerDebugging.sendRobotLocation();
             ComputerDebugging.sendLogPoint(new Pose2D(Robot.getXPos(), Robot.getYPos()));
 
-            chassis.apply();
+            this.chassis.apply();
 
             Log.update();
-        }
+        }  else
+            throw new NotCompatibleConfigurationException();
+    }
+
+    /**
+     * Calculates and move your robot. Sets the default
+     * followAngle established in {@link org.wint3794.pathfollower.utils.Constants}. Use in loop.
+     * @param curvePoints The list with all CurvePoints [List {@link org.wint3794.pathfollower.utils.CurvePoint}].
+     * @throws NotCompatibleConfigurationException Only if your configuration is invalid for this method.
+     */
+    public void calculate(List<CurvePoint> curvePoints) throws NotCompatibleConfigurationException {
+        this.calculate(curvePoints, Constants.DEFAULT_FOLLOW_ANGLE);
     }
 }

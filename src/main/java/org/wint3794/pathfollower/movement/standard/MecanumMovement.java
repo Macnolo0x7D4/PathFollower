@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 WinT 3794 (Manuel Díaz Rojo and Alexis Obed García Hernández)
+ * Copyright 2020 WinT 3794 (Manuel Diaz Rojo and Alexis Obed Garcia Hernandez)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,16 +19,18 @@ package org.wint3794.pathfollower.movement.standard;
 
 import org.wint3794.pathfollower.math.mecanum.CalculatePower;
 import org.wint3794.pathfollower.math.mecanum.CalculateVelocities;
+import org.wint3794.pathfollower.models.exceptions.InvalidJoystickCoordinatesException;
 import org.wint3794.pathfollower.models.exceptions.InvalidMecanumDirectiveException;
 import org.wint3794.pathfollower.models.structures.DcMotorVelocities;
 import org.wint3794.pathfollower.models.structures.JoystickCoordinates;
 import org.wint3794.pathfollower.models.structures.MecanumDirectives;
+import org.wint3794.pathfollower.movement.Movement;
 import org.wint3794.pathfollower.utils.VelocityChecker;
 
 /**
- * A class with necessary methods to work with SIMPLE or ENCODER mode.
+ * A class with necessary methods to work with MECANUM chassis
  */
-public class MecanumMovement {
+public class MecanumMovement implements Movement {
     /**
      * Returns double[] (with DcMotor powers) if IntegrityChecker returns !null.
      *
@@ -53,12 +55,12 @@ public class MecanumMovement {
      * @return Velocities
      */
     public static DcMotorVelocities move(JoystickCoordinates coordinates) {
-        /*try {
+        try {
             VelocityChecker.checkCoordinates(coordinates);
         } catch (InvalidMecanumDirectiveException | InvalidJoystickCoordinatesException exception) {
             exception.printStackTrace();
             return velocitiesCreator(null);
-        }*/
+        }
 
         double Vd = CalculateVelocities.getSpeed(coordinates);
         double Td = CalculateVelocities.getAngle(coordinates);
@@ -93,5 +95,10 @@ public class MecanumMovement {
         }
 
         return new DcMotorVelocities(velocities);
+    }
+
+    @Override
+    public void apply() {
+
     }
 }

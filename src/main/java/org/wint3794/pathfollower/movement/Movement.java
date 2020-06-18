@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 WinT 3794 (Manuel Díaz Rojo and Alexis Obed García Hernández)
+ * Copyright 2020 WinT 3794 (Manuel Diaz Rojo and Alexis Obed Garcia Hernandez)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,12 @@
 
 package org.wint3794.pathfollower.movement;
 
-import org.wint3794.pathfollower.models.structures.DcMotorVelocities;
-
+/**
+ * An Interface that allows to apply movement. Only for PathFollower Engine.
+ */
 public interface Movement {
-    void move(DcMotorVelocities dcMotorVelocities);
-
+    /**
+     * Applies new configuration from PathFollower Engine.
+     */
     void apply();
 }

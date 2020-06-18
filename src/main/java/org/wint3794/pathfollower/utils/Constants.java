@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 WinT 3794 (Manuel Díaz Rojo and Alexis Obed García Hernández)
+ * Copyright 2020 WinT 3794 (Manuel Diaz Rojo and Alexis Obed Garcia Hernandez)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,4 +38,9 @@ public class Constants {
      * Indicates the Field Length. (Only FTC - Skystone)
      */
     public static final double FIELD_LENGTH = 358.775;
+
+    /**
+     * Indicates the default follow angle.
+     */
+    public static final double DEFAULT_FOLLOW_ANGLE = Math.PI/2;
 }

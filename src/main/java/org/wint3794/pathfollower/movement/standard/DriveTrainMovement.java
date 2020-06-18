@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 WinT 3794 (Manuel Díaz Rojo and Alexis Obed García Hernández)
+ * Copyright 2020 WinT 3794 (Manuel Diaz Rojo and Alexis Obed Garcia Hernandez)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@
 package org.wint3794.pathfollower.movement.standard;
 
 import org.wint3794.pathfollower.models.config.ChassisConfiguration;
-import org.wint3794.pathfollower.models.structures.DcMotorVelocities;
 import org.wint3794.pathfollower.movement.Movement;
 
 import java.util.ArrayList;
@@ -29,17 +28,22 @@ import java.util.stream.Collectors;
 
 import static org.wint3794.pathfollower.robot.RuntimeRobotVars.*;
 
-
+/**
+ * A Movement Class that calculates the power of DcMotors from Position values.
+ */
 public class DriveTrainMovement implements Movement {
     private final ChassisConfiguration config;
-    private final long lastUpdateTime = 0;
 
+    /**
+     * Creates an instance of a DriveTrain Chassis.
+     * @param config
+     */
     public DriveTrainMovement(ChassisConfiguration config) {
         this.config = config;
     }
 
     /**
-     * converts movement_y, movement_x, movement_turn into motor powers
+     * Converts movement values into DcMotor Powers.
      */
     @Override
     public void apply() {
@@ -52,15 +56,11 @@ public class DriveTrainMovement implements Movement {
 
         Optional<Double> maxRawPower = rawVelocities.stream().max(Comparator.naturalOrder());
 
-        final double scaleDownAmount = maxRawPower.get() > 1.0 ? 1.0 / maxRawPower.get() : 1.0;
+        final double scaleDownAmount = maxRawPower.orElseThrow() > 1.0 ? 1.0 / maxRawPower.get() : 1.0;
 
         final List<Double> finalVelocities = rawVelocities.stream().map(power -> power *= scaleDownAmount).collect(Collectors.toList());
 
         finalVelocities.forEach(power -> config.getMotor((byte) finalVelocities.indexOf(power)).setPower(power));
-    }
-
-    @Override
-    public void move(DcMotorVelocities dcMotorVelocities) {
     }
 }
 

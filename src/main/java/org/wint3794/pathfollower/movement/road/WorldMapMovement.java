@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 WinT 3794 (Manuel Díaz Rojo and Alexis Obed García Hernández)
+ * Copyright 2020 WinT 3794 (Manuel Diaz Rojo and Alexis Obed Garcia Hernandez)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,7 +83,6 @@ public class WorldMapMovement {
         double movement_x_power = (relative_x_to_point / (relative_abs_y + relative_abs_x)) * movement_speed;
         double movement_y_power = (relative_y_to_point / (relative_abs_y + relative_abs_x)) * movement_speed;
 
-        //el movimientose compone de dos partes la rapida y la desaceleración
         if (stateMovementYProf == ProfileStates.gunningIt) {
             if (relative_abs_y < Math.abs(SpeedOmeter.currSlipDistanceY() * 2) || relative_abs_y < 3) {
                 stateMovementYProf = stateMovementYProf.next();
@@ -209,7 +208,6 @@ public class WorldMapMovement {
         double velocityAdjustedRelativePointAngle = AngleWrap(relativePointAngle -
                 SpeedOmeter.currSlipAngle());
 
-        //cambia la desaceleración dependiendo de que tan rapido vamos
         double decelerationDistance = Math.toRadians(40);
 
 
