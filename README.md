@@ -1,8 +1,8 @@
-Lib# org.wint3794.pathfollower
+# PathFollower
 
-![Java CI with Gradle](https://github.com/WinT-3794/org.wint3794.LibTMOA/workflows/Java%20CI%20with%20Gradle/badge.svg?branch=master)
+![Java CI with Gradle](https://github.com/WinT-3794/PathFollower/workflows/Java%20CI%20with%20Gradle/badge.svg)
 
-Hello! We are WinT 3794 and we are proud to present the org.wint3794.pathfollower! A JAVA library to improve and discover new features of your FTC/FRC robot!
+Hello! We are WinT 3794 and we are proud to present the PathFollower! A JAVA library to improve and discover new features of your FTC/FRC robot!
 
 ## Getting Started
 
@@ -13,7 +13,6 @@ To use this API, you can install it in two ways:
 
 ## Documentation
 
-Our Javadoc is here: https://wint-3794.github.io/org.wint3794.pathfollower/index.html.
 
 ## Pull Requests
 

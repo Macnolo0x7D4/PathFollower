@@ -21,5 +21,6 @@ import org.wint3794.pathfollower.models.structures.DcMotorVelocities;
 
 public interface Movement {
     void move(DcMotorVelocities dcMotorVelocities);
+
     void apply();
 }

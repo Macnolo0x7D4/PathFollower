@@ -17,34 +17,36 @@
 
 package org.wint3794.pathfollower.debug;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
 
 public class DebuggerClient extends Thread {
-    private static Socket s;
-    private static BufferedReader input;
     private static final int port = 5000;
     private static final String addr = "127.0.0.1";
+    private static Socket s;
+    private static BufferedReader input;
 
     @Override
     public void run() {
         System.out.println("Client initialized successfully!");
-        try{
-            s = new Socket(addr,port);
+        try {
+            s = new Socket(addr, port);
             InputStreamReader entradaSocket = new InputStreamReader(s.getInputStream());
             input = new BufferedReader(entradaSocket);
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        while(true){
-            try{
+        while (true) {
+            try {
                 String buffer = input.readLine();
                 System.out.println(buffer);
-                if(s.isClosed()){
-                     break;
-                 }
-            }catch(IOException e){
+                if (s.isClosed()) {
+                    break;
+                }
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

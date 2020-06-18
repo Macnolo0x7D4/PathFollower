@@ -21,7 +21,10 @@ import org.wint3794.pathfollower.controllers.Robot;
 import org.wint3794.pathfollower.debug.ComputerDebugging;
 import org.wint3794.pathfollower.debug.Log;
 import org.wint3794.pathfollower.io.Telemetry;
-import org.wint3794.pathfollower.models.config.*;
+import org.wint3794.pathfollower.models.config.ChassisConfiguration;
+import org.wint3794.pathfollower.models.config.ChassisTypes;
+import org.wint3794.pathfollower.models.config.DcMotorBase;
+import org.wint3794.pathfollower.models.config.ExecutionModes;
 import org.wint3794.pathfollower.models.structures.DcMotorVelocities;
 import org.wint3794.pathfollower.models.structures.JoystickCoordinates;
 import org.wint3794.pathfollower.models.structures.MecanumDirectives;
@@ -76,6 +79,10 @@ public class PathFollower {
         }
 
         Log.update();
+    }
+
+    private static synchronized boolean isPathFollowerRunning() {
+        return runningPathFollower;
     }
 
     public void close() {
@@ -153,18 +160,18 @@ public class PathFollower {
         return Optional.of(robot);
     }
 
-    public void startPathFollower(List<CurvePoint> curvePoints, double followAngle){
+    public void startPathFollower(List<CurvePoint> curvePoints, double followAngle) {
         runningPathFollower = true;
         Log.println("Process initialized!", "PathFollower");
 
         Movement chassis;
 
-        switch(this.config.getType()){
+        switch (this.config.getType()) {
             default:
                 chassis = new DriveTrainMovement(this.getChassisConfiguration());
         }
 
-        while(PathFollower.isPathFollowerRunning()){
+        while (PathFollower.isPathFollowerRunning()) {
             try {
                 Thread.sleep(30);
             } catch (InterruptedException e) {
@@ -182,9 +189,5 @@ public class PathFollower {
 
             Log.update();
         }
-    }
-
-    private static synchronized boolean isPathFollowerRunning(){
-        return runningPathFollower;
     }
 }

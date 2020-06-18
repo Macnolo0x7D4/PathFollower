@@ -41,7 +41,7 @@ public class Log {
         builder = new StringBuilder();
     }
 
-    public static void close(){
+    public static void close() {
         telemetry.close();
     }
 

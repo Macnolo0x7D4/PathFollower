@@ -17,10 +17,12 @@
 
 package org.wint3794.pathfollower.debug.telemetries;
 
+import org.wint3794.pathfollower.io.Telemetry;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.*;
-import org.wint3794.pathfollower.io.Telemetry;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Server implements Telemetry {
 
@@ -42,9 +44,9 @@ public class Server implements Telemetry {
 
     @Override
     public void print(String log) {
-        try{
+        try {
             this.outputStream.writeUTF(log);
-        }catch (IOException e){
+        } catch (IOException e) {
             reset();
             e.printStackTrace();
         }
@@ -52,12 +54,12 @@ public class Server implements Telemetry {
 
     @Override
     public void close() {
-        try{
+        try {
             s.shutdownInput();
             s.shutdownOutput();
             s.close();
             ss.close();
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -67,7 +69,7 @@ public class Server implements Telemetry {
         return "Debugger Server";
     }
 
-    private void reset(){
+    private void reset() {
         try {
             close();
             this.ss = new ServerSocket(PORT);

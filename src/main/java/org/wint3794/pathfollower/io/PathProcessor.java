@@ -17,10 +17,10 @@
 
 package org.wint3794.pathfollower.io;
 
-import org.wint3794.pathfollower.models.structures.Pose2D;
-import org.wint3794.pathfollower.utils.CurvePoint;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.wint3794.pathfollower.models.structures.Pose2D;
+import org.wint3794.pathfollower.utils.CurvePoint;
 
 import java.util.ArrayList;
 import java.util.List;

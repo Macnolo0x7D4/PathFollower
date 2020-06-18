@@ -17,6 +17,7 @@
 
 package org.wint3794.pathfollower;
 
+import org.junit.Test;
 import org.wint3794.pathfollower.debug.telemetries.ConsolePrinter;
 import org.wint3794.pathfollower.drivers.DcMotorTestDriver;
 import org.wint3794.pathfollower.io.PathProcessor;
@@ -25,12 +26,10 @@ import org.wint3794.pathfollower.models.config.ChassisConfiguration;
 import org.wint3794.pathfollower.models.config.ChassisTypes;
 import org.wint3794.pathfollower.models.structures.EncoderProperties;
 import org.wint3794.pathfollower.utils.CurvePoint;
-import org.junit.Test;
 
 import java.util.List;
 
 public class PathFollowerTest {
-    private static boolean running = false;
     private static final String ROUTES = "[\n" +
             "  {\n" +
             "    \"x\": 0.0,\n" +
@@ -69,7 +68,7 @@ public class PathFollowerTest {
             "    \"slow_down_turn_amount\": 1.0\n" +
             "  }\n" +
             "]";
-
+    private static final boolean running = false;
     List<CurvePoint> functionalPath;
 
     public static ChassisConfiguration getTestingConfiguration() {

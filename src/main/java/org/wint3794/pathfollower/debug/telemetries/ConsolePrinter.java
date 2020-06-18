@@ -21,7 +21,8 @@ import org.wint3794.pathfollower.io.Telemetry;
 
 public class ConsolePrinter implements Telemetry {
     @Override
-    public void init() { }
+    public void init() {
+    }
 
     @Override
     public void print(String log) {
@@ -29,7 +30,8 @@ public class ConsolePrinter implements Telemetry {
     }
 
     @Override
-    public void close() {}
+    public void close() {
+    }
 
     @Override
     public String toString() {
