@@ -23,7 +23,7 @@ import org.wint3794.pathfollower.robot.MyPosition;
 import org.wint3794.pathfollower.utils.Range;
 import org.wint3794.pathfollower.utils.SpeedOmeter;
 
-import static org.wint3794.pathfollower.robot.VariablesOfMovement.*;
+import static org.wint3794.pathfollower.robot.RuntimeRobotVars.*;
 
 public class Robot {
     private static double xSpeed = 0;

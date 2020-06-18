@@ -27,7 +27,7 @@ import org.wint3794.pathfollower.utils.Range;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.wint3794.pathfollower.robot.VariablesOfMovement.*;
+import static org.wint3794.pathfollower.robot.RuntimeRobotVars.*;
 import static org.wint3794.pathfollower.utils.MathUtils.AngleWrap;
 import static org.wint3794.pathfollower.utils.MathUtils.lineCircleintersection;
 

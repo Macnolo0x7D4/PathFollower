@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 import static org.wint3794.pathfollower.movement.road.structures.ProfileStates.gunningIt;
 import static org.wint3794.pathfollower.robot.MyPosition.*;
-import static org.wint3794.pathfollower.robot.VariablesOfMovement.*;
+import static org.wint3794.pathfollower.robot.RuntimeRobotVars.*;
 import static org.wint3794.pathfollower.utils.MathUtils.AngleWrap;
 
 

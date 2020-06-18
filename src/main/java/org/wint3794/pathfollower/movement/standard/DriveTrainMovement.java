@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.wint3794.pathfollower.robot.VariablesOfMovement.*;
+import static org.wint3794.pathfollower.robot.RuntimeRobotVars.*;
 
 
 public class DriveTrainMovement implements Movement {
