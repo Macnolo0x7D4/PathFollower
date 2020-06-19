@@ -18,8 +18,8 @@
 package org.wint3794.pathfollower.drivers;
 
 import org.wint3794.pathfollower.debug.Log;
-import org.wint3794.pathfollower.models.config.DcMotorBase;
-import org.wint3794.pathfollower.models.config.EncoderBase;
+import org.wint3794.pathfollower.hardware.DcMotorBase;
+import org.wint3794.pathfollower.hardware.EncoderBase;
 
 public class DcMotorTestDriver implements DcMotorBase {
 

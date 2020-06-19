@@ -15,7 +15,7 @@
  *
  */
 
-package org.wint3794.pathfollower.utils;
+package org.wint3794.pathfollower.geometry;
 
 public class CurvePoint {
     public double x;

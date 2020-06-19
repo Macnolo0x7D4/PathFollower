@@ -15,19 +15,22 @@
  *
  */
 
-package org.wint3794.pathfollower.movement.road;
+package org.wint3794.pathfollower.robot;
 
 import org.wint3794.pathfollower.debug.ComputerDebugging;
+import org.wint3794.pathfollower.geometry.CurvePoint;
+import org.wint3794.pathfollower.geometry.PiecewiseFunction;
+import org.wint3794.pathfollower.geometry.Point;
 import org.wint3794.pathfollower.models.structures.Pose2D;
-import org.wint3794.pathfollower.movement.road.structures.IndexedPoint;
-import org.wint3794.pathfollower.movement.road.structures.LinePoint;
-import org.wint3794.pathfollower.movement.road.structures.MovementResult;
-import org.wint3794.pathfollower.movement.road.structures.ProfileStates;
+import org.wint3794.pathfollower.robot.structures.IndexedPoint;
+import org.wint3794.pathfollower.robot.structures.LinePoint;
+import org.wint3794.pathfollower.robot.structures.MovementResult;
+import org.wint3794.pathfollower.robot.structures.ProfileStates;
 import org.wint3794.pathfollower.utils.*;
 
 import java.util.ArrayList;
 
-import static org.wint3794.pathfollower.movement.road.structures.ProfileStates.gunningIt;
+import static org.wint3794.pathfollower.robot.structures.ProfileStates.gunningIt;
 import static org.wint3794.pathfollower.robot.MyPosition.*;
 import static org.wint3794.pathfollower.robot.RuntimeRobotVars.*;
 import static org.wint3794.pathfollower.utils.MathUtils.AngleWrap;

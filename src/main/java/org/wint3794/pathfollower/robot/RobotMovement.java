@@ -15,13 +15,13 @@
  *
  */
 
-package org.wint3794.pathfollower.movement.road;
+package org.wint3794.pathfollower.robot;
 
 import org.wint3794.pathfollower.controllers.Robot;
 import org.wint3794.pathfollower.debug.ComputerDebugging;
 import org.wint3794.pathfollower.models.structures.Pose2D;
-import org.wint3794.pathfollower.utils.CurvePoint;
-import org.wint3794.pathfollower.utils.Point;
+import org.wint3794.pathfollower.geometry.CurvePoint;
+import org.wint3794.pathfollower.geometry.Point;
 import org.wint3794.pathfollower.utils.Range;
 
 import java.util.ArrayList;

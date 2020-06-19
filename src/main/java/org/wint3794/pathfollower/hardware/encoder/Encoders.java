@@ -15,16 +15,24 @@
  *
  */
 
-package org.wint3794.pathfollower.movement.road.structures;
+package org.wint3794.pathfollower.hardware.encoder;
 
-public class LinePoint {
-    public double x;
-    public double y;
-    public boolean onLine;
+/**
+ * Encoders that can be used.
+ */
+public enum Encoders {
+    /**
+     * Without encoder use. Only for SIMPLE Execution Mode
+     */
+    NO_ENCODER,
 
-    public LinePoint(double X, double Y, boolean isOnLine) {
-        x = X;
-        y = Y;
-        onLine = isOnLine;
-    }
+    /**
+     * Stabilize mecanum. Only for ENCODER Execution Mode
+     */
+    STABILIZER,
+
+    /**
+     * Allows to get length of distances. NEEDED for COMPLEX Execution Mode.
+     */
+    TARGET
 }

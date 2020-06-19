@@ -17,6 +17,7 @@
 
 package org.wint3794.pathfollower.utils;
 
+import org.wint3794.pathfollower.geometry.Point;
 import org.wint3794.pathfollower.models.structures.Pose2D;
 
 import java.util.ArrayList;

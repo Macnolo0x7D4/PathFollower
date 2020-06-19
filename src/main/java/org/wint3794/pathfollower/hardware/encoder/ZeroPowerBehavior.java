@@ -15,7 +15,7 @@
  *
  */
 
-package org.wint3794.pathfollower.movement.encoder;
+package org.wint3794.pathfollower.hardware.encoder;
 
 /**
  * ZeroPowerBehaviors that can be used.

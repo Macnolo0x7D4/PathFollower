@@ -15,28 +15,12 @@
  *
  */
 
-package org.wint3794.pathfollower.movement.road.structures;
+package org.wint3794.pathfollower.robot.structures;
 
-public class IndexedPoint {
-    private final double x;
-    private final double y;
-    private final int index;
+public class MovementResult {
+    public double turnDelta_rad;
 
-    public IndexedPoint(double xPos, double yPos, int index) {
-        this.x = xPos;
-        this.y = yPos;
-        this.index = index;
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public int getIndex() {
-        return index;
+    public MovementResult(double turnDelta_rad) {
+        this.turnDelta_rad = turnDelta_rad;
     }
 }

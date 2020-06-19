@@ -15,12 +15,16 @@
  *
  */
 
-package org.wint3794.pathfollower.movement.road.structures;
+package org.wint3794.pathfollower.robot.structures;
 
-public class MovementResult {
-    public double turnDelta_rad;
+public class LinePoint {
+    public double x;
+    public double y;
+    public boolean onLine;
 
-    public MovementResult(double turnDelta_rad) {
-        this.turnDelta_rad = turnDelta_rad;
+    public LinePoint(double X, double Y, boolean isOnLine) {
+        x = X;
+        y = Y;
+        onLine = isOnLine;
     }
 }

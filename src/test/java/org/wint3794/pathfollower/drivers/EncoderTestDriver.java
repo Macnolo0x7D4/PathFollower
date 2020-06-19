@@ -17,9 +17,9 @@
 
 package org.wint3794.pathfollower.drivers;
 
-import org.wint3794.pathfollower.models.config.EncoderBase;
-import org.wint3794.pathfollower.movement.encoder.Encoders;
-import org.wint3794.pathfollower.movement.encoder.ZeroPowerBehavior;
+import org.wint3794.pathfollower.hardware.EncoderBase;
+import org.wint3794.pathfollower.hardware.encoder.Encoders;
+import org.wint3794.pathfollower.hardware.encoder.ZeroPowerBehavior;
 
 public class EncoderTestDriver implements EncoderBase {
 

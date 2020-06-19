@@ -20,10 +20,11 @@ package org.wint3794.pathfollower;
 import org.wint3794.pathfollower.controllers.Robot;
 import org.wint3794.pathfollower.debug.ComputerDebugging;
 import org.wint3794.pathfollower.debug.Log;
+import org.wint3794.pathfollower.geometry.CurvePoint;
+import org.wint3794.pathfollower.hardware.DcMotorBase;
 import org.wint3794.pathfollower.io.Telemetry;
 import org.wint3794.pathfollower.models.config.ChassisConfiguration;
 import org.wint3794.pathfollower.models.config.ChassisTypes;
-import org.wint3794.pathfollower.models.config.DcMotorBase;
 import org.wint3794.pathfollower.models.config.ExecutionModes;
 import org.wint3794.pathfollower.models.exceptions.NotCompatibleConfigurationException;
 import org.wint3794.pathfollower.models.structures.DcMotorVelocities;
@@ -31,11 +32,10 @@ import org.wint3794.pathfollower.models.structures.JoystickCoordinates;
 import org.wint3794.pathfollower.models.structures.MecanumDirectives;
 import org.wint3794.pathfollower.models.structures.Pose2D;
 import org.wint3794.pathfollower.movement.Movement;
-import org.wint3794.pathfollower.movement.road.RobotMovement;
+import org.wint3794.pathfollower.robot.RobotMovement;
 import org.wint3794.pathfollower.movement.standard.DriveTrainMovement;
 import org.wint3794.pathfollower.movement.standard.MecanumMovement;
 import org.wint3794.pathfollower.utils.Constants;
-import org.wint3794.pathfollower.utils.CurvePoint;
 import org.wint3794.pathfollower.utils.MathUtils;
 
 import java.util.List;
@@ -107,7 +107,7 @@ public class PathFollower {
      * Returns a DcMotor object. Useful if you want to manually send instructions or get its data.
      *
      * @param id The DcMotor Identifier
-     * @return Optional {@link org.wint3794.pathfollower.models.config.DcMotorBase}
+     * @return Optional {@link DcMotorBase}
      */
     public Optional<DcMotorBase> getDcMotor(byte id) {
         return Optional.of(this.config.getMotors().stream()
@@ -196,7 +196,7 @@ public class PathFollower {
 
     /**
      * Calculates and move your robot. Use in loop. Only for COMPLEX or ENCODER Mode.
-     * @param curvePoints The list with all CurvePoints [List {@link org.wint3794.pathfollower.utils.CurvePoint}].
+     * @param curvePoints The list with all CurvePoints [List {@link CurvePoint}].
      * @param followAngle The preferred turn angle. [-Math.PI - Math.PI]. The angle is in radians.
      * @throws NotCompatibleConfigurationException Only if your configuration is invalid for this method.
      */
@@ -231,7 +231,7 @@ public class PathFollower {
     /**
      * Calculates and move your robot. Sets the default
      * followAngle established in {@link org.wint3794.pathfollower.utils.Constants}. Use in loop.
-     * @param curvePoints The list with all CurvePoints [List {@link org.wint3794.pathfollower.utils.CurvePoint}].
+     * @param curvePoints The list with all CurvePoints [List {@link CurvePoint}].
      * @throws NotCompatibleConfigurationException Only if your configuration is invalid for this method.
      */
     public void calculate(List<CurvePoint> curvePoints) throws NotCompatibleConfigurationException {

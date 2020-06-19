@@ -18,14 +18,16 @@
 package org.wint3794.pathfollower;
 
 import org.junit.Test;
+import org.wint3794.pathfollower.debug.Log;
 import org.wint3794.pathfollower.debug.telemetries.ConsolePrinter;
 import org.wint3794.pathfollower.drivers.DcMotorTestDriver;
 import org.wint3794.pathfollower.io.PathProcessor;
 import org.wint3794.pathfollower.io.PathSimulator;
 import org.wint3794.pathfollower.models.config.ChassisConfiguration;
 import org.wint3794.pathfollower.models.config.ChassisTypes;
+import org.wint3794.pathfollower.models.exceptions.NotCompatibleConfigurationException;
 import org.wint3794.pathfollower.models.structures.EncoderProperties;
-import org.wint3794.pathfollower.utils.CurvePoint;
+import org.wint3794.pathfollower.geometry.CurvePoint;
 
 import java.util.List;
 
@@ -68,7 +70,7 @@ public class PathFollowerTest {
             "    \"slow_down_turn_amount\": 1.0\n" +
             "  }\n" +
             "]";
-    private static final boolean running = false;
+
     List<CurvePoint> functionalPath;
 
     public static ChassisConfiguration getTestingConfiguration() {
@@ -103,7 +105,17 @@ public class PathFollowerTest {
 
         functionalPath = processor.createFunctionalPath();
 
-        // classUnderTest.startPathFollower(functionalPath, Math.toRadians(90));
+        try {
+            classUnderTest.init();
+
+            for (int i = 0; i < 10; i++) {
+                classUnderTest.calculate(functionalPath, Math.toRadians(90));
+                Log.update();
+            }
+        } catch (NotCompatibleConfigurationException e) {
+            e.printStackTrace();
+        }
+
         classUnderTest.close();
     }
 }

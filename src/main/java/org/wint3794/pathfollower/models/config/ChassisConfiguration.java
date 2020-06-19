@@ -17,6 +17,8 @@
 
 package org.wint3794.pathfollower.models.config;
 
+import org.wint3794.pathfollower.hardware.DcMotorBase;
+import org.wint3794.pathfollower.hardware.EncoderBase;
 import org.wint3794.pathfollower.models.structures.EncoderProperties;
 
 import java.util.List;

@@ -15,7 +15,7 @@
  *
  */
 
-package org.wint3794.pathfollower.models.config;
+package org.wint3794.pathfollower.hardware;
 
 /**
  * The Interface where you need to configure your DcMotor Driver.

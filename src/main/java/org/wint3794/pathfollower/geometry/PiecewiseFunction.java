@@ -15,7 +15,7 @@
  *
  */
 
-package org.wint3794.pathfollower.utils;
+package org.wint3794.pathfollower.geometry;
 
 import org.wint3794.pathfollower.models.structures.Pose2D;
 

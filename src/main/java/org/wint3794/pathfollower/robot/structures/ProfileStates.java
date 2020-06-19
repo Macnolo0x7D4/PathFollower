@@ -15,7 +15,7 @@
  *
  */
 
-package org.wint3794.pathfollower.movement.road.structures;
+package org.wint3794.pathfollower.robot.structures;
 
 public enum ProfileStates {
     gunningIt,

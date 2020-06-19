@@ -17,7 +17,7 @@
 
 package org.wint3794.pathfollower.controllers;
 
-import org.wint3794.pathfollower.models.config.DcMotorBase;
+import org.wint3794.pathfollower.hardware.DcMotorBase;
 import org.wint3794.pathfollower.models.structures.PIDFCoefficients;
 import org.wint3794.pathfollower.models.structures.PIDValues;
 

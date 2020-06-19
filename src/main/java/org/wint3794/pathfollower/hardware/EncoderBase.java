@@ -15,24 +15,28 @@
  *
  */
 
-package org.wint3794.pathfollower.movement.encoder;
+package org.wint3794.pathfollower.hardware;
 
-/**
- * Encoders that can be used.
- */
-public enum Encoders {
-    /**
-     * Without encoder use. Only for SIMPLE Execution Mode
-     */
-    NO_ENCODER,
+import org.wint3794.pathfollower.hardware.encoder.Encoders;
+import org.wint3794.pathfollower.hardware.encoder.ZeroPowerBehavior;
 
+public interface EncoderBase {
     /**
-     * Stabilize mecanum. Only for ENCODER Execution Mode
+     * Sets encoder from Encoders ENUM
+     *
+     * @param encoder
      */
-    STABILIZER,
+    void setMode(Encoders encoder);
 
-    /**
-     * Allows to get length of distances. NEEDED for COMPLEX Execution Mode.
-     */
-    TARGET
+    void setBrake(boolean brake);
+
+    long getCurrentPosition();
+
+    void setCurrentPosition(long currentPosition);
+
+    void endUpdate();
+
+    Encoders getEncoderMode();
+
+    ZeroPowerBehavior getZeroPowerBehavior();
 }

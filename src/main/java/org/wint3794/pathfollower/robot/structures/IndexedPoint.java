@@ -15,28 +15,28 @@
  *
  */
 
-package org.wint3794.pathfollower.models.config;
+package org.wint3794.pathfollower.robot.structures;
 
-import org.wint3794.pathfollower.movement.encoder.Encoders;
-import org.wint3794.pathfollower.movement.encoder.ZeroPowerBehavior;
+public class IndexedPoint {
+    private final double x;
+    private final double y;
+    private final int index;
 
-public interface EncoderBase {
-    /**
-     * Sets encoder from Encoders ENUM
-     *
-     * @param encoder
-     */
-    void setMode(Encoders encoder);
+    public IndexedPoint(double xPos, double yPos, int index) {
+        this.x = xPos;
+        this.y = yPos;
+        this.index = index;
+    }
 
-    void setBrake(boolean brake);
+    public double getX() {
+        return x;
+    }
 
-    long getCurrentPosition();
+    public double getY() {
+        return y;
+    }
 
-    void setCurrentPosition(long currentPosition);
-
-    void endUpdate();
-
-    Encoders getEncoderMode();
-
-    ZeroPowerBehavior getZeroPowerBehavior();
+    public int getIndex() {
+        return index;
+    }
 }

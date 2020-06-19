@@ -40,7 +40,7 @@ public class Log {
      * @param origin The origin of the log.
      */
     public static void println(String log, String origin) {
-        builder.append("[").append(origin).append("]: ").append(log);
+        builder.append("[").append(origin).append("]: ").append(log).append('\n');
     }
 
     /**
