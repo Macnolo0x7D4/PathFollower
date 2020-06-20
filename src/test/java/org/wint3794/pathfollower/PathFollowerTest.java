@@ -20,6 +20,7 @@ package org.wint3794.pathfollower;
 import org.junit.Test;
 import org.wint3794.pathfollower.debug.Log;
 import org.wint3794.pathfollower.debug.telemetries.ConsolePrinter;
+import org.wint3794.pathfollower.debug.telemetries.Server;
 import org.wint3794.pathfollower.drivers.DcMotorTestDriver;
 import org.wint3794.pathfollower.io.PathProcessor;
 import org.wint3794.pathfollower.io.PathSimulator;
@@ -34,8 +35,8 @@ import java.util.List;
 public class PathFollowerTest {
     private static final String ROUTES = "[\n" +
             "  {\n" +
-            "    \"x\": 0.0,\n" +
-            "    \"y\": 0.0,\n" +
+            "    \"x\": 10.0,\n" +
+            "    \"y\": 14.0,\n" +
             "    \"move_speed\": 0.5,\n" +
             "    \"turn_speed\": 0.5,\n" +
             "    \"follow_distance\": 50.0,\n" +
@@ -43,8 +44,8 @@ public class PathFollowerTest {
             "    \"slow_down_turn_amount\": 1.0\n" +
             "  },\n" +
             "  {\n" +
-            "    \"x\": 1.0,\n" +
-            "    \"y\": 1.0,\n" +
+            "    \"x\": 200.0,\n" +
+            "    \"y\": 240.0,\n" +
             "    \"move_speed\": 0.5,\n" +
             "    \"turn_speed\": 0.5,\n" +
             "    \"follow_distance\": 50.0,\n" +
@@ -52,8 +53,8 @@ public class PathFollowerTest {
             "    \"slow_down_turn_amount\": 1.0\n" +
             "  },\n" +
             "  {\n" +
-            "    \"x\": 2.0,\n" +
-            "    \"y\": 2.0,\n" +
+            "    \"x\": 240.0,\n" +
+            "    \"y\": 200.0,\n" +
             "    \"move_speed\": 0.5,\n" +
             "    \"turn_speed\": 0.5,\n" +
             "    \"follow_distance\": 50.0,\n" +
@@ -61,8 +62,8 @@ public class PathFollowerTest {
             "    \"slow_down_turn_amount\": 1.0\n" +
             "  },\n" +
             "  {\n" +
-            "    \"x\": 3.0,\n" +
-            "    \"y\": 3.0,\n" +
+            "    \"x\": 10.0,\n" +
+            "    \"y\": 14.0,\n" +
             "    \"move_speed\": 0.5,\n" +
             "    \"turn_speed\": 0.5,\n" +
             "    \"follow_distance\": 50.0,\n" +
@@ -93,7 +94,7 @@ public class PathFollowerTest {
 
     @Test
     public void testSomeLibraryMethod() {
-        PathFollower classUnderTest = new PathFollower(getTestingConfiguration(), new ConsolePrinter());
+        PathFollower classUnderTest = new PathFollower(getTestingConfiguration(), new Server());
 
         // classUnderTest.getChassisInformation().getMotors().forEach(dcMotor -> System.out.println("[Motor " + dcMotor.getId() + "]: " + dcMotor.getPower()));
         // assertTrue("getDcMotor(2).getPower() == 1.0 should return 'true'", classUnderTest.getDcMotor((byte) 2).getPower() == 1.0);
@@ -108,7 +109,8 @@ public class PathFollowerTest {
         try {
             classUnderTest.init();
 
-            for (int i = 0; i < 10; i++) {
+            // for (int i = 0; i < 10; i++) {
+            while (true){
                 classUnderTest.calculate(functionalPath, Math.toRadians(90));
                 Log.update();
             }

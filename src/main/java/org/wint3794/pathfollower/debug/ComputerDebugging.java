@@ -33,6 +33,8 @@ public class ComputerDebugging {
         Log.println("X -> " + Robot.getXPos(), ORIGIN);
         Log.println("Y -> " + Robot.getYPos(), ORIGIN);
         Log.println("Theta -> " + Robot.getWorldAngle(), ORIGIN);
+
+        Log.check(new Pose2D(Robot.getXPos(), Robot.getYPos()));
     }
 
     /**

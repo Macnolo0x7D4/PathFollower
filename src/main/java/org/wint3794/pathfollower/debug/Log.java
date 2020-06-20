@@ -18,6 +18,7 @@
 package org.wint3794.pathfollower.debug;
 
 import org.wint3794.pathfollower.io.Telemetry;
+import org.wint3794.pathfollower.models.structures.Pose2D;
 
 /**
  * A class with some static functions to log.
@@ -41,6 +42,14 @@ public class Log {
      */
     public static void println(String log, String origin) {
         builder.append("[").append(origin).append("]: ").append(log).append('\n');
+    }
+
+    /**
+     * Checkpoint in log by Pose2d
+     * @param pose Robot Position
+     */
+    public static void check(Pose2D pose){
+        telemetry.print("%" + pose.getX() + "," + pose.getY() + "%");
     }
 
     /**
