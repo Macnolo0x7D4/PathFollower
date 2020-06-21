@@ -61,9 +61,7 @@ public class PathFollowerTest {
         // assertTrue("getDcMotor(2).getPower() == 1.0 should return 'true'", classUnderTest.getDcMotor((byte) 2).getPower() == 1.0);
 
         PathReader reader = new PathReader(this.getClass().getResource("/file.json"));
-
         PathProcessor processor = new PathProcessor(reader.getRawPath());
-
         functionalPath = processor.createFunctionalPath();
 
         try {

@@ -74,13 +74,17 @@ public class MathUtils {
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
 
-
     /**
-     * Takes intersection of two lines defined by one point and their slopes
+     * Takes intersection of two lines defined by one point and their slopes.
+     * @param point1 First Point
+     * @param m1
+     * @param point2 Second Point
+     * @param m2
+     * @return New Point
      */
-    public static Pose2d lineIntersecion(Pose2d point1, double m1, Pose2d point2, double m2) {
+    public static Pose2d lineIntersection(Pose2d point1, double m1, Pose2d point2, double m2) {
         double xIntercept = ((-m2 * point2.getX()) + point2.getY() + (m1 * point1.getX()) - point1.getY()) / (m1 - m2);//solves for the x pos of the intercept
-        double yIntercept = m1 * (xIntercept - point1.getX()) + point1.getY();//plug into any equation to get y
+        double yIntercept = m1 * (xIntercept - point1.getX()) + point1.getY();
 
         return new Pose2d(xIntercept, yIntercept);
     }
@@ -90,7 +94,7 @@ public class MathUtils {
      *
      * @param circleX x position of the circle
      * @param circleY y position of the circle
-     * @param r:      radius of the circle
+     * @param r       radius of the circle
      * @param lineX1  first x position of the line
      * @param lineY1  first y position of the line
      * @param lineX2  second x position of the line
