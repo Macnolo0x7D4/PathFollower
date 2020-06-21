@@ -1,0 +1,62 @@
+[
+  {
+    "x": 150.0,
+    "y": 150.0,
+    "move_speed": 1.0,
+    "turn_speed": 1.0,
+    "follow_distance": 40.0,
+    "point_length": 40.0,
+    "slow_down_turn_radians": 80.0,
+    "slow_down_turn_amount": 1.0
+  },
+  {
+    "x": 30.0,
+    "y": 150.0,
+    "move_speed": 1.0,
+    "turn_speed": 1.0,
+    "follow_distance": 40.0,
+    "point_length": 40.0,
+    "slow_down_turn_radians": 80.0,
+    "slow_down_turn_amount": 1.0
+  },
+  {
+    "x": 30.0,
+    "y": 40.0,
+    "move_speed": 1.0,
+    "turn_speed": 1.0,
+    "follow_distance": 40.0,
+    "point_length": 40.0,
+    "slow_down_turn_radians": 80.0,
+    "slow_down_turn_amount": 1.0
+  },
+  {
+    "x": 340.0,
+    "y": 50.0,
+    "move_speed": 1.0,
+    "turn_speed": 1.0,
+    "follow_distance": 40.0,
+    "point_length": 40.0,
+    "slow_down_turn_radians": 80.0,
+    "slow_down_turn_amount": 1.0
+  },
+  {
+    "x": 340.0,
+    "y": 180.0,
+    "move_speed": 1.0,
+    "turn_speed": 1.0,
+    "follow_distance": 40.0,
+    "point_length": 40.0,
+    "slow_down_turn_radians": 80.0,
+    "slow_down_turn_amount": 1.0
+  },
+  {
+    "x": 180.0,
+    "y": 180.0,
+    "move_speed": 1.0,
+    "turn_speed": 1.0,
+    "follow_distance": 40.0,
+    "point_length": 40.0,
+    "slow_down_turn_radians": 80.0,
+    "slow_down_turn_amount": 1.0
+  }
+]

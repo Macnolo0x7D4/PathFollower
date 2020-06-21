@@ -43,7 +43,7 @@ public class PathProcessor {
         return (JSONObject) json.get(index);
     }
 
-    public CurvePoint createCurvePointFromInstruction(JSONObject object) {
+    private CurvePoint createCurvePointFromInstruction(JSONObject object) {
         double x = (double) object.get("x");
         double y = (double) object.get("y");
 
@@ -51,10 +51,11 @@ public class PathProcessor {
 
         double turnSpeed = (double) object.get("turn_speed");
         double followDistance = (double) object.get("follow_distance");
+        double pointLength = (double) object.get("point_length");
         double slowDownTurnRadians = Math.toRadians((double) object.get("slow_down_turn_radians"));
         double slowDownTurnAmount = (double) object.get("slow_down_turn_amount");
 
-        return new CurvePoint(x, y, moveSpeed, turnSpeed, followDistance, slowDownTurnRadians, slowDownTurnAmount);
+        return new CurvePoint(x, y, moveSpeed, turnSpeed, followDistance, pointLength, slowDownTurnRadians, slowDownTurnAmount);
     }
 
     public List<CurvePoint> createFunctionalPath() {
