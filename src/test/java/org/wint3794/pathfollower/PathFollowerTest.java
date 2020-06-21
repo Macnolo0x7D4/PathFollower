@@ -24,7 +24,6 @@ import org.wint3794.pathfollower.debug.telemetries.Server;
 import org.wint3794.pathfollower.drivers.DcMotorTestDriver;
 import org.wint3794.pathfollower.io.PathProcessor;
 import org.wint3794.pathfollower.io.PathReader;
-import org.wint3794.pathfollower.io.PathSimulator;
 import org.wint3794.pathfollower.models.config.ChassisConfiguration;
 import org.wint3794.pathfollower.models.config.ChassisTypes;
 import org.wint3794.pathfollower.models.exceptions.NotCompatibleConfigurationException;
@@ -34,26 +33,6 @@ import org.wint3794.pathfollower.geometry.CurvePoint;
 import java.util.List;
 
 public class PathFollowerTest {
-    private static final String ROUTES = "[\n" +
-            "  {\n" +
-            "    \"x\": 150.0,\n" +
-            "    \"y\": 150.0,\n" +
-            "    \"move_speed\": 1.0,\n" +
-            "    \"turn_speed\": 1.0,\n" +
-            "    \"follow_distance\": 40.0,\n" +
-            "    \"slow_down_turn_radians\": 80.0,\n" +
-            "    \"slow_down_turn_amount\": 1.0\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"x\": 30.0,\n" +
-            "    \"y\": 150.0,\n" +
-            "    \"move_speed\": 1.0,\n" +
-            "    \"turn_speed\": 1.0,\n" +
-            "    \"follow_distance\": 40.0,\n" +
-            "    \"slow_down_turn_radians\": 80.0,\n" +
-            "    \"slow_down_turn_amount\": 1.0\n" +
-            "  }\n" +
-            "]";
 
     List<CurvePoint> functionalPath;
 
@@ -83,7 +62,6 @@ public class PathFollowerTest {
         // assertTrue("getDcMotor(2).getPower() == 1.0 should return 'true'", classUnderTest.getDcMotor((byte) 2).getPower() == 1.0);
 
         PathReader reader = new PathReader(this.getClass().getResource("/file.json"));
-        // PathSimulator reader = new PathSimulator(ROUTES);
 
         PathProcessor processor = new PathProcessor(reader.getRawPath());
 
@@ -92,8 +70,7 @@ public class PathFollowerTest {
         try {
             classUnderTest.init();
 
-            // for (int i = 0; i < 10; i++) {
-            while (true){
+            for (int i = 0; i < 100; i++) {
                 classUnderTest.calculate(functionalPath);
                 Log.update();
             }

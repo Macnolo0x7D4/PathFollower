@@ -24,26 +24,30 @@ import org.wint3794.pathfollower.geometry.CurvePoint;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class PathProcessor {
     private final JSONArray json;
 
+    /**
+     * Creates path from JSON Array. Preferably use
+     * PathReader or PathSimulator before.
+     * @param json A JSON Array that includes {@link org.wint3794.pathfollower.geometry.CurvePoint} List.
+     */
     public PathProcessor(JSONArray json) {
         this.json = json;
     }
 
-    public Pose2D getPosition(JSONObject object) {
-        Long x = (Long) object.get("x");
-        Long y = (Long) object.get("y");
-
-        return new Pose2D((double) x, (double) y);
+    /**
+     * Returns CurvePoint from Path (JSON Array) if exists.
+     * @param index Point Index
+     * @return The desired CurvePoint
+     */
+    public Optional<CurvePoint> getPointByIndex(int index) {
+        return Optional.of(createCurvePoint((JSONObject) json.get(index)));
     }
 
-    public JSONObject getInstructionByIndex(int index) {
-        return (JSONObject) json.get(index);
-    }
-
-    private CurvePoint createCurvePointFromInstruction(JSONObject object) {
+    private CurvePoint createCurvePoint(JSONObject object) {
         double x = (double) object.get("x");
         double y = (double) object.get("y");
 
@@ -58,12 +62,15 @@ public class PathProcessor {
         return new CurvePoint(x, y, moveSpeed, turnSpeed, followDistance, pointLength, slowDownTurnRadians, slowDownTurnAmount);
     }
 
+    /**
+     * Returns a functional Path as List of CurvePoints.
+     * @return Functional Path
+     */
     public List<CurvePoint> createFunctionalPath() {
         List<CurvePoint> list = new ArrayList<>();
 
-        // json.forEach( object -> list.add(createCurvePointFromInstruction((JSONObject) object)));
         for (Object object : json) {
-            list.add(createCurvePointFromInstruction((JSONObject) object));
+            list.add(createCurvePoint((JSONObject) object));
         }
 
         return list;
