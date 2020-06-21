@@ -18,8 +18,8 @@
 package org.wint3794.pathfollower.controllers;
 
 import org.wint3794.pathfollower.hardware.DcMotorBase;
-import org.wint3794.pathfollower.models.structures.PIDFCoefficients;
-import org.wint3794.pathfollower.models.structures.PIDValues;
+import org.wint3794.pathfollower.models.PIDFCoefficients;
+import org.wint3794.pathfollower.models.PIDValues;
 
 /**
  * A PID controller Class. This class was inspired by Arcrobotics PID Controller.
@@ -112,7 +112,7 @@ public class PIDController {
     /**
      * Sets the error which is considered tolerable for use with {@link #atSetPoint()}.
      *
-     * @param positionTolerance Pose2D error which is tolerable.
+     * @param positionTolerance Pose2d error which is tolerable.
      * @param velocityTolerance Velocity error which is tolerable.
      */
     public void setTolerance(double positionTolerance, double velocityTolerance) {
@@ -180,7 +180,7 @@ public class PIDController {
     /**
      * Sets the error which is considered tolerable for use with {@link #atSetPoint()}.
      *
-     * @param positionTolerance Pose2D error which is tolerable.
+     * @param positionTolerance Pose2d error which is tolerable.
      */
     public void setTolerance(double positionTolerance) {
         setTolerance(positionTolerance, Double.POSITIVE_INFINITY);

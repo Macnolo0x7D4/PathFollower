@@ -17,12 +17,10 @@
 
 package org.wint3794.pathfollower.geometry;
 
-import org.wint3794.pathfollower.models.structures.Pose2D;
-
 import java.util.ArrayList;
 
 public class PiecewiseFunction {
-    public ArrayList<Pose2D> m_points = new ArrayList<>();
+    public ArrayList<Pose2d> m_points = new ArrayList<>();
 
     public PiecewiseFunction(String visualString) {
         //go through the string from bottom left to top right (kinda weird) assuming it's 20 by 9 chars
@@ -34,7 +32,7 @@ public class PiecewiseFunction {
                 int row = iter / 20;//since lines are in groups of 20 chars, devide i by 20 and truncate decimals (int)
                 int col = iter - (row * 20);
 
-                Pose2D c = new Pose2D((double) col / 19.0, 1.0 - ((double) row / 8.0));
+                Pose2d c = new Pose2d((double) col / 19.0, 1.0 - ((double) row / 8.0));
                 m_points.add(c);
             }
 
@@ -50,7 +48,7 @@ public class PiecewiseFunction {
     }
 
     //if you want to manually set the points
-    public PiecewiseFunction(ArrayList<Pose2D> points) {
+    public PiecewiseFunction(ArrayList<Pose2d> points) {
         m_points = points;
     }
 

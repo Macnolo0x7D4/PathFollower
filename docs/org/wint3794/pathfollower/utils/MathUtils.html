@@ -116,7 +116,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <!-- ======== START OF CLASS DATA ======== -->
 <main role="main">
 <div class="header">
-<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">org.wint3794.pathfollower.utils</a></div>
+<div class="subTitle"><span class="packageLabelInType">Package</span>&nbsp;<a href="package-summary.html">org.wint3794.pathfollower.util</a></div>
 <h2 title="Class MathUtils" class="title">Class MathUtils</h2>
 </div>
 <div class="contentContainer">
@@ -124,7 +124,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>org.wint3794.pathfollower.utils.MathUtils</li>
+<li>org.wint3794.pathfollower.util.MathUtils</li>
 </ul>
 </li>
 </ul>
@@ -204,15 +204,15 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>static java.util.ArrayList&lt;<a href="Point.html" title="class in org.wint3794.pathfollower.utils">Point</a>&gt;</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#lineCircleintersection(org.wint3794.pathfollower.geometry.Point,double,org.wint3794.pathfollower.geometry.Point,org.wint3794.pathfollower.geometry.Point)">lineCircleintersection</a></span>&#8203;(<a href="Point.html" title="class in org.wint3794.pathfollower.utils">Point</a>&nbsp;circlecenter,
+<td class="colFirst"><code>static java.util.ArrayList&lt;<a href="Point.html" title="class in org.wint3794.pathfollower.util">Point</a>&gt;</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#lineCircleintersection(org.wint3794.pathfollower.geometry.Point,double,org.wint3794.pathfollower.geometry.Point,org.wint3794.pathfollower.geometry.Point)">lineCircleintersection</a></span>&#8203;(<a href="Point.html" title="class in org.wint3794.pathfollower.util">Point</a>&nbsp;circlecenter,
                       double&nbsp;radius,
-                      <a href="Point.html" title="class in org.wint3794.pathfollower.utils">Point</a>&nbsp;linePoint1,
-                      <a href="Point.html" title="class in org.wint3794.pathfollower.utils">Point</a>&nbsp;linePoint2)</code></th>
+                      <a href="Point.html" title="class in org.wint3794.pathfollower.util">Point</a>&nbsp;linePoint1,
+                      <a href="Point.html" title="class in org.wint3794.pathfollower.util">Point</a>&nbsp;linePoint2)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
-<td class="colFirst"><code>static java.util.ArrayList&lt;<a href="Point.html" title="class in org.wint3794.pathfollower.utils">Point</a>&gt;</code></td>
+<td class="colFirst"><code>static java.util.ArrayList&lt;<a href="Point.html" title="class in org.wint3794.pathfollower.util">Point</a>&gt;</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#lineCircleIntersection(double,double,double,double,double,double,double)">lineCircleIntersection</a></span>&#8203;(double&nbsp;circleX,
                       double&nbsp;circleY,
                       double&nbsp;r,
@@ -226,7 +226,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>static <a href="../models/structures/Pose2D.html" title="class in org.wint3794.pathfollower.models.structures">Pose2D</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#lineIntersecion(org.wint3794.pathfollower.models.structures.Pose2D,double,org.wint3794.pathfollower.models.structures.Pose2D,double)">lineIntersecion</a></span>&#8203;(<a href="../models/structures/Pose2D.html" title="class in org.wint3794.pathfollower.models.structures">Pose2D</a>&nbsp;point1,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#lineIntersecion(org.wint3794.pathfollower.geometry.Pose2d,double,org.wint3794.pathfollower.geometry.Pose2d,double)">lineIntersecion</a></span>&#8203;(<a href="../models/structures/Pose2D.html" title="class in org.wint3794.pathfollower.models.structures">Pose2D</a>&nbsp;point1,
                double&nbsp;m1,
                <a href="../models/structures/Pose2D.html" title="class in org.wint3794.pathfollower.models.structures">Pose2D</a>&nbsp;point2,
                double&nbsp;m2)</code></th>
@@ -371,7 +371,7 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a id="lineIntersecion(org.wint3794.pathfollower.models.structures.Pose2D,double,org.wint3794.pathfollower.models.structures.Pose2D,double)">
+<a id="lineIntersecion(org.wint3794.pathfollower.geometry.Pose2d,double,org.wint3794.pathfollower.geometry.Pose2d,double)">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -390,7 +390,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>lineCircleIntersection</h4>
-<pre class="methodSignature">public static&nbsp;java.util.ArrayList&lt;<a href="Point.html" title="class in org.wint3794.pathfollower.utils">Point</a>&gt;&nbsp;lineCircleIntersection&#8203;(double&nbsp;circleX,
+<pre class="methodSignature">public static&nbsp;java.util.ArrayList&lt;<a href="Point.html" title="class in org.wint3794.pathfollower.util">Point</a>&gt;&nbsp;lineCircleIntersection&#8203;(double&nbsp;circleX,
                                                                 double&nbsp;circleY,
                                                                 double&nbsp;r,
                                                                 double&nbsp;lineX1,
@@ -436,10 +436,10 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>lineCircleintersection</h4>
-<pre class="methodSignature">public static&nbsp;java.util.ArrayList&lt;<a href="Point.html" title="class in org.wint3794.pathfollower.utils">Point</a>&gt;&nbsp;lineCircleintersection&#8203;(<a href="Point.html" title="class in org.wint3794.pathfollower.utils">Point</a>&nbsp;circlecenter,
+<pre class="methodSignature">public static&nbsp;java.util.ArrayList&lt;<a href="Point.html" title="class in org.wint3794.pathfollower.util">Point</a>&gt;&nbsp;lineCircleintersection&#8203;(<a href="Point.html" title="class in org.wint3794.pathfollower.util">Point</a>&nbsp;circlecenter,
                                                                 double&nbsp;radius,
-                                                                <a href="Point.html" title="class in org.wint3794.pathfollower.utils">Point</a>&nbsp;linePoint1,
-                                                                <a href="Point.html" title="class in org.wint3794.pathfollower.utils">Point</a>&nbsp;linePoint2)</pre>
+                                                                <a href="Point.html" title="class in org.wint3794.pathfollower.util">Point</a>&nbsp;linePoint1,
+                                                                <a href="Point.html" title="class in org.wint3794.pathfollower.util">Point</a>&nbsp;linePoint2)</pre>
 </li>
 </ul>
 </li>

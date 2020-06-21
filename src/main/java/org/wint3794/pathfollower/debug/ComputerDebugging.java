@@ -17,8 +17,8 @@
 
 package org.wint3794.pathfollower.debug;
 
-import org.wint3794.pathfollower.controllers.Robot;
-import org.wint3794.pathfollower.models.structures.Pose2D;
+import org.wint3794.pathfollower.robot.Robot;
+import org.wint3794.pathfollower.geometry.Pose2d;
 
 /**
  * Sends logs from Robot controller to Telemetry Driver.
@@ -34,7 +34,7 @@ public class ComputerDebugging {
         Log.println("Y -> " + Robot.getYPos(), ORIGIN);
         Log.println("Theta -> " + Robot.getWorldAngle(), ORIGIN);
 
-        Log.check(new Pose2D(Robot.getXPos(), Robot.getYPos()));
+        Log.check(new Pose2d(Robot.getXPos(), Robot.getYPos()));
     }
 
     /**
@@ -42,7 +42,7 @@ public class ComputerDebugging {
      *
      * @param floatPoint The point you want to send.
      */
-    public static void sendKeyPoint(Pose2D floatPoint) {
+    public static void sendKeyPoint(Pose2d floatPoint) {
         Log.println("Key Point -> { X: " + floatPoint.getX() + ", Y: " + floatPoint.getY() + " }", ORIGIN);
     }
 
@@ -52,7 +52,7 @@ public class ComputerDebugging {
      *
      * @param floatPoint The point you want to send.
      */
-    public static void sendLogPoint(Pose2D floatPoint) {
+    public static void sendLogPoint(Pose2d floatPoint) {
         Log.println("Log Point -> { X: " + floatPoint.getX() + ", Y: " + floatPoint.getY() + " }", ORIGIN);
     }
 
@@ -63,7 +63,7 @@ public class ComputerDebugging {
      * @param point1 InitialPoint.
      * @param point2 TargetPoint.
      */
-    public static void sendLine(Pose2D point1, Pose2D point2) {
+    public static void sendLine(Pose2d point1, Pose2d point2) {
         Log.println("New Line -> { Initial Pos: [ X: " + point1.getX() + ", Y: " + point1.getY() + " ], Target Pos: [ X: " + point2.getX() + ", Y: " + point2.getY() + " ] }", ORIGIN);
     }
 }

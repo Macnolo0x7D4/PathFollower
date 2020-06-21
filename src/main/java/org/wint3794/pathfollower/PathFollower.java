@@ -17,26 +17,26 @@
 
 package org.wint3794.pathfollower;
 
-import org.wint3794.pathfollower.controllers.Robot;
+import org.wint3794.pathfollower.robot.Robot;
 import org.wint3794.pathfollower.debug.ComputerDebugging;
 import org.wint3794.pathfollower.debug.Log;
+import org.wint3794.pathfollower.drivebase.mecanum.MecanumKinematic;
+import org.wint3794.pathfollower.drivebase.tank.TankKinematic;
 import org.wint3794.pathfollower.geometry.CurvePoint;
+import org.wint3794.pathfollower.geometry.Pose2d;
 import org.wint3794.pathfollower.hardware.DcMotorBase;
-import org.wint3794.pathfollower.io.Telemetry;
-import org.wint3794.pathfollower.models.config.ChassisConfiguration;
-import org.wint3794.pathfollower.models.config.ChassisTypes;
-import org.wint3794.pathfollower.models.config.ExecutionModes;
-import org.wint3794.pathfollower.models.exceptions.NotCompatibleConfigurationException;
-import org.wint3794.pathfollower.models.structures.DcMotorVelocities;
-import org.wint3794.pathfollower.models.structures.JoystickCoordinates;
-import org.wint3794.pathfollower.models.structures.MecanumDirectives;
-import org.wint3794.pathfollower.models.structures.Pose2D;
-import org.wint3794.pathfollower.movement.Movement;
+import org.wint3794.pathfollower.debug.Telemetry;
+import org.wint3794.pathfollower.drivebase.ChassisConfiguration;
+import org.wint3794.pathfollower.drivebase.ChassisTypes;
+import org.wint3794.pathfollower.robot.ExecutionModes;
+import org.wint3794.pathfollower.exceptions.NotCompatibleConfigurationException;
+import org.wint3794.pathfollower.models.DcMotorVelocities;
+import org.wint3794.pathfollower.models.JoystickCoordinates;
+import org.wint3794.pathfollower.models.MecanumDirectives;
+import org.wint3794.pathfollower.drivebase.Kinematic;
 import org.wint3794.pathfollower.robot.RobotMovement;
-import org.wint3794.pathfollower.movement.standard.DriveTrainMovement;
-import org.wint3794.pathfollower.movement.standard.MecanumMovement;
-import org.wint3794.pathfollower.utils.Constants;
-import org.wint3794.pathfollower.utils.MathUtils;
+import org.wint3794.pathfollower.util.Constants;
+import org.wint3794.pathfollower.util.MathUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -47,7 +47,7 @@ import java.util.Optional;
 public class PathFollower {
     private static final String ORIGIN = "Main Thread";
     private final ChassisConfiguration config;
-    private Movement chassis;
+    private Kinematic chassis;
     private final Robot robot;
 
     /**
@@ -123,7 +123,7 @@ public class PathFollower {
      */
     public void move(MecanumDirectives directives) {
         if (this.config.getType() == ChassisTypes.MECANUM) {
-            setMultiplePowers(MecanumMovement.move(directives));
+            setMultiplePowers(MecanumKinematic.move(directives));
         } else {
             Log.println("Your Chassis Type is not compatible with the desired method", ORIGIN);
         }
@@ -140,7 +140,7 @@ public class PathFollower {
     public void move(JoystickCoordinates coordinates) {
         switch(this.config.getType()){
             case MECANUM:
-                setMultiplePowers(MecanumMovement.move(coordinates));
+                setMultiplePowers(MecanumKinematic.move(coordinates));
                 break;
             case SWERVE:
                 break;
@@ -162,7 +162,7 @@ public class PathFollower {
 
     /**
      * Returns Robot Object if you are running COMPLEX mode.
-     * @return Optional {@link org.wint3794.pathfollower.controllers.Robot}
+     * @return Optional {@link Robot}
      */
     public Optional<Robot> getRobot() {
         if (robot == null) {
@@ -182,10 +182,10 @@ public class PathFollower {
 
             switch (this.config.getType()) {
                 case MECANUM:
-                    this.chassis = new MecanumMovement();
+                    this.chassis = new MecanumKinematic();
                     break;
                 default:
-                    this.chassis = new DriveTrainMovement(this.getChassisConfiguration());
+                    this.chassis = new TankKinematic(this.getChassisConfiguration());
                     break;
             }
         } else {
@@ -219,7 +219,7 @@ public class PathFollower {
             RobotMovement.followCurve(curvePoints, followAngle);
 
             ComputerDebugging.sendRobotLocation();
-            ComputerDebugging.sendLogPoint(new Pose2D(Robot.getXPos(), Robot.getYPos()));
+            ComputerDebugging.sendLogPoint(new Pose2d(Robot.getXPos(), Robot.getYPos()));
 
             this.chassis.apply();
 
@@ -230,7 +230,7 @@ public class PathFollower {
 
     /**
      * Calculates and move your robot. Sets the default
-     * followAngle established in {@link org.wint3794.pathfollower.utils.Constants}. Use in loop.
+     * followAngle established in {@link org.wint3794.pathfollower.util.Constants}. Use in loop.
      * @param curvePoints The list with all CurvePoints [List {@link CurvePoint}].
      * @throws NotCompatibleConfigurationException Only if your configuration is invalid for this method.
      */

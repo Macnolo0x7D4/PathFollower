@@ -5,7 +5,7 @@ org.wint3794.pathfollower.debug.telemetries
 org.wint3794.pathfollower.io
 org.wint3794.pathfollower.math.mecanum
 org.wint3794.pathfollower.models.config
-org.wint3794.pathfollower.models.exceptions
+org.wint3794.pathfollower.exceptions
 org.wint3794.pathfollower.models.structures
 org.wint3794.pathfollower.movement
 org.wint3794.pathfollower.hardware.encoder
@@ -13,4 +13,4 @@ org.wint3794.pathfollower.movement.road
 org.wint3794.pathfollower.robot.structures
 org.wint3794.pathfollower.movement.standard
 org.wint3794.pathfollower.robot
-org.wint3794.pathfollower.utils
+org.wint3794.pathfollower.util

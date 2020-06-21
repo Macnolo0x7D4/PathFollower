@@ -17,10 +17,9 @@
 
 package org.wint3794.pathfollower.robot;
 
-import org.wint3794.pathfollower.controllers.Robot;
-import org.wint3794.pathfollower.models.config.ChassisConfiguration;
-import org.wint3794.pathfollower.utils.MathUtils;
-import org.wint3794.pathfollower.utils.SpeedOmeter;
+import org.wint3794.pathfollower.drivebase.ChassisConfiguration;
+import org.wint3794.pathfollower.util.MathUtils;
+import org.wint3794.pathfollower.util.SpeedOmeter;
 
 public class MyPosition {
 

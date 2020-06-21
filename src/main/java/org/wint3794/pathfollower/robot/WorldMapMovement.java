@@ -21,19 +21,19 @@ import org.wint3794.pathfollower.debug.ComputerDebugging;
 import org.wint3794.pathfollower.geometry.CurvePoint;
 import org.wint3794.pathfollower.geometry.PiecewiseFunction;
 import org.wint3794.pathfollower.geometry.Point;
-import org.wint3794.pathfollower.models.structures.Pose2D;
+import org.wint3794.pathfollower.geometry.Pose2d;
 import org.wint3794.pathfollower.robot.structures.IndexedPoint;
 import org.wint3794.pathfollower.robot.structures.LinePoint;
 import org.wint3794.pathfollower.robot.structures.MovementResult;
 import org.wint3794.pathfollower.robot.structures.ProfileStates;
-import org.wint3794.pathfollower.utils.*;
+import org.wint3794.pathfollower.util.*;
 
 import java.util.ArrayList;
 
 import static org.wint3794.pathfollower.robot.structures.ProfileStates.gunningIt;
 import static org.wint3794.pathfollower.robot.MyPosition.*;
 import static org.wint3794.pathfollower.robot.RuntimeRobotVars.*;
-import static org.wint3794.pathfollower.utils.MathUtils.AngleWrap;
+import static org.wint3794.pathfollower.util.MathUtils.AngleWrap;
 
 
 public class WorldMapMovement {
@@ -302,8 +302,8 @@ public class WorldMapMovement {
     public static boolean followCurve(ArrayList<CurvePoint> allPoints, double followAngle, boolean allowSkipping) {
 
         for (int i = 0; i < allPoints.size() - 1; i++) {
-            ComputerDebugging.sendLine(new Pose2D(allPoints.get(i).x, allPoints.get(i).y),
-                    new Pose2D(allPoints.get(i + 1).x, allPoints.get(i + 1).y));
+            ComputerDebugging.sendLine(new Pose2d(allPoints.get(i).x, allPoints.get(i).y),
+                    new Pose2d(allPoints.get(i + 1).x, allPoints.get(i + 1).y));
         }
 
 
@@ -342,8 +342,8 @@ public class WorldMapMovement {
         }
 
 
-        ComputerDebugging.sendKeyPoint(new Pose2D(pointToMe.x, pointToMe.y));
-        ComputerDebugging.sendKeyPoint(new Pose2D(followMe.x, followMe.y));
+        ComputerDebugging.sendKeyPoint(new Pose2d(pointToMe.x, pointToMe.y));
+        ComputerDebugging.sendKeyPoint(new Pose2d(followMe.x, followMe.y));
 
 
         gunToPosition(followMe.x, followMe.y, followAngle,

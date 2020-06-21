@@ -17,8 +17,7 @@
 
 package org.wint3794.pathfollower.debug;
 
-import org.wint3794.pathfollower.io.Telemetry;
-import org.wint3794.pathfollower.models.structures.Pose2D;
+import org.wint3794.pathfollower.geometry.Pose2d;
 
 /**
  * A class with some static functions to log.
@@ -48,7 +47,7 @@ public class Log {
      * Checkpoint in log by Pose2d
      * @param pose Robot Position
      */
-    public static void check(Pose2D pose){
+    public static void check(Pose2d pose){
         telemetry.print("%" + pose.getX() + "," + pose.getY() + "%");
     }
 
@@ -70,8 +69,8 @@ public class Log {
     }
 
     /**
-     * Sets a Telemetry Driver. It needs to implements {@link org.wint3794.pathfollower.io.Telemetry}
-     * @param telemetry Telemetry Driver. You can create one by implementing {@link org.wint3794.pathfollower.io.Telemetry}
+     * Sets a Telemetry Driver. It needs to implements {@link Telemetry}
+     * @param telemetry Telemetry Driver. You can create one by implementing {@link Telemetry}
      *                  interface or you can use some of our drivers, like {@link org.wint3794.pathfollower.debug.telemetries.ConsolePrinter}.
      */
     public static void setTelemetry(Telemetry telemetry) {

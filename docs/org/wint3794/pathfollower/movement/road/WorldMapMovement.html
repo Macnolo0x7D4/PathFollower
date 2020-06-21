@@ -195,7 +195,7 @@ extends java.lang.Object</pre>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr class="altColor">
-<td class="colFirst"><code>static <a href="../../utils/PiecewiseFunction.html" title="class in org.wint3794.pathfollower.utils">PiecewiseFunction</a></code></td>
+<td class="colFirst"><code>static <a href="../../utils/PiecewiseFunction.html" title="class in org.wint3794.pathfollower.util">PiecewiseFunction</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#turnCurve">turnCurve</a></span></code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
@@ -244,7 +244,7 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr id="i0" class="altColor">
-<td class="colFirst"><code>static <a href="../../utils/Point.html" title="class in org.wint3794.pathfollower.utils">Point</a></code></td>
+<td class="colFirst"><code>static <a href="../../utils/Point.html" title="class in org.wint3794.pathfollower.util">Point</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#clipToLine(double,double,double,double,double,double)">clipToLine</a></span>&#8203;(double&nbsp;lineX1,
           double&nbsp;lineY1,
           double&nbsp;lineX2,
@@ -255,13 +255,13 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static <a href="structures/IndexedPoint.html" title="class in org.wint3794.pathfollower.robot.structures">IndexedPoint</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#clipToPath(java.util.ArrayList,double,double)">clipToPath</a></span>&#8203;(java.util.ArrayList&lt;<a href="../../utils/CurvePoint.html" title="class in org.wint3794.pathfollower.utils">CurvePoint</a>&gt;&nbsp;pathPoints,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#clipToPath(java.util.ArrayList,double,double)">clipToPath</a></span>&#8203;(java.util.ArrayList&lt;<a href="../../utils/CurvePoint.html" title="class in org.wint3794.pathfollower.util">CurvePoint</a>&gt;&nbsp;pathPoints,
           double&nbsp;xPos,
           double&nbsp;yPos)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
-<td class="colFirst"><code>static <a href="../../utils/Point.html" title="class in org.wint3794.pathfollower.utils">Point</a></code></td>
+<td class="colFirst"><code>static <a href="../../utils/Point.html" title="class in org.wint3794.pathfollower.util">Point</a></code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#extendPointOnLine(double,double,double,double,double,double,double)">extendPointOnLine</a></span>&#8203;(double&nbsp;lineX1,
                  double&nbsp;lineY1,
                  double&nbsp;lineX2,
@@ -273,7 +273,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>static boolean</code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#followCurve(java.util.ArrayList,double,boolean)">followCurve</a></span>&#8203;(java.util.ArrayList&lt;<a href="../../utils/CurvePoint.html" title="class in org.wint3794.pathfollower.utils">CurvePoint</a>&gt;&nbsp;allPoints,
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#followCurve(java.util.ArrayList,double,boolean)">followCurve</a></span>&#8203;(java.util.ArrayList&lt;<a href="../../utils/CurvePoint.html" title="class in org.wint3794.pathfollower.util">CurvePoint</a>&gt;&nbsp;allPoints,
            double&nbsp;followAngle,
            boolean&nbsp;allowSkipping)</code></th>
 <td class="colLast">
@@ -281,8 +281,8 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i4" class="altColor">
-<td class="colFirst"><code>static <a href="../../utils/CurvePoint.html" title="class in org.wint3794.pathfollower.utils">CurvePoint</a></code></td>
-<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getFollowPointPath(java.util.ArrayList,double,double,double)">getFollowPointPath</a></span>&#8203;(java.util.ArrayList&lt;<a href="../../utils/CurvePoint.html" title="class in org.wint3794.pathfollower.utils">CurvePoint</a>&gt;&nbsp;pathPoints,
+<td class="colFirst"><code>static <a href="../../utils/CurvePoint.html" title="class in org.wint3794.pathfollower.util">CurvePoint</a></code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getFollowPointPath(java.util.ArrayList,double,double,double)">getFollowPointPath</a></span>&#8203;(java.util.ArrayList&lt;<a href="../../utils/CurvePoint.html" title="class in org.wint3794.pathfollower.util">CurvePoint</a>&gt;&nbsp;pathPoints,
                   double&nbsp;xPos,
                   double&nbsp;yPos,
                   double&nbsp;followRadius)</code></th>
@@ -449,7 +449,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>turnCurve</h4>
-<pre>public static&nbsp;<a href="../../utils/PiecewiseFunction.html" title="class in org.wint3794.pathfollower.utils">PiecewiseFunction</a> turnCurve</pre>
+<pre>public static&nbsp;<a href="../../utils/PiecewiseFunction.html" title="class in org.wint3794.pathfollower.util">PiecewiseFunction</a> turnCurve</pre>
 </li>
 </ul>
 <a id="followCurveIndex">
@@ -564,7 +564,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>followCurve</h4>
-<pre class="methodSignature">public static&nbsp;boolean&nbsp;followCurve&#8203;(java.util.ArrayList&lt;<a href="../../utils/CurvePoint.html" title="class in org.wint3794.pathfollower.utils">CurvePoint</a>&gt;&nbsp;allPoints,
+<pre class="methodSignature">public static&nbsp;boolean&nbsp;followCurve&#8203;(java.util.ArrayList&lt;<a href="../../utils/CurvePoint.html" title="class in org.wint3794.pathfollower.util">CurvePoint</a>&gt;&nbsp;allPoints,
                                   double&nbsp;followAngle,
                                   boolean&nbsp;allowSkipping)</pre>
 <div class="block">follows a set of points, while maintaining a following distance</div>
@@ -576,7 +576,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>clipToPath</h4>
-<pre class="methodSignature">public static&nbsp;<a href="structures/IndexedPoint.html" title="class in org.wint3794.pathfollower.robot.structures">IndexedPoint</a>&nbsp;clipToPath&#8203;(java.util.ArrayList&lt;<a href="../../utils/CurvePoint.html" title="class in org.wint3794.pathfollower.utils">CurvePoint</a>&gt;&nbsp;pathPoints,
+<pre class="methodSignature">public static&nbsp;<a href="structures/IndexedPoint.html" title="class in org.wint3794.pathfollower.robot.structures">IndexedPoint</a>&nbsp;clipToPath&#8203;(java.util.ArrayList&lt;<a href="../../utils/CurvePoint.html" title="class in org.wint3794.pathfollower.util">CurvePoint</a>&gt;&nbsp;pathPoints,
                                       double&nbsp;xPos,
                                       double&nbsp;yPos)</pre>
 </li>
@@ -587,7 +587,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getFollowPointPath</h4>
-<pre class="methodSignature">public static&nbsp;<a href="../../utils/CurvePoint.html" title="class in org.wint3794.pathfollower.utils">CurvePoint</a>&nbsp;getFollowPointPath&#8203;(java.util.ArrayList&lt;<a href="../../utils/CurvePoint.html" title="class in org.wint3794.pathfollower.utils">CurvePoint</a>&gt;&nbsp;pathPoints,
+<pre class="methodSignature">public static&nbsp;<a href="../../utils/CurvePoint.html" title="class in org.wint3794.pathfollower.util">CurvePoint</a>&nbsp;getFollowPointPath&#8203;(java.util.ArrayList&lt;<a href="../../utils/CurvePoint.html" title="class in org.wint3794.pathfollower.util">CurvePoint</a>&gt;&nbsp;pathPoints,
                                             double&nbsp;xPos,
                                             double&nbsp;yPos,
                                             double&nbsp;followRadius)</pre>
@@ -599,7 +599,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>clipToLine</h4>
-<pre class="methodSignature">public static&nbsp;<a href="../../utils/Point.html" title="class in org.wint3794.pathfollower.utils">Point</a>&nbsp;clipToLine&#8203;(double&nbsp;lineX1,
+<pre class="methodSignature">public static&nbsp;<a href="../../utils/Point.html" title="class in org.wint3794.pathfollower.util">Point</a>&nbsp;clipToLine&#8203;(double&nbsp;lineX1,
                                double&nbsp;lineY1,
                                double&nbsp;lineX2,
                                double&nbsp;lineY2,
@@ -613,7 +613,7 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>extendPointOnLine</h4>
-<pre class="methodSignature">public static&nbsp;<a href="../../utils/Point.html" title="class in org.wint3794.pathfollower.utils">Point</a>&nbsp;extendPointOnLine&#8203;(double&nbsp;lineX1,
+<pre class="methodSignature">public static&nbsp;<a href="../../utils/Point.html" title="class in org.wint3794.pathfollower.util">Point</a>&nbsp;extendPointOnLine&#8203;(double&nbsp;lineX1,
                                       double&nbsp;lineY1,
                                       double&nbsp;lineX2,
                                       double&nbsp;lineY2,

@@ -17,7 +17,7 @@
 
 package org.wint3794.pathfollower.debug.telemetries;
 
-import org.wint3794.pathfollower.io.Telemetry;
+import org.wint3794.pathfollower.debug.Telemetry;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
