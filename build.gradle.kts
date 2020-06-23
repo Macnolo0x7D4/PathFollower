@@ -16,9 +16,9 @@
  */
 
 plugins {
-    id 'java-library'
-    id 'maven-publish'
-    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+    `java-library`
+    `maven-publish`
+    id("org.jetbrains.kotlin.jvm") version "1.3.72"
 }
 
 repositories {
@@ -26,23 +26,36 @@ repositories {
 }
 
 dependencies {
-    api 'org.apache.commons:commons-math3:3.6.1'
+    api("org.apache.commons:commons-math3:3.6.1")
 
-    implementation 'com.google.guava:guava:28.2-jre'
+    implementation("com.google.guava:guava:28.2-jre")
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation("junit:junit:4.12")
 
-    compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation("com.googlecode.json-simple:json-simple:1.1")
+
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 }
 
-version = '0.5.2'
-group = 'org.wint3794'
+version = "0.5.3"
+group = "org.wint3794"
 
-jar {
+
+tasks.compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+tasks.compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+tasks.jar {
     manifest {
-        attributes('Implementation-Title': project.name,
-                   'Implementation-Version': project.version)
+        attributes["Implementation-Title"] = project.name
+        attributes["Implementation-Version"] = project.version
     }
 }
 
@@ -52,26 +65,14 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/wint-3794/pathfollower")
             credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
             }
         }
     }
     publications {
-        gpr(MavenPublication) {
-            from(components.java)
+        create<MavenPublication>("maven") {
+            from(components["java"])
         }
     }
 }
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
-
