@@ -43,4 +43,9 @@ public class Constants {
      * Indicates the default follow angle.
      */
     public static final double DEFAULT_FOLLOW_ANGLE = Math.PI/2;
+
+    /**
+     * Indicates the small adjust speed.
+     */
+    public static final double SMALL_ADJUST_SPEED = 0.135;
 }

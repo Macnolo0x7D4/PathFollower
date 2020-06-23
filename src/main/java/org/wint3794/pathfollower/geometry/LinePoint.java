@@ -15,17 +15,16 @@
  *
  */
 
-package org.wint3794.pathfollower.robot.structures;
+package org.wint3794.pathfollower.geometry;
 
-public enum ProfileStates {
-    gunningIt,
-    slipping,
-    fineAdjustment,
-    memes;
+public class LinePoint {
+    public double x;
+    public double y;
+    public boolean onLine;
 
-    private static final ProfileStates[] vals = values();
-
-    public ProfileStates next() {
-        return vals[(this.ordinal() + 1) % vals.length];
+    public LinePoint(double X, double Y, boolean isOnLine) {
+        x = X;
+        y = Y;
+        onLine = isOnLine;
     }
 }

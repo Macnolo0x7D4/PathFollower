@@ -15,12 +15,17 @@
  *
  */
 
-package org.wint3794.pathfollower.robot.structures;
+package org.wint3794.pathfollower.geometry;
 
-public class MovementResult {
-    public double turnDelta_rad;
+public enum ProfileStates {
+    gunningIt,
+    slipping,
+    fineAdjustment,
+    memes;
 
-    public MovementResult(double turnDelta_rad) {
-        this.turnDelta_rad = turnDelta_rad;
+    private static final ProfileStates[] vals = values();
+
+    public ProfileStates next() {
+        return vals[(this.ordinal() + 1) % vals.length];
     }
 }

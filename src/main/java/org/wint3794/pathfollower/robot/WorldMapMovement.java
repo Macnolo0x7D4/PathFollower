@@ -22,22 +22,21 @@ import org.wint3794.pathfollower.geometry.CurvePoint;
 import org.wint3794.pathfollower.geometry.PiecewiseFunction;
 import org.wint3794.pathfollower.geometry.Point;
 import org.wint3794.pathfollower.geometry.Pose2d;
-import org.wint3794.pathfollower.robot.structures.IndexedPoint;
-import org.wint3794.pathfollower.robot.structures.LinePoint;
-import org.wint3794.pathfollower.robot.structures.MovementResult;
-import org.wint3794.pathfollower.robot.structures.ProfileStates;
+import org.wint3794.pathfollower.geometry.IndexedPoint;
+import org.wint3794.pathfollower.geometry.LinePoint;
+import org.wint3794.pathfollower.geometry.MovementResult;
+import org.wint3794.pathfollower.geometry.ProfileStates;
 import org.wint3794.pathfollower.util.*;
 
 import java.util.ArrayList;
 
-import static org.wint3794.pathfollower.robot.structures.ProfileStates.gunningIt;
+import static org.wint3794.pathfollower.geometry.ProfileStates.gunningIt;
 import static org.wint3794.pathfollower.robot.MyPosition.*;
 import static org.wint3794.pathfollower.robot.RuntimeRobotVars.*;
 import static org.wint3794.pathfollower.util.MathUtils.AngleWrap;
 
 
 public class WorldMapMovement {
-    public static final double smallAdjustSpeed = 0.135;
     public static ProfileStates stateMovementYProf = gunningIt;
     public static ProfileStates stateMovementXProf = gunningIt;
     public static ProfileStates stateTurningProf = gunningIt;
@@ -113,7 +112,7 @@ public class WorldMapMovement {
             }
         }
         if (stateMovementXProf == ProfileStates.fineAdjustment) {
-            movement_x_power = Range.clip(((relative_x_to_point / 2.5) * smallAdjustSpeed), -smallAdjustSpeed, smallAdjustSpeed);
+            movement_x_power = Range.clip(((relative_x_to_point / 2.5) * Constants.SMALL_ADJUST_SPEED), -Constants.SMALL_ADJUST_SPEED, Constants.SMALL_ADJUST_SPEED);
         }
 
         double rad_to_target = AngleWrap(point_angle - worldAngle_rad);
@@ -135,8 +134,8 @@ public class WorldMapMovement {
         }
 
         if (stateTurningProf == ProfileStates.fineAdjustment) {
-            turnPower = (rad_to_target / Math.toRadians(10)) * smallAdjustSpeed;
-            turnPower = Range.clip(turnPower, -smallAdjustSpeed, smallAdjustSpeed);
+            turnPower = (rad_to_target / Math.toRadians(10)) * Constants.SMALL_ADJUST_SPEED;
+            turnPower = Range.clip(turnPower, -Constants.SMALL_ADJUST_SPEED, Constants.SMALL_ADJUST_SPEED);
         }
 
         movementTurn = turnPower;
@@ -225,8 +224,6 @@ public class WorldMapMovement {
 
         allComponentsMinPower();
 
-
-        //dar efecto dedeslize
         movementX *= Range.clip((relative_abs_x / 6.0), 0, 1);
         movementY *= Range.clip((relative_abs_y / 6.0), 0, 1);
 
@@ -244,9 +241,6 @@ public class WorldMapMovement {
         return new MovementResult(relativePointAngle);
     }
 
-
-    // va lo mas rapido posible manteniendose lo mas posible hacia adelante para mantener tiempo y ser masefectivo
-    //baja la velocidad y para
 
     public static MovementResult pointAngle(double point_angle, double point_speed, double decelerationRadians) {
 
@@ -306,26 +300,22 @@ public class WorldMapMovement {
                     new Pose2d(allPoints.get(i + 1).x, allPoints.get(i + 1).y));
         }
 
-
-        //extender el punto final
-        ArrayList<CurvePoint> pathExtended = (ArrayList<CurvePoint>) allPoints.clone();
-
         //en que posicion estamos
         IndexedPoint clippedToPath = clipToPath(allPoints, worldXPosition, worldYPosition);
         int currFollowIndex = clippedToPath.getIndex() + 1;
 
         //calc el punto a seguir
-        CurvePoint followMe = getFollowPointPath(pathExtended, worldXPosition, worldYPosition,
+        CurvePoint followMe = getFollowPointPath(allPoints, worldXPosition, worldYPosition,
                 allPoints.get(currFollowIndex).followDistance);
 
 
         //esto cambia el punto a ser extendido
-        pathExtended.set(pathExtended.size() - 1,
+        allPoints.set(allPoints.size() - 1,
                 extendLine(allPoints.get(allPoints.size() - 2), allPoints.get(allPoints.size() - 1),
                         allPoints.get(allPoints.size() - 1).pointLength * 1.5));
 
 
-        CurvePoint pointToMe = getFollowPointPath(pathExtended, worldXPosition, worldYPosition,
+        CurvePoint pointToMe = getFollowPointPath(allPoints, worldXPosition, worldYPosition,
                 allPoints.get(currFollowIndex).pointLength);
 
 

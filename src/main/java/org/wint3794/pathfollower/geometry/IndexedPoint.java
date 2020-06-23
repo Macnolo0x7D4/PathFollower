@@ -15,16 +15,28 @@
  *
  */
 
-package org.wint3794.pathfollower.robot.structures;
+package org.wint3794.pathfollower.geometry;
 
-public class LinePoint {
-    public double x;
-    public double y;
-    public boolean onLine;
+public class IndexedPoint {
+    private final double x;
+    private final double y;
+    private final int index;
 
-    public LinePoint(double X, double Y, boolean isOnLine) {
-        x = X;
-        y = Y;
-        onLine = isOnLine;
+    public IndexedPoint(double xPos, double yPos, int index) {
+        this.x = xPos;
+        this.y = yPos;
+        this.index = index;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public int getIndex() {
+        return index;
     }
 }
