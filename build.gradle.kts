@@ -40,7 +40,6 @@ dependencies {
 version = "0.5.3"
 group = "org.wint3794"
 
-
 tasks.compileKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
@@ -65,8 +64,8 @@ publishing {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/wint-3794/pathfollower")
             credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
