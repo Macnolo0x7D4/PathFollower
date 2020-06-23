@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 WinT 3794 (Manuel Díaz Rojo and Alexis Obed García Hernández)
+ * Copyright 2020 WinT 3794 (Manuel Diaz Rojo and Alexis Obed Garcia Hernandez)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,31 +19,34 @@ package org.wint3794.pathfollower.io;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.wint3794.pathfollower.models.structures.Pose2D;
-import org.wint3794.pathfollower.utils.CurvePoint;
+import org.wint3794.pathfollower.geometry.CurvePoint;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class PathProcessor {
     private final JSONArray json;
 
+    /**
+     * Creates path from JSON Array. Preferably use
+     * PathReader or PathSimulator before.
+     * @param json A JSON Array that includes {@link org.wint3794.pathfollower.geometry.CurvePoint} List.
+     */
     public PathProcessor(JSONArray json) {
         this.json = json;
     }
 
-    public Pose2D getPosition(JSONObject object) {
-        Long x = (Long) object.get("x");
-        Long y = (Long) object.get("y");
-
-        return new Pose2D((double) x, (double) y);
+    /**
+     * Returns CurvePoint from Path (JSON Array) if exists.
+     * @param index Point Index
+     * @return The desired CurvePoint
+     */
+    public Optional<CurvePoint> getPointByIndex(int index) {
+        return Optional.of(createCurvePoint((JSONObject) json.get(index)));
     }
 
-    public JSONObject getInstructionByIndex(int index) {
-        return (JSONObject) json.get(index);
-    }
-
-    public CurvePoint createCurvePointFromInstruction(JSONObject object) {
+    private CurvePoint createCurvePoint(JSONObject object) {
         double x = (double) object.get("x");
         double y = (double) object.get("y");
 
@@ -51,18 +54,22 @@ public class PathProcessor {
 
         double turnSpeed = (double) object.get("turn_speed");
         double followDistance = (double) object.get("follow_distance");
+        double pointLength = (double) object.get("point_length");
         double slowDownTurnRadians = Math.toRadians((double) object.get("slow_down_turn_radians"));
         double slowDownTurnAmount = (double) object.get("slow_down_turn_amount");
 
-        return new CurvePoint(x, y, moveSpeed, turnSpeed, followDistance, slowDownTurnRadians, slowDownTurnAmount);
+        return new CurvePoint(x, y, moveSpeed, turnSpeed, followDistance, pointLength, slowDownTurnRadians, slowDownTurnAmount);
     }
 
+    /**
+     * Returns a functional Path as List of CurvePoints.
+     * @return Functional Path
+     */
     public List<CurvePoint> createFunctionalPath() {
         List<CurvePoint> list = new ArrayList<>();
 
-        // json.forEach( object -> list.add(createCurvePointFromInstruction((JSONObject) object)));
         for (Object object : json) {
-            list.add(createCurvePointFromInstruction((JSONObject) object));
+            list.add(createCurvePoint((JSONObject) object));
         }
 
         return list;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 WinT 3794 (Manuel Díaz Rojo and Alexis Obed García Hernández)
+ * Copyright 2020 WinT 3794 (Manuel Diaz Rojo and Alexis Obed Garcia Hernandez)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,9 @@
 
 package org.wint3794.pathfollower.robot;
 
-import org.wint3794.pathfollower.controllers.Robot;
-import org.wint3794.pathfollower.models.config.ChassisConfiguration;
-import org.wint3794.pathfollower.utils.MathUtils;
-import org.wint3794.pathfollower.utils.SpeedOmeter;
+import org.wint3794.pathfollower.drivebase.ChassisConfiguration;
+import org.wint3794.pathfollower.util.MathUtils;
+import org.wint3794.pathfollower.util.SpeedOmeter;
 
 public class MyPosition {
 

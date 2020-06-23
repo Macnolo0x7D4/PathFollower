@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 WinT 3794 (Manuel Díaz Rojo and Alexis Obed García Hernández)
+ * Copyright 2020 WinT 3794 (Manuel Diaz Rojo and Alexis Obed Garcia Hernandez)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,12 +23,13 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 
 public class PathReader {
     protected final JSONParser parser;
     protected JSONArray path;
 
-    public PathReader(String file) {
+    public PathReader(URL file) {
         this.parser = new JSONParser();
         this.path = readFile(file);
     }
@@ -37,9 +38,9 @@ public class PathReader {
         this.parser = new JSONParser();
     }
 
-    private JSONArray readFile(String file) {
+    private JSONArray readFile(URL file) {
         JSONArray read = null;
-        try (FileReader reader = new FileReader(file)) {
+        try (FileReader reader = new FileReader(file.getFile())) {
             read = parseObject(reader);
         } catch (IOException | ParseException e) {
             e.printStackTrace();

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 WinT 3794 (Manuel Díaz Rojo and Alexis Obed García Hernández)
+ * Copyright 2020 WinT 3794 (Manuel Diaz Rojo and Alexis Obed Garcia Hernandez)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
 
 package org.wint3794.pathfollower.debug.telemetries;
 
-import org.wint3794.pathfollower.io.Telemetry;
+import org.wint3794.pathfollower.debug.Telemetry;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
