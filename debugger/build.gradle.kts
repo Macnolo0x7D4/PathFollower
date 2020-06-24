@@ -2,10 +2,29 @@ plugins {
     java
     application
     id("org.openjfx.javafxplugin") version "0.0.8"
+    id("org.beryx.jlink") version "2.12.0"
 }
 
-group = "org.wint3794"
-version = "0.5.4"
+application {
+    applicationName = "Graphical Debugger"
+    mainClassName = "org.wint3794.debugger.App"
+}
+
+javafx {
+    modules("javafx.controls", "javafx.fxml")
+}
+
+jlink {
+    launcher {
+        name = "Graphical Debugger"
+    }
+}
+
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "org.wint3794.debugger.App"
+    }
+}
 
 repositories {
     mavenCentral()

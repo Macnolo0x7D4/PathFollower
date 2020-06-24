@@ -41,9 +41,7 @@ public class Client extends Thread {
                 InputStreamReader inputStreamReader = new InputStreamReader(s.getInputStream());
                 input = new BufferedReader(inputStreamReader);
                 break;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            } catch (IOException ignored) { }
         } while(isRunning());
 
         while (isRunning()) {
