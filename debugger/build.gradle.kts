@@ -2,7 +2,6 @@ plugins {
     java
     application
     id("org.openjfx.javafxplugin") version "0.0.8"
-    id("org.beryx.jlink") version "2.12.0"
 }
 
 application {
@@ -12,12 +11,6 @@ application {
 
 javafx {
     modules("javafx.controls", "javafx.fxml")
-}
-
-jlink {
-    launcher {
-        name = "Graphical Debugger"
-    }
 }
 
 tasks.jar {
