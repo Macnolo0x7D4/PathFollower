@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.wint3794.pathfollower.debug.Log;
 import org.wint3794.pathfollower.debug.telemetries.ConsolePrinter;
 import org.wint3794.pathfollower.adapters.DcMotorAdapter;
+import org.wint3794.pathfollower.debug.telemetries.GraphicalDebuggerServer;
 import org.wint3794.pathfollower.io.PathProcessor;
 import org.wint3794.pathfollower.io.PathReader;
 import org.wint3794.pathfollower.drivebase.ChassisConfiguration;
@@ -55,7 +56,7 @@ public class PathFollowerTest {
 
     @Test
     public void testSomeLibraryMethod() {
-        PathFollower classUnderTest = new PathFollower(getTestingConfiguration(), new ConsolePrinter());
+        PathFollower classUnderTest = new PathFollower(getTestingConfiguration(), new GraphicalDebuggerServer());
 
         // classUnderTest.getChassisInformation().getMotors().forEach(dcMotor -> System.out.println("[Motor " + dcMotor.getId() + "]: " + dcMotor.getPower()));
         // assertTrue("getDcMotor(2).getPower() == 1.0 should return 'true'", classUnderTest.getDcMotor((byte) 2).getPower() == 1.0);
@@ -65,10 +66,10 @@ public class PathFollowerTest {
         functionalPath = processor.createFunctionalPath();
 
         try {
-            classUnderTest.init();
+            classUnderTest.init(functionalPath);
 
             for (int i = 0; i < 100; i++) {
-                classUnderTest.calculate(functionalPath);
+                classUnderTest.calculate();
                 Log.update();
             }
         } catch (NotCompatibleConfigurationException e) {

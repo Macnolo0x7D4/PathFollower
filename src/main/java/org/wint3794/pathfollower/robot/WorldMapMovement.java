@@ -17,7 +17,7 @@
 
 package org.wint3794.pathfollower.robot;
 
-import org.wint3794.pathfollower.debug.ComputerDebugging;
+import org.wint3794.pathfollower.debug.RobotLogger;
 import org.wint3794.pathfollower.geometry.CurvePoint;
 import org.wint3794.pathfollower.geometry.PiecewiseFunction;
 import org.wint3794.pathfollower.geometry.Point;
@@ -296,7 +296,7 @@ public class WorldMapMovement {
     public static boolean followCurve(ArrayList<CurvePoint> allPoints, double followAngle, boolean allowSkipping) {
 
         for (int i = 0; i < allPoints.size() - 1; i++) {
-            ComputerDebugging.sendLine(new Pose2d(allPoints.get(i).x, allPoints.get(i).y),
+            RobotLogger.sendLine(new Pose2d(allPoints.get(i).x, allPoints.get(i).y),
                     new Pose2d(allPoints.get(i + 1).x, allPoints.get(i + 1).y));
         }
 
@@ -332,8 +332,8 @@ public class WorldMapMovement {
         }
 
 
-        ComputerDebugging.sendKeyPoint(new Pose2d(pointToMe.x, pointToMe.y));
-        ComputerDebugging.sendKeyPoint(new Pose2d(followMe.x, followMe.y));
+        RobotLogger.sendKeyPoint(new Pose2d(pointToMe.x, pointToMe.y));
+        RobotLogger.sendKeyPoint(new Pose2d(followMe.x, followMe.y));
 
 
         gunToPosition(followMe.x, followMe.y, followAngle,

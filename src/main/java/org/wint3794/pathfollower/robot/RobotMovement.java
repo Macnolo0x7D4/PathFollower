@@ -17,7 +17,7 @@
 
 package org.wint3794.pathfollower.robot;
 
-import org.wint3794.pathfollower.debug.ComputerDebugging;
+import org.wint3794.pathfollower.debug.RobotLogger;
 import org.wint3794.pathfollower.geometry.Pose2d;
 import org.wint3794.pathfollower.geometry.CurvePoint;
 import org.wint3794.pathfollower.geometry.Point;
@@ -32,13 +32,9 @@ import static org.wint3794.pathfollower.util.MathUtils.lineCircleintersection;
 
 public class RobotMovement {
     public static void followCurve(List<CurvePoint> allPoints, double followAngle) {
-        for (int i = 0; i < allPoints.size() - 1; i++) {
-            ComputerDebugging.sendLine(new Pose2d(allPoints.get(i).x, allPoints.get(i).y), new Pose2d(allPoints.get(i + 1).x, allPoints.get(i + 1).y));
-        }
-
         CurvePoint followMe = getFollowPointPath(allPoints, new Point(Robot.getXPos(), Robot.getYPos()), allPoints.get(0).followDistance);
 
-        ComputerDebugging.sendKeyPoint(new Pose2d(followMe.x, followMe.y));
+        RobotLogger.sendKeyPoint(new Pose2d(followMe.x, followMe.y));
 
         moveToPosition(followMe.x, followMe.y, followMe.moveSpeed, followAngle, followMe.turnSpeed);
     }
