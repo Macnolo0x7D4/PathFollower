@@ -37,7 +37,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 }
 
-version = "0.5.3"
+version = "0.5.4"
 group = "org.wint3794"
 
 tasks.compileKotlin {
