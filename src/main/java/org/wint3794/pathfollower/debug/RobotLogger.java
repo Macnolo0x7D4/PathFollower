@@ -37,7 +37,11 @@ public class RobotLogger {
         Log.println("Y -> " + Robot.getYPos(), ORIGIN);
         Log.println("Theta -> " + Robot.getWorldAngle(), ORIGIN);
 
-        ((GraphicalDebuggerServer) Log.getTelemetry()).sendPosition(new Pose2d(Robot.getXPos(), Robot.getYPos()));
+        try{
+            GraphicalDebuggerServer console = (GraphicalDebuggerServer) Log.getTelemetry();
+            console.sendPosition(new Pose2d(Robot.getXPos(), Robot.getYPos()));
+        } catch (ClassCastException ignored){ }
+
     }
 
     /**

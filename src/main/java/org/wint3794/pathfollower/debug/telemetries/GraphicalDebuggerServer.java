@@ -37,6 +37,8 @@ public class GraphicalDebuggerServer extends Telemetry {
     }
 
     public void sendPosition(Pose2d pose2d){
-        System.out.println(pose2d.getX() + "," + pose2d.getY());
+        System.out.println("%" + pose2d.getX() + "," + pose2d.getY() + "%");
     }
+
+
 }
