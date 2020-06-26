@@ -68,7 +68,8 @@ public class PathFollowerTest {
         try {
             classUnderTest.init(functionalPath);
 
-            for (int i = 0; i < 100; i++) {
+            while (true){
+            // for (int i = 0; i < 100; i++) {
                 classUnderTest.calculate();
                 Log.update();
             }

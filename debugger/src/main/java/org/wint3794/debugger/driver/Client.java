@@ -18,91 +18,83 @@
 package org.wint3794.debugger.driver;
 
 import org.wint3794.debugger.graphics.Robot;
+import org.wint3794.debugger.utils.Constants;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.Socket;
-import java.util.Arrays;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 
 public class Client extends Thread {
-    private static final int port = 5000;
-    private static final String addr = "127.0.0.1";
-    private static boolean running = false;
-    private static Socket s;
-    private static BufferedReader input;
+  private static boolean running = false;
+  private DatagramSocket socket;
 
-    @Override
-    public void run() {
-        System.out.println("Client initialized successfully!");
-        do {
-            try {
-                s = new Socket(addr, port);
-                InputStreamReader inputStreamReader = new InputStreamReader(s.getInputStream());
-                input = new BufferedReader(inputStreamReader);
-                break;
-            } catch (IOException ignored) { }
-        } while(isRunning());
+  private byte[] buf = new byte[1024];
 
-        while (isRunning()) {
-            try {
-                String buffer = input.readLine();
+  public Client() {
+    try {
+      socket = new DatagramSocket(Constants.UDP_PORT);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
-                double[] pos = transformBufferIntoDouble(buffer);
+  public double[] get() {
+    DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-                if(pos != null)
-                    Robot.move(pos);
-
-                if (s.isClosed()) {
-                    break;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    try {
+      socket.receive(packet);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
 
-    private double[] transformBufferIntoDouble(String buffer){
+    String received = new String(packet.getData(), 0, packet.getLength());
 
-        double[] pose = new double[2];
+    return transformBufferIntoDouble(received);
+  }
 
-        StringBuilder builder = new StringBuilder();
+  public void close() {
+    socket.close();
+  }
 
-        int start = buffer.indexOf("%");
+  private double[] transformBufferIntoDouble(String buffer) {
 
-        int separator = buffer.indexOf(",");
+    double[] pose = new double[2];
 
-        for (int i = start + 1; i < separator; i++) {
-            builder.append((char) buffer.getBytes()[i]);
-        }
+    StringBuilder builder = new StringBuilder();
 
-        try {
-            pose[0] = Double.parseDouble(builder.toString());
-        } catch (NumberFormatException ignored) {
-            return null;
-        }
+    int start = buffer.indexOf("%");
 
-        builder = new StringBuilder();
+    int separator = buffer.indexOf(",");
 
-        for (int i = separator + 1; buffer.charAt(i) != '%'; i++) {
-            builder.append((char) buffer.getBytes()[i]);
-        }
-
-        try {
-            pose[1] = Double.parseDouble(builder.toString());
-        } catch (NumberFormatException ignored) {
-            return null;
-        }
-
-        return pose;
+    for (int i = start + 1; i < separator; i++) {
+      builder.append((char) buffer.getBytes()[i]);
     }
 
-    public synchronized static boolean isRunning() {
-        return running;
+    try {
+      pose[0] = Double.parseDouble(builder.toString());
+    } catch (NumberFormatException ignored) {
+      return null;
     }
 
-    public synchronized static void setRunning(boolean running) {
-        Client.running = running;
+    builder = new StringBuilder();
+
+    for (int i = separator + 1; buffer.charAt(i) != '%'; i++) {
+      builder.append((char) buffer.getBytes()[i]);
     }
+
+    try {
+      pose[1] = Double.parseDouble(builder.toString());
+    } catch (NumberFormatException ignored) {
+      return null;
+    }
+
+    return pose;
+  }
+
+  @Override
+  public void run() {
+    while (true) {
+      Robot.move(get());
+    }
+  }
 }
-

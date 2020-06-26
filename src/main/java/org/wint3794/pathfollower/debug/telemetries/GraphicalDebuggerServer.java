@@ -19,8 +19,87 @@ package org.wint3794.pathfollower.debug.telemetries;
 
 import org.wint3794.pathfollower.debug.Telemetry;
 import org.wint3794.pathfollower.geometry.Pose2d;
+import org.wint3794.pathfollower.util.Range;
 
-public class GraphicalDebuggerServer extends Telemetry {
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.util.concurrent.Semaphore;
+
+public class GraphicalDebuggerServer extends Telemetry implements Runnable {
+  public static boolean kill = false;
+  private final int clientPort = 5000;
+  private Semaphore sendLock = new Semaphore(1);
+
+  private long lastSendMillis = 0;
+  private String lastUpdate = "";
+  private String currentUpdate = "";
+
+  @Override
+  public void run() {
+    while (true) {
+      if (kill) break;
+
+      try {
+        if (System.currentTimeMillis() - lastSendMillis < 50) {
+          continue;
+        }
+
+        lastSendMillis = System.currentTimeMillis();
+        sendLock.acquire();
+
+        if (currentUpdate.length() > 0) {
+          splitAndSend(currentUpdate);
+          currentUpdate = "";
+        }
+
+        sendLock.release();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  public void splitAndSend(String message) {
+
+    int startIndex = 0;
+    int endIndex;
+
+    do {
+      endIndex = Range.clip(startIndex + 600, 0, message.length() - 1);
+
+      sendUdpRAW(message.substring(startIndex, endIndex + 1));
+      startIndex = endIndex + 1;
+    } while (endIndex != message.length() - 1);
+  }
+
+  private void sendUdpRAW(String message) {
+    try (DatagramSocket serverSocket = new DatagramSocket()) {
+      DatagramPacket datagramPacket =
+          new DatagramPacket(
+              message.getBytes(),
+              message.length(),
+              InetAddress.getByName("127.0.0.1"), clientPort);
+
+      serverSocket.send(datagramPacket);
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @Override
+  public String toString() {
+    return "Graphical Debugger Server (TCP)";
+  }
+
+  public void sendPosition(Pose2d pose2d) {
+    System.out.println("%" + pose2d.getX() + "," + pose2d.getY() + "%");
+    splitAndSend("%" + pose2d.getX() + "," + pose2d.getY() + "%");
+    // super.outputStream.writeUTF("%" + pose2d.getX() + "," + pose2d.getY() + "%\n");tackTrace();
+  }
+
     @Override
     public void init() {
 
@@ -35,10 +114,4 @@ public class GraphicalDebuggerServer extends Telemetry {
     public void close() {
 
     }
-
-    public void sendPosition(Pose2d pose2d){
-        System.out.println("%" + pose2d.getX() + "," + pose2d.getY() + "%");
-    }
-
-
 }

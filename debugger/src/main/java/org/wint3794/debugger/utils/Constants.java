@@ -26,4 +26,6 @@ public class Constants {
     public static final double ROBOT_HEIGHT = 64;
 
     public static final double MAP_SQUARE = 358;
+
+    public static final int UDP_PORT = 5000;
 }

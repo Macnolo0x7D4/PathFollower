@@ -30,7 +30,6 @@ import org.wint3794.debugger.utils.Constants;
 public class App extends Application {
 
     public static void main(String[] args) {
-        Client.setRunning(true);
         Thread client = new Client();
         client.start();
         launch(args);
@@ -57,7 +56,7 @@ public class App extends Application {
         primaryStage.setTitle(Constants.NAME);
         primaryStage.setResizable(false);
 
-        primaryStage.setOnCloseRequest(event -> Client.setRunning(false));
+        primaryStage.setOnCloseRequest(event -> System.exit(0));
 
         Scene scene = new Scene(root, Constants.WIDTH, Constants.HEIGHT);
 

@@ -30,7 +30,7 @@ public class TCPServer extends Telemetry {
     private static final int PORT = 5000;
     private Socket s;
     private ServerSocket ss;
-    private DataOutputStream outputStream;
+    protected DataOutputStream outputStream;
 
     @Override
     public void init() {
@@ -70,7 +70,7 @@ public class TCPServer extends Telemetry {
         return "Debugger TCPServer";
     }
 
-    private void reset() {
+    void reset() {
         try {
             close();
             this.ss = new ServerSocket(PORT);

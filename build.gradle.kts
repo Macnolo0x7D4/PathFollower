@@ -40,17 +40,6 @@ dependencies {
 version = "0.5.4"
 group = "org.wint3794"
 
-tasks.compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-tasks.compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
 tasks.jar {
     manifest {
         attributes["Implementation-Title"] = project.name

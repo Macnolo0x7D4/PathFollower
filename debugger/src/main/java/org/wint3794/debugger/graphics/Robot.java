@@ -21,13 +21,8 @@ import org.wint3794.debugger.App;
 import org.wint3794.debugger.utils.Constants;
 
 public class Robot {
-    public static void move(double x, double y){
-        App.robot.setX(x * Constants.WIDTH / Constants.MAP_SQUARE - Constants.ROBOT_HEIGHT / 2 );
-        App.robot.setY(y * Constants.HEIGHT / Constants.MAP_SQUARE - Constants.ROBOT_HEIGHT / 2);
-    }
-
     public static void move(double[] pos){
         App.robot.setX(pos[0] * Constants.WIDTH / Constants.MAP_SQUARE - Constants.ROBOT_HEIGHT / 2 );
-        App.robot.setY(pos[1] * Constants.HEIGHT / Constants.MAP_SQUARE - Constants.ROBOT_HEIGHT / 2);
+        App.robot.setY(Constants.HEIGHT - Constants.ROBOT_HEIGHT / 2 - pos[1] * Constants.HEIGHT / Constants.MAP_SQUARE);
     }
 }
