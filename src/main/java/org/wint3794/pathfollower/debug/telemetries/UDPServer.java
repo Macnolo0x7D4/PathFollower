@@ -19,6 +19,7 @@ package org.wint3794.pathfollower.debug.telemetries;
 
 import org.wint3794.pathfollower.debug.Telemetry;
 import org.wint3794.pathfollower.geometry.Pose2d;
+import org.wint3794.pathfollower.util.Constants;
 import org.wint3794.pathfollower.util.Range;
 
 import java.io.IOException;
@@ -27,20 +28,35 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.concurrent.Semaphore;
 
-public class GraphicalDebuggerServer extends Telemetry implements Runnable {
-  public static boolean kill = false;
-  private final int clientPort = 5000;
-  private Semaphore sendLock = new Semaphore(1);
-
+public class UDPServer extends Telemetry implements Runnable {
+  private final Semaphore sendLock = new Semaphore(1);
+  private static boolean running = false;
   private long lastSendMillis = 0;
-  private String lastUpdate = "";
   private String currentUpdate = "";
 
   @Override
-  public void run() {
-    while (true) {
-      if (kill) break;
+  public void init() {
+    setRunning(true);
+  }
 
+  @Override
+  public void print(String log) {
+    System.out.println(log);
+  }
+
+  @Override
+  public void close() {
+    setRunning(false);
+  }
+
+  public void sendPosition(Pose2d pose2d) {
+    send("%" + pose2d.getX() + "," + pose2d.getY() + "%");
+    // super.outputStream.writeUTF("%" + pose2d.getX() + "," + pose2d.getY() + "%\n");tackTrace();
+  }
+
+  @Override
+  public void run() {
+    while (isRunning()) {
       try {
         if (System.currentTimeMillis() - lastSendMillis < 50) {
           continue;
@@ -50,7 +66,7 @@ public class GraphicalDebuggerServer extends Telemetry implements Runnable {
         sendLock.acquire();
 
         if (currentUpdate.length() > 0) {
-          splitAndSend(currentUpdate);
+          send(currentUpdate);
           currentUpdate = "";
         }
 
@@ -61,57 +77,43 @@ public class GraphicalDebuggerServer extends Telemetry implements Runnable {
     }
   }
 
-  public void splitAndSend(String message) {
+  public void send(String message) {
 
     int startIndex = 0;
     int endIndex;
 
     do {
       endIndex = Range.clip(startIndex + 600, 0, message.length() - 1);
+      message = message.substring(startIndex, endIndex + 1);
 
-      sendUdpRAW(message.substring(startIndex, endIndex + 1));
+      try (DatagramSocket serverSocket = new DatagramSocket()) {
+        DatagramPacket datagramPacket =
+                new DatagramPacket(
+                        message.getBytes(),
+                        message.length(),
+                        InetAddress.getByName("127.0.0.1"),
+                        Constants.CLIENT_PORT);
+
+        serverSocket.send(datagramPacket);
+
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+
       startIndex = endIndex + 1;
     } while (endIndex != message.length() - 1);
   }
 
-  private void sendUdpRAW(String message) {
-    try (DatagramSocket serverSocket = new DatagramSocket()) {
-      DatagramPacket datagramPacket =
-          new DatagramPacket(
-              message.getBytes(),
-              message.length(),
-              InetAddress.getByName("127.0.0.1"), clientPort);
-
-      serverSocket.send(datagramPacket);
-
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
   @Override
   public String toString() {
-    return "Graphical Debugger Server (TCP)";
+    return "Graphical Debugger Server (UDP)";
   }
 
-  public void sendPosition(Pose2d pose2d) {
-    System.out.println("%" + pose2d.getX() + "," + pose2d.getY() + "%");
-    splitAndSend("%" + pose2d.getX() + "," + pose2d.getY() + "%");
-    // super.outputStream.writeUTF("%" + pose2d.getX() + "," + pose2d.getY() + "%\n");tackTrace();
+  public static boolean isRunning() {
+    return running;
   }
 
-    @Override
-    public void init() {
-
-    }
-
-    @Override
-    public void print(String log) {
-
-    }
-
-    @Override
-    public void close() {
-
-    }
+  public static void setRunning(boolean running) {
+    UDPServer.running = running;
+  }
 }

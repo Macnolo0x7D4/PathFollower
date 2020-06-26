@@ -17,9 +17,7 @@
 
 package org.wint3794.pathfollower.debug;
 
-import org.wint3794.pathfollower.debug.telemetries.ConsolePrinter;
-import org.wint3794.pathfollower.debug.telemetries.GraphicalDebuggerServer;
-import org.wint3794.pathfollower.debug.telemetries.TCPServer;
+import org.wint3794.pathfollower.debug.telemetries.UDPServer;
 import org.wint3794.pathfollower.robot.Robot;
 import org.wint3794.pathfollower.geometry.Pose2d;
 
@@ -38,7 +36,7 @@ public class RobotLogger {
         Log.println("Theta -> " + Robot.getWorldAngle(), ORIGIN);
 
         try{
-            GraphicalDebuggerServer console = (GraphicalDebuggerServer) Log.getTelemetry();
+            UDPServer console = (UDPServer) Log.getTelemetry();
             console.sendPosition(new Pose2d(Robot.getXPos(), Robot.getYPos()));
         } catch (ClassCastException ignored){ }
 

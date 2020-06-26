@@ -19,9 +19,8 @@ package org.wint3794.pathfollower;
 
 import org.junit.Test;
 import org.wint3794.pathfollower.debug.Log;
-import org.wint3794.pathfollower.debug.telemetries.ConsolePrinter;
 import org.wint3794.pathfollower.adapters.DcMotorAdapter;
-import org.wint3794.pathfollower.debug.telemetries.GraphicalDebuggerServer;
+import org.wint3794.pathfollower.debug.telemetries.UDPServer;
 import org.wint3794.pathfollower.io.PathProcessor;
 import org.wint3794.pathfollower.io.PathReader;
 import org.wint3794.pathfollower.drivebase.ChassisConfiguration;
@@ -56,7 +55,7 @@ public class PathFollowerTest {
 
     @Test
     public void testSomeLibraryMethod() {
-        PathFollower classUnderTest = new PathFollower(getTestingConfiguration(), new GraphicalDebuggerServer());
+        PathFollower classUnderTest = new PathFollower(getTestingConfiguration(), new UDPServer());
 
         // classUnderTest.getChassisInformation().getMotors().forEach(dcMotor -> System.out.println("[Motor " + dcMotor.getId() + "]: " + dcMotor.getPower()));
         // assertTrue("getDcMotor(2).getPower() == 1.0 should return 'true'", classUnderTest.getDcMotor((byte) 2).getPower() == 1.0);
