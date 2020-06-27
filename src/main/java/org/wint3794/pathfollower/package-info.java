@@ -16,7 +16,7 @@
  */
 
 /**
- * The Main Package of the PathFollower. It contains all math,
+ * The Main Package of the Follower. It contains all math,
  * movements, configurations and more.
  */
 package org.wint3794.pathfollower;

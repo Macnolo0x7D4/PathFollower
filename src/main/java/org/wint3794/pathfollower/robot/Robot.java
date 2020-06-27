@@ -17,9 +17,8 @@
 
 package org.wint3794.pathfollower.robot;
 
-import org.wint3794.pathfollower.PathFollower;
+import org.wint3794.pathfollower.controllers.Follower;
 import org.wint3794.pathfollower.drivebase.ChassisConfiguration;
-import org.wint3794.pathfollower.robot.MyPosition;
 import org.wint3794.pathfollower.util.Range;
 import org.wint3794.pathfollower.util.SpeedOmeter;
 
@@ -32,15 +31,15 @@ public class Robot {
     private static double worldXPosition;
     private static double worldYPosition;
     private static double worldAngle;
-    private final PathFollower pathFollower;
+    private final Follower follower;
     private long lastUpdateTime = 0;
 
 
     /**
      * Creates a robot simulation
      */
-    public Robot(PathFollower pathFollower) {
-        this.pathFollower = pathFollower;
+    public Robot(Follower follower) {
+        this.follower = follower;
 
         worldXPosition = 100;
         worldYPosition = 140;
@@ -102,7 +101,7 @@ public class Robot {
     }
 
     public void CurvoidStartPos() {
-        ChassisConfiguration chassis = pathFollower.getChassisConfiguration();
+        ChassisConfiguration chassis = follower.getChassisConfiguration();
 
         for (int i = 0; i < 2; i++) {
             MyPosition.initialize(chassis, this);
@@ -111,6 +110,6 @@ public class Robot {
     }
 
     public void loop() {
-        MyPosition.giveMePositions(pathFollower.getChassisConfiguration());
+        MyPosition.giveMePositions(follower.getChassisConfiguration());
     }
 }

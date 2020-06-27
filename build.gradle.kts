@@ -18,6 +18,7 @@
 plugins {
     `java-library`
     `maven-publish`
+    id("org.jetbrains.kotlin.jvm") version "1.3.72"
 }
 
 repositories {
@@ -36,7 +37,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 }
 
-version = "0.5.4"
+version = "0.5.5"
 group = "org.wint3794"
 
 tasks.jar {

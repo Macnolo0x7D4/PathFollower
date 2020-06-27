@@ -15,7 +15,7 @@
  *
  */
 
-package org.wint3794.pathfollower;
+package org.wint3794.pathfollower.controllers;
 
 import org.wint3794.pathfollower.debug.RobotLogger;
 import org.wint3794.pathfollower.robot.Robot;
@@ -45,7 +45,7 @@ import java.util.Optional;
 /**
  * The main class of the library.
  */
-public class PathFollower {
+public class Follower {
     private static final String ORIGIN = "Main Thread";
     private final ChassisConfiguration config;
     private static List<CurvePoint> curvePoints = new ArrayList<CurvePoint>();
@@ -57,7 +57,7 @@ public class PathFollower {
      *
      * @param config The Chassis Configuration that will be used in API runtime.
      */
-    public PathFollower(ChassisConfiguration config, Telemetry telemetry) {
+    public Follower(ChassisConfiguration config, Telemetry telemetry) {
         this.config = config;
 
         Log.println("The legendary PathFollower is Running!", ORIGIN);
@@ -175,14 +175,14 @@ public class PathFollower {
     }
 
     /**
-     * Initialize PathFollower Engine. Method only available for COMPLEX or ENCODER mode.
+     * Initialize Follower Engine. Method only available for COMPLEX or ENCODER mode.
      * @throws NotCompatibleConfigurationException Only if your configuration is invalid for this method.
      */
     public void init(List<CurvePoint> curvePoints) throws NotCompatibleConfigurationException {
-        PathFollower.curvePoints = curvePoints;
+        Follower.curvePoints = curvePoints;
 
         if(this.config.getMode() != ExecutionModes.SIMPLE){
-            Log.println("Process initialized!", "PathFollower");
+            Log.println("Process initialized!", "Follower");
 
             switch (this.config.getType()) {
                 case MECANUM:

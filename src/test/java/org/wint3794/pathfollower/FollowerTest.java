@@ -18,6 +18,7 @@
 package org.wint3794.pathfollower;
 
 import org.junit.Test;
+import org.wint3794.pathfollower.controllers.Follower;
 import org.wint3794.pathfollower.debug.Log;
 import org.wint3794.pathfollower.adapters.DcMotorAdapter;
 import org.wint3794.pathfollower.debug.telemetries.UDPServer;
@@ -31,7 +32,7 @@ import org.wint3794.pathfollower.geometry.CurvePoint;
 
 import java.util.List;
 
-public class PathFollowerTest {
+public class FollowerTest {
 
     List<CurvePoint> functionalPath;
 
@@ -55,7 +56,7 @@ public class PathFollowerTest {
 
     @Test
     public void testSomeLibraryMethod() {
-        PathFollower classUnderTest = new PathFollower(getTestingConfiguration(), new UDPServer());
+        Follower classUnderTest = new Follower(getTestingConfiguration(), new UDPServer());
 
         // classUnderTest.getChassisInformation().getMotors().forEach(dcMotor -> System.out.println("[Motor " + dcMotor.getId() + "]: " + dcMotor.getPower()));
         // assertTrue("getDcMotor(2).getPower() == 1.0 should return 'true'", classUnderTest.getDcMotor((byte) 2).getPower() == 1.0);

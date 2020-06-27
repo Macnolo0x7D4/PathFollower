@@ -18,11 +18,11 @@
 package org.wint3794.pathfollower.drivebase;
 
 /**
- * An Interface that allows to apply movement. Only for PathFollower Engine.
+ * An Interface that allows to apply movement. Only for Follower Engine.
  */
 public interface Kinematic {
     /**
-     * Applies new configuration from PathFollower Engine.
+     * Applies new configuration from Follower Engine.
      */
     void apply();
 }
