@@ -18,18 +18,19 @@
 package org.wint3794.pathfollower.debug.telemetries;
 
 import org.wint3794.pathfollower.debug.Telemetry;
+import org.wint3794.pathfollower.geometry.Pose2d;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server implements Telemetry {
+public class TCPServer extends Telemetry {
 
     private static final int PORT = 5000;
     private Socket s;
     private ServerSocket ss;
-    private DataOutputStream outputStream;
+    protected DataOutputStream outputStream;
 
     @Override
     public void init() {
@@ -66,10 +67,10 @@ public class Server implements Telemetry {
 
     @Override
     public String toString() {
-        return "Debugger Server";
+        return "Debugger TCPServer";
     }
 
-    private void reset() {
+    void reset() {
         try {
             close();
             this.ss = new ServerSocket(PORT);

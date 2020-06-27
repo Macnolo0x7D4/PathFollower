@@ -37,19 +37,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 }
 
-version = "0.5.4"
+version = "0.5.5"
 group = "org.wint3794"
-
-tasks.compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-tasks.compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
 
 tasks.jar {
     manifest {

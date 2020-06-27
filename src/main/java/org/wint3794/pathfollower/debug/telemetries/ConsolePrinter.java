@@ -19,7 +19,7 @@ package org.wint3794.pathfollower.debug.telemetries;
 
 import org.wint3794.pathfollower.debug.Telemetry;
 
-public class ConsolePrinter implements Telemetry {
+public class ConsolePrinter extends Telemetry {
     @Override
     public void init() {
     }

@@ -15,10 +15,10 @@
  *
  */
 
-package org.wint3794.pathfollower;
+package org.wint3794.pathfollower.controllers;
 
+import org.wint3794.pathfollower.debug.RobotLogger;
 import org.wint3794.pathfollower.robot.Robot;
-import org.wint3794.pathfollower.debug.ComputerDebugging;
 import org.wint3794.pathfollower.debug.Log;
 import org.wint3794.pathfollower.drivebase.mecanum.MecanumKinematic;
 import org.wint3794.pathfollower.drivebase.tank.TankKinematic;
@@ -38,15 +38,17 @@ import org.wint3794.pathfollower.robot.RobotMovement;
 import org.wint3794.pathfollower.util.Constants;
 import org.wint3794.pathfollower.util.MathUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * The main class of the library.
  */
-public class PathFollower {
+public class Follower {
     private static final String ORIGIN = "Main Thread";
     private final ChassisConfiguration config;
+    private static List<CurvePoint> curvePoints = new ArrayList<CurvePoint>();
     private Kinematic chassis;
     private final Robot robot;
 
@@ -55,7 +57,7 @@ public class PathFollower {
      *
      * @param config The Chassis Configuration that will be used in API runtime.
      */
-    public PathFollower(ChassisConfiguration config, Telemetry telemetry) {
+    public Follower(ChassisConfiguration config, Telemetry telemetry) {
         this.config = config;
 
         Log.println("The legendary PathFollower is Running!", ORIGIN);
@@ -173,12 +175,14 @@ public class PathFollower {
     }
 
     /**
-     * Initialize PathFollower Engine. Method only available for COMPLEX or ENCODER mode.
+     * Initialize Follower Engine. Method only available for COMPLEX or ENCODER mode.
      * @throws NotCompatibleConfigurationException Only if your configuration is invalid for this method.
      */
-    public void init() throws NotCompatibleConfigurationException {
+    public void init(List<CurvePoint> curvePoints) throws NotCompatibleConfigurationException {
+        Follower.curvePoints = curvePoints;
+
         if(this.config.getMode() != ExecutionModes.SIMPLE){
-            Log.println("Process initialized!", "PathFollower");
+            Log.println("Process initialized!", "Follower");
 
             switch (this.config.getType()) {
                 case MECANUM:
@@ -188,6 +192,11 @@ public class PathFollower {
                     this.chassis = new TankKinematic(this.getChassisConfiguration());
                     break;
             }
+
+            for (int i = 0; i < curvePoints.size() - 1; i++) {
+                RobotLogger.sendLine(new Pose2d(curvePoints.get(i).x, curvePoints.get(i).y), new Pose2d(curvePoints.get(i + 1).x, curvePoints.get(i + 1).y));
+            }
+
         } else {
             Log.println("Your execution mode is not compatible with this method.",ORIGIN);
             throw new NotCompatibleConfigurationException("Your execution mode is not compatible.");
@@ -196,13 +205,12 @@ public class PathFollower {
 
     /**
      * Calculates and move your robot. Use in loop. Only for COMPLEX or ENCODER Mode.
-     * @param curvePoints The list with all CurvePoints [List {@link CurvePoint}].
      * @param followAngle The preferred turn angle. [-Math.PI - Math.PI]. The angle is in radians.
      * @throws NotCompatibleConfigurationException Only if your configuration is invalid for this method.
      */
-    public void calculate(List<CurvePoint> curvePoints, double followAngle) throws NotCompatibleConfigurationException {
+    public void calculate(double followAngle) throws NotCompatibleConfigurationException {
         if(this.config.getMode() != ExecutionModes.SIMPLE) {
-            if (chassis == null) {
+            if (chassis == null || curvePoints.isEmpty()) {
                 Log.println("Chassis is not initialized. Please initialize chassis before executing this action.",ORIGIN);
                 Log.update();
                 return;
@@ -218,8 +226,8 @@ public class PathFollower {
 
             RobotMovement.followCurve(curvePoints, followAngle);
 
-            ComputerDebugging.sendRobotLocation();
-            ComputerDebugging.sendLogPoint(new Pose2d(Robot.getXPos(), Robot.getYPos()));
+            RobotLogger.sendRobotLocation();
+            RobotLogger.sendLogPoint(new Pose2d(Robot.getXPos(), Robot.getYPos()));
 
             this.chassis.apply();
 
@@ -231,10 +239,9 @@ public class PathFollower {
     /**
      * Calculates and move your robot. Sets the default
      * followAngle established in {@link org.wint3794.pathfollower.util.Constants}. Use in loop.
-     * @param curvePoints The list with all CurvePoints [List {@link CurvePoint}].
      * @throws NotCompatibleConfigurationException Only if your configuration is invalid for this method.
      */
-    public void calculate(List<CurvePoint> curvePoints) throws NotCompatibleConfigurationException {
-        this.calculate(curvePoints, Constants.DEFAULT_FOLLOW_ANGLE);
+    public void calculate() throws NotCompatibleConfigurationException {
+        this.calculate(Constants.DEFAULT_FOLLOW_ANGLE);
     }
 }

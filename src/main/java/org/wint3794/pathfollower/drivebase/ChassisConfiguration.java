@@ -25,7 +25,7 @@ import org.wint3794.pathfollower.models.EncoderProperties;
 import java.util.List;
 
 /**
- * A class that must to be extended to create configurations for your PathFollower instance.
+ * A class that must to be extended to create configurations for your Follower instance.
  */
 public class ChassisConfiguration {
     private final List<DcMotorBase> motors;
@@ -95,7 +95,7 @@ public class ChassisConfiguration {
     }
 
     /**
-     * Returns ExecutionMode (enum) of PathFollower runtime.
+     * Returns ExecutionMode (enum) of Follower runtime.
      *
      * @return ExecutionMode [SIMPLE, ENCODER, COMPLEX]
      */

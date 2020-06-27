@@ -20,22 +20,22 @@ package org.wint3794.pathfollower.debug;
 /**
  * A Telemetry interface for Log Printer
  */
-public interface Telemetry {
+public abstract class Telemetry {
 
     /**
      * Initializes Telemetry
      */
-    void init();
+    public abstract void init();
 
     /**
      * Prints log
      *
      * @param log Log [String]
      */
-    void print(String log);
+    public abstract void print(String log);
 
     /**
      * Updates telemetry (optional)
      */
-    void close();
+    public abstract void close();
 }

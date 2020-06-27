@@ -15,4 +15,8 @@
  *
  */
 
-rootProject.name = 'PathFollower'
+rootProject.name = 'pathfollower'
+
+include 'debugger'
+findProject(':debugger')?.name = 'GraphicalDebugger'
+

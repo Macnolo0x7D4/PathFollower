@@ -44,14 +44,6 @@ public class Log {
     }
 
     /**
-     * Checkpoint in log by Pose2d
-     * @param pose Robot Position
-     */
-    public static void check(Pose2d pose){
-        telemetry.print("%" + pose.getX() + "," + pose.getY() + "%");
-    }
-
-    /**
      * Updates log exporting StringBuilder as string to telemetry and clears buffer.
      */
     public static void update() {
@@ -77,7 +69,15 @@ public class Log {
         Log.telemetry = telemetry;
     }
 
+    /**
+     * Sets Debugging Mode
+     * @param debug Debug?
+     */
     public static void setDebuggingMode(boolean debug){
         Log.debug = debug;
+    }
+
+    public static Telemetry getTelemetry() {
+        return telemetry;
     }
 }

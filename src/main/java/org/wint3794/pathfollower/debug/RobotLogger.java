@@ -17,13 +17,14 @@
 
 package org.wint3794.pathfollower.debug;
 
+import org.wint3794.pathfollower.debug.telemetries.UDPServer;
 import org.wint3794.pathfollower.robot.Robot;
 import org.wint3794.pathfollower.geometry.Pose2d;
 
 /**
  * Sends logs from Robot controller to Telemetry Driver.
  */
-public class ComputerDebugging {
+public class RobotLogger {
     private static final String ORIGIN = "Robot";
 
     /**
@@ -34,7 +35,11 @@ public class ComputerDebugging {
         Log.println("Y -> " + Robot.getYPos(), ORIGIN);
         Log.println("Theta -> " + Robot.getWorldAngle(), ORIGIN);
 
-        Log.check(new Pose2d(Robot.getXPos(), Robot.getYPos()));
+        try{
+            UDPServer console = (UDPServer) Log.getTelemetry();
+            console.sendPosition(new Pose2d(Robot.getXPos(), Robot.getYPos()));
+        } catch (ClassCastException ignored){ }
+
     }
 
     /**
