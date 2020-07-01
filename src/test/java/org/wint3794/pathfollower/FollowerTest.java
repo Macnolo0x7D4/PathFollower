@@ -68,7 +68,8 @@ public class FollowerTest {
         try {
             classUnderTest.init(functionalPath);
 
-            for (int i = 0; i < 20; i++) {
+            while (true) {
+            //for (int i = 0; i < 20; i++) {
                 classUnderTest.calculate();
                 Log.update();
             }

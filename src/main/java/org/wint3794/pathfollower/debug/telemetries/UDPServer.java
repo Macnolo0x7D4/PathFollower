@@ -50,7 +50,7 @@ public class UDPServer extends Telemetry implements Runnable {
   }
 
   public void sendPosition(Pose2d pose2d) {
-    send("%" + pose2d.getX() + "," + pose2d.getY() + "%");
+    send("POS," + pose2d.getX() + "," + pose2d.getY() + "," + pose2d.getAngle() + "%");
     // super.outputStream.writeUTF("%" + pose2d.getX() + "," + pose2d.getY() + "%\n");tackTrace();
   }
 

@@ -37,7 +37,7 @@ public class RobotLogger {
 
         try{
             UDPServer console = (UDPServer) Log.getTelemetry();
-            console.sendPosition(new Pose2d(Robot.getXPos(), Robot.getYPos()));
+            console.sendPosition(new Pose2d(Robot.getXPos(), Robot.getYPos(), Robot.getWorldAngle()));
         } catch (ClassCastException ignored){ }
 
     }

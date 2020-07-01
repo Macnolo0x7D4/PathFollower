@@ -49,5 +49,5 @@ public class Constants {
      */
     public static final double SMALL_ADJUST_SPEED = 0.135;
 
-    public static final int CLIENT_PORT = 5000;
+    public static final int CLIENT_PORT = 15645;
 }
