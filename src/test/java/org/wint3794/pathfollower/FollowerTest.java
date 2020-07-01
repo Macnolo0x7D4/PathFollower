@@ -62,7 +62,7 @@ public class FollowerTest {
         UDPServer server = null;
 
         try {
-            server = new UDPServer(5000, InetAddress.getByName("192.168.0.9"));
+            server = new UDPServer(11115, InetAddress.getByName("192.168.0.9"));
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -72,9 +72,11 @@ public class FollowerTest {
         // classUnderTest.getChassisInformation().getMotors().forEach(dcMotor -> System.out.println("[Motor " + dcMotor.getId() + "]: " + dcMotor.getPower()));
         // assertTrue("getDcMotor(2).getPower() == 1.0 should return 'true'", classUnderTest.getDcMotor((byte) 2).getPower() == 1.0);
 
+        /*
         PathReader reader = new PathReader(this.getClass().getResource("/file.json"));
         PathProcessor processor = new PathProcessor(reader.getRawPath());
         functionalPath = processor.createFunctionalPath();
+         */
 
         try {
             classUnderTest.init(functionalPath);

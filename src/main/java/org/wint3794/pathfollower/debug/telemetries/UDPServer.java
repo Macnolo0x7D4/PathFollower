@@ -17,6 +17,7 @@
 
 package org.wint3794.pathfollower.debug.telemetries;
 
+import org.wint3794.pathfollower.debug.Log;
 import org.wint3794.pathfollower.debug.Telemetry;
 import org.wint3794.pathfollower.geometry.Pose2d;
 import org.wint3794.pathfollower.util.Constants;
@@ -73,6 +74,18 @@ public class UDPServer extends Telemetry implements Runnable {
     // super.outputStream.writeUTF("%" + pose2d.getX() + "," + pose2d.getY() + "%\n");tackTrace();
   }
 
+  public void sendKeyPoint(Pose2d floatPoint) {
+    send("KPN," + floatPoint.getX() + "," + floatPoint.getX() + "%");
+  }
+
+  public void sendLogPoint(Pose2d floatPoint) {
+    send("LPN," + floatPoint.getX() + "," + floatPoint.getX() + "%");
+  }
+
+  public void sendLine(Pose2d floatPoint1, Pose2d floatPoint2) {
+    send("LNE," + floatPoint1.getX() + "," + floatPoint1.getX() + "," + floatPoint2.getX() + "," + floatPoint2.getX() + "%");
+  }
+
   @Override
   public void run() {
     while (isRunning()) {
@@ -97,6 +110,8 @@ public class UDPServer extends Telemetry implements Runnable {
   }
 
   public void send(String message) {
+
+    message += "CLEAR,%";
 
     int startIndex = 0;
     int endIndex;
