@@ -77,12 +77,12 @@ class App: Application() {
 
         root.children.add(layer)
 
-        // scene.fill = Color.BLACK
+        scene.fill = Color.BLACK
 
         primaryStage.scene = scene
         primaryStage.width = Constants.SCREEN_SIZE
         primaryStage.height = Constants.SCREEN_SIZE
-        // primaryStage.isResizable = false
+        primaryStage.isResizable = false
 
         primaryStage.show()
 
