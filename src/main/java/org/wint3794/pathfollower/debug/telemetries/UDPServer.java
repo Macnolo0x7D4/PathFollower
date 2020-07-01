@@ -20,19 +20,34 @@ package org.wint3794.pathfollower.debug.telemetries;
 import org.wint3794.pathfollower.debug.Telemetry;
 import org.wint3794.pathfollower.geometry.Pose2d;
 import org.wint3794.pathfollower.util.Constants;
+import org.wint3794.pathfollower.util.MathUtils;
 import org.wint3794.pathfollower.util.Range;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.text.DecimalFormat;
 import java.util.concurrent.Semaphore;
 
 public class UDPServer extends Telemetry implements Runnable {
   private final Semaphore sendLock = new Semaphore(1);
   private static boolean running = false;
+  private final int clientPort;
+  private final InetAddress clientIp;
   private long lastSendMillis = 0;
   private String currentUpdate = "";
+
+  public UDPServer(int clientPort) throws UnknownHostException {
+    this.clientPort = clientPort;
+    clientIp = InetAddress.getByName("127.0.0.1");
+  }
+
+  public UDPServer(int clientPort, InetAddress clientIp) {
+    this.clientPort = clientPort;
+    this.clientIp = clientIp;
+  }
 
   @Override
   public void init() {
@@ -50,7 +65,11 @@ public class UDPServer extends Telemetry implements Runnable {
   }
 
   public void sendPosition(Pose2d pose2d) {
-    send("POS," + pose2d.getX() + "," + pose2d.getY() + "," + pose2d.getAngle() + "%");
+    final double x = MathUtils.roundPower(pose2d.getX(), 2);
+    final double y = MathUtils.roundPower(pose2d.getY(), 2);
+    final double angle = MathUtils.roundPower(pose2d.getAngle(), 2);
+
+    send("POS," + x + "," + y + "," + angle + "%");
     // super.outputStream.writeUTF("%" + pose2d.getX() + "," + pose2d.getY() + "%\n");tackTrace();
   }
 
@@ -91,8 +110,8 @@ public class UDPServer extends Telemetry implements Runnable {
                 new DatagramPacket(
                         message.getBytes(),
                         message.length(),
-                        InetAddress.getByName("127.0.0.1"),
-                        Constants.CLIENT_PORT);
+                        clientIp,
+                        clientPort);
 
         serverSocket.send(datagramPacket);
 

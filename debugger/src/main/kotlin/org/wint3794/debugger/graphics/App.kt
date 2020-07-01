@@ -124,8 +124,6 @@ class App: Application() {
 
         val pose2d = CommandProcessor.getFrom(buffer)
 
-        println(pose2d.x)
-
         val toPixel = Screen.pixel
 
         Screen.centerPoint = arrayOf(toPixel * Screen.dimensions[0] / 2, toPixel * Screen.dimensions[1] / 2)

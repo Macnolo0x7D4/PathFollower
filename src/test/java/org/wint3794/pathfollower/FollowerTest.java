@@ -29,7 +29,10 @@ import org.wint3794.pathfollower.drivebase.ChassisTypes;
 import org.wint3794.pathfollower.exceptions.NotCompatibleConfigurationException;
 import org.wint3794.pathfollower.models.EncoderProperties;
 import org.wint3794.pathfollower.geometry.CurvePoint;
+import org.wint3794.pathfollower.util.Constants;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 public class FollowerTest {
@@ -56,7 +59,15 @@ public class FollowerTest {
 
     @Test
     public void testSomeLibraryMethod() {
-        Follower classUnderTest = new Follower(getTestingConfiguration(), new UDPServer());
+        UDPServer server = null;
+
+        try {
+            server = new UDPServer(5000, InetAddress.getByName("192.168.0.9"));
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+
+        Follower classUnderTest = new Follower(getTestingConfiguration(), server);
 
         // classUnderTest.getChassisInformation().getMotors().forEach(dcMotor -> System.out.println("[Motor " + dcMotor.getId() + "]: " + dcMotor.getPower()));
         // assertTrue("getDcMotor(2).getPower() == 1.0 should return 'true'", classUnderTest.getDcMotor((byte) 2).getPower() == 1.0);

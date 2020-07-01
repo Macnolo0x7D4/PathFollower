@@ -4,7 +4,7 @@ import org.wint3794.debugger.geometry.Pose2d
 
 object CommandProcessor {
     fun getFrom(message: String): Pose2d {
-        var pose2d: Pose2d = Pose2d()
+        val pose2d: Pose2d = Pose2d()
 
         if (message.isBlank()) {
             return pose2d;
