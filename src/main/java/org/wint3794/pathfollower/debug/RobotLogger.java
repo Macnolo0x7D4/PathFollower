@@ -37,7 +37,7 @@ public class RobotLogger {
 
         try{
             UDPServer console = (UDPServer) Log.getTelemetry();
-            console.sendPosition(new Pose2d(Robot.getXPos(), Robot.getYPos()));
+            console.sendPosition(new Pose2d(Robot.getXPos(), Robot.getYPos(), Robot.getWorldAngle()));
         } catch (ClassCastException ignored){ }
 
     }
@@ -49,6 +49,11 @@ public class RobotLogger {
      */
     public static void sendKeyPoint(Pose2d floatPoint) {
         Log.println("Key Point -> { X: " + floatPoint.getX() + ", Y: " + floatPoint.getY() + " }", ORIGIN);
+
+        try{
+            UDPServer console = (UDPServer) Log.getTelemetry();
+            console.sendKeyPoint(floatPoint);
+        } catch (ClassCastException ignored){ }
     }
 
 
@@ -59,6 +64,11 @@ public class RobotLogger {
      */
     public static void sendLogPoint(Pose2d floatPoint) {
         Log.println("Log Point -> { X: " + floatPoint.getX() + ", Y: " + floatPoint.getY() + " }", ORIGIN);
+
+        try{
+            UDPServer console = (UDPServer) Log.getTelemetry();
+            console.sendLogPoint(floatPoint);
+        } catch (ClassCastException ignored){ }
     }
 
 
@@ -70,5 +80,10 @@ public class RobotLogger {
      */
     public static void sendLine(Pose2d point1, Pose2d point2) {
         Log.println("New Line -> { Initial Pos: [ X: " + point1.getX() + ", Y: " + point1.getY() + " ], Target Pos: [ X: " + point2.getX() + ", Y: " + point2.getY() + " ] }", ORIGIN);
+
+        try{
+            UDPServer console = (UDPServer) Log.getTelemetry();
+            console.sendLine(point1, point2);
+        } catch (ClassCastException ignored){ }
     }
 }
