@@ -33,6 +33,7 @@ import org.wint3794.pathfollower.util.Constants;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FollowerTest {
@@ -77,6 +78,14 @@ public class FollowerTest {
         PathProcessor processor = new PathProcessor(reader.getRawPath());
         functionalPath = processor.createFunctionalPath();
          */
+
+        functionalPath = new ArrayList<>();
+
+        functionalPath.add(new CurvePoint(0, 0, 1, 1, 30, Math.PI / 4, 1.0));
+        functionalPath.add(new CurvePoint(180, 180, 1, 1, 30, Math.PI / 4, 1.0));
+        functionalPath.add(new CurvePoint(250, 180, 1.0, 1.0, 30, Math.PI / 4, 1.0));
+        functionalPath.add(new CurvePoint(280, 50, 1.0, 1.0, 30, Math.PI / 4, 1.0));
+        functionalPath.add(new CurvePoint(180, 0, 1.0, 1.0, 30, Math.PI / 4, 1.0));
 
         try {
             classUnderTest.init(functionalPath);

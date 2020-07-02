@@ -52,6 +52,7 @@ public class UDPServer extends Telemetry implements Runnable {
 
   @Override
   public void init() {
+    send("CLEARLOG,%");
     setRunning(true);
   }
 
@@ -70,20 +71,21 @@ public class UDPServer extends Telemetry implements Runnable {
     final double y = MathUtils.roundPower(pose2d.getY(), 2);
     final double angle = MathUtils.roundPower(pose2d.getAngle(), 2);
 
-    send("POS," + x + "," + y + "," + angle + "%");
+    send("ROBOT," + x + "," + y + "," + angle + "%");
+    // send("POS," + x + "," + y + "," + angle + "%");
     // super.outputStream.writeUTF("%" + pose2d.getX() + "," + pose2d.getY() + "%\n");tackTrace();
   }
 
   public void sendKeyPoint(Pose2d floatPoint) {
-    send("KPN," + floatPoint.getX() + "," + floatPoint.getX() + "%");
+    send("P," + floatPoint.getX() + "," + floatPoint.getX() + "%");
   }
 
   public void sendLogPoint(Pose2d floatPoint) {
-    send("LPN," + floatPoint.getX() + "," + floatPoint.getX() + "%");
+    send("LP," + floatPoint.getX() + "," + floatPoint.getX() + "%");
   }
 
   public void sendLine(Pose2d floatPoint1, Pose2d floatPoint2) {
-    send("LNE," + floatPoint1.getX() + "," + floatPoint1.getX() + "," + floatPoint2.getX() + "," + floatPoint2.getX() + "%");
+    send("LINE," + floatPoint1.getX() + "," + floatPoint1.getX() + "," + floatPoint2.getX() + "," + floatPoint2.getX() + "%");
   }
 
   @Override
