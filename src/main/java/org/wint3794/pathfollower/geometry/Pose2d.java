@@ -17,9 +17,7 @@
 
 package org.wint3794.pathfollower.geometry;
 
-public class Pose2d {
-    private final double x;
-    private final double y;
+public class Pose2d extends Point {
     private final double angle;
 
     public Pose2d(double x, double y) {

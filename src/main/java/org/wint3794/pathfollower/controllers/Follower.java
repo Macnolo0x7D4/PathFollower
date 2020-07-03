@@ -17,26 +17,22 @@
 
 package org.wint3794.pathfollower.controllers;
 
+import org.wint3794.pathfollower.debug.ComputerDebugging;
 import org.wint3794.pathfollower.debug.RobotLogger;
-import org.wint3794.pathfollower.robot.Robot;
 import org.wint3794.pathfollower.debug.Log;
 import org.wint3794.pathfollower.drivebase.mecanum.MecanumKinematic;
+import org.wint3794.pathfollower.drivebase.RobotMovement;
 import org.wint3794.pathfollower.drivebase.tank.TankKinematic;
 import org.wint3794.pathfollower.geometry.CurvePoint;
+import org.wint3794.pathfollower.geometry.Point;
 import org.wint3794.pathfollower.geometry.Pose2d;
 import org.wint3794.pathfollower.hardware.DcMotorBase;
 import org.wint3794.pathfollower.debug.Telemetry;
 import org.wint3794.pathfollower.drivebase.ChassisConfiguration;
-import org.wint3794.pathfollower.drivebase.ChassisTypes;
-import org.wint3794.pathfollower.robot.ExecutionModes;
+import org.wint3794.pathfollower.util.ExecutionModes;
 import org.wint3794.pathfollower.exceptions.NotCompatibleConfigurationException;
-import org.wint3794.pathfollower.models.DcMotorVelocities;
-import org.wint3794.pathfollower.models.JoystickCoordinates;
-import org.wint3794.pathfollower.models.MecanumDirectives;
 import org.wint3794.pathfollower.drivebase.Kinematic;
-import org.wint3794.pathfollower.robot.RobotMovement;
 import org.wint3794.pathfollower.util.Constants;
-import org.wint3794.pathfollower.util.MathUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,51 +114,6 @@ public class Follower {
     }
 
     /**
-     * Indicates to DcMotor driver the specific power to get the expected movement.
-     * This method is only available for MECANUM chassis.
-     *
-     * @param directives MecanumDirectives
-     */
-    public void move(MecanumDirectives directives) {
-        if (this.config.getType() == ChassisTypes.MECANUM) {
-            setMultiplePowers(MecanumKinematic.move(directives));
-        } else {
-            Log.println("Your Chassis Type is not compatible with the desired method", ORIGIN);
-        }
-    }
-
-    /**
-     * Indicates to DcMotor driver the specific power to get the expected movement.
-     * Also, calculates the arc-tangent to get its length and its angle.
-     * This method is only available for MECANUM or SWERVE chassis.
-     * Useful when using joysticks.
-     *
-     * @param coordinates JoystickCoordinate
-     */
-    public void move(JoystickCoordinates coordinates) {
-        switch(this.config.getType()){
-            case MECANUM:
-                setMultiplePowers(MecanumKinematic.move(coordinates));
-                break;
-            case SWERVE:
-                break;
-            default:
-                Log.println("Your Chassis Type is not compatible with the desired method.", ORIGIN);
-                break;
-        }
-    }
-
-    private void setMultiplePowers(DcMotorVelocities velocities) {
-        List<DcMotorBase> motors = this.config.getMotors();
-
-        for (DcMotorBase dcMotor : motors) {
-            dcMotor.setPower(MathUtils.roundPower(
-                    velocities.getVelocity((byte) motors.indexOf(dcMotor))
-            ));
-        }
-    }
-
-    /**
      * Returns Robot Object if you are running COMPLEX mode.
      * @return Optional {@link Robot}
      */
@@ -191,10 +142,6 @@ public class Follower {
                 default:
                     this.chassis = new TankKinematic(this.getChassisConfiguration());
                     break;
-            }
-
-            for (int i = 0; i < curvePoints.size() - 1; i++) {
-                RobotLogger.sendLine(new Pose2d(curvePoints.get(i).x, curvePoints.get(i).y), new Pose2d(curvePoints.get(i + 1).x, curvePoints.get(i + 1).y));
             }
 
         } else {
@@ -227,10 +174,12 @@ public class Follower {
             RobotMovement.followCurve(curvePoints, followAngle);
 
             RobotLogger.sendRobotLocation();
-            RobotLogger.sendLogPoint(new Pose2d(Robot.getXPos(), Robot.getYPos()));
+            ComputerDebugging.sendLogPoint(new Point(Robot.worldXPosition,Robot.worldYPosition));
+            ComputerDebugging.markEndOfUpdate();
 
             this.chassis.apply();
 
+            robot.update();
             Log.update();
         }  else
             throw new NotCompatibleConfigurationException();

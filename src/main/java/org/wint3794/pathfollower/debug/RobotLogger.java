@@ -18,7 +18,7 @@
 package org.wint3794.pathfollower.debug;
 
 import org.wint3794.pathfollower.debug.telemetries.UDPServer;
-import org.wint3794.pathfollower.robot.Robot;
+import org.wint3794.pathfollower.controllers.Robot;
 import org.wint3794.pathfollower.geometry.Pose2d;
 
 /**
@@ -35,6 +35,8 @@ public class RobotLogger {
         Log.println("Y -> " + Robot.getYPos(), ORIGIN);
         Log.println("Theta -> " + Robot.getWorldAngle(), ORIGIN);
 
+        ComputerDebugging.sendRobotLocation(new Pose2d(Robot.getXPos(), Robot.getYPos(), Robot.getWorldAngle()));
+
         try{
             UDPServer console = (UDPServer) Log.getTelemetry();
             console.sendPosition(new Pose2d(Robot.getXPos(), Robot.getYPos(), Robot.getWorldAngle()));
@@ -50,6 +52,8 @@ public class RobotLogger {
     public static void sendKeyPoint(Pose2d floatPoint) {
         Log.println("Key Point -> { X: " + floatPoint.getX() + ", Y: " + floatPoint.getY() + " }", ORIGIN);
 
+        ComputerDebugging.sendKeyPoint(floatPoint);
+
         try{
             UDPServer console = (UDPServer) Log.getTelemetry();
             console.sendKeyPoint(floatPoint);
@@ -64,7 +68,7 @@ public class RobotLogger {
      */
     public static void sendLogPoint(Pose2d floatPoint) {
         Log.println("Log Point -> { X: " + floatPoint.getX() + ", Y: " + floatPoint.getY() + " }", ORIGIN);
-
+        ComputerDebugging.sendLogPoint(floatPoint);
         try{
             UDPServer console = (UDPServer) Log.getTelemetry();
             console.sendLogPoint(floatPoint);
@@ -80,6 +84,8 @@ public class RobotLogger {
      */
     public static void sendLine(Pose2d point1, Pose2d point2) {
         Log.println("New Line -> { Initial Pos: [ X: " + point1.getX() + ", Y: " + point1.getY() + " ], Target Pos: [ X: " + point2.getX() + ", Y: " + point2.getY() + " ] }", ORIGIN);
+
+        ComputerDebugging.sendLine(point1, point2);
 
         try{
             UDPServer console = (UDPServer) Log.getTelemetry();

@@ -1,25 +1,6 @@
-/*
- * Copyright 2020 WinT 3794 (Manuel Diaz Rojo and Alexis Obed Garcia Hernandez)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
-
 package org.wint3794.pathfollower.geometry;
 
-public class CurvePoint {
-    public double x;
-    public double y;
+public class CurvePoint extends Point{
     public double moveSpeed;
     public double turnSpeed;
     public double followDistance;
@@ -29,7 +10,7 @@ public class CurvePoint {
 
 
     public CurvePoint(double x, double y, double moveSpeed, double turnSpeed,
-                      double followDistance, double slowDownTurnRadians, double slowDownTurnAmount) {
+                      double followDistance, double slowDownTurnRadians, double slowDownTurnAmount){
         this.x = x;
         this.y = y;
         this.moveSpeed = moveSpeed;
@@ -40,17 +21,16 @@ public class CurvePoint {
         this.slowDownTurnAmount = slowDownTurnAmount;
     }
 
+    public CurvePoint(Point point) {
+        this.x = point.x;
+        this.y = point.y;
+    }
 
-    public CurvePoint(double x, double y, double moveSpeed, double turnSpeed,
-                      double followDistance, double pointLength, double slowDownTurnRadians, double slowDownTurnAmount) {
-        this.x = x;
-        this.y = y;
-        this.moveSpeed = moveSpeed;
-        this.turnSpeed = turnSpeed;
-        this.followDistance = followDistance;
+
+    public CurvePoint(double x, double y, double moveSpeed, double turnSpeed, double followDistance,double pointLength, double slowDownTurnRadians, double slowDownTurnAmount){
+
+        this(x,y, moveSpeed, turnSpeed, followDistance, slowDownTurnRadians, slowDownTurnAmount);
         this.pointLength = pointLength;
-        this.slowDownTurnRadians = slowDownTurnRadians;
-        this.slowDownTurnAmount = slowDownTurnAmount;
     }
 
     public CurvePoint(CurvePoint nextPoint) {
@@ -65,26 +45,11 @@ public class CurvePoint {
 
     }
 
-    public Point toPoint() {
-        return new Point(x, y);
+    public Point toPoint(){
+        return new Point(x,y);
     }
-
-    public void setPoint(Point p) {
+    public void setPoint(Point p){
         x = p.x;
         y = p.y;
-    }
-
-    @Override
-    public String toString() {
-        return "CurvePoint{" +
-                "x=" + x +
-                ", y=" + y +
-                ", moveSpeed=" + moveSpeed +
-                ", turnSpeed=" + turnSpeed +
-                ", followDistance=" + followDistance +
-                ", slowDownTurnRadians=" + slowDownTurnRadians +
-                ", slowDownTurnAmount=" + slowDownTurnAmount +
-                ", pointLength=" + pointLength +
-                '}';
     }
 }

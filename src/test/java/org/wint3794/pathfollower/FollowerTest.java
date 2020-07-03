@@ -19,8 +19,10 @@ package org.wint3794.pathfollower;
 
 import org.junit.Test;
 import org.wint3794.pathfollower.controllers.Follower;
+import org.wint3794.pathfollower.debug.ComputerDebugging;
 import org.wint3794.pathfollower.debug.Log;
 import org.wint3794.pathfollower.adapters.DcMotorAdapter;
+import org.wint3794.pathfollower.debug.telemetries.ConsolePrinter;
 import org.wint3794.pathfollower.debug.telemetries.UDPServer;
 import org.wint3794.pathfollower.io.PathProcessor;
 import org.wint3794.pathfollower.io.PathReader;
@@ -60,24 +62,20 @@ public class FollowerTest {
 
     @Test
     public void testSomeLibraryMethod() {
-        UDPServer server = null;
+        //UDPServer server = null;
 
-        try {
+        /*try {
             server = new UDPServer(11115, InetAddress.getByName("192.168.0.9"));
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
 
-        Follower classUnderTest = new Follower(getTestingConfiguration(), server);
-
-        // classUnderTest.getChassisInformation().getMotors().forEach(dcMotor -> System.out.println("[Motor " + dcMotor.getId() + "]: " + dcMotor.getPower()));
-        // assertTrue("getDcMotor(2).getPower() == 1.0 should return 'true'", classUnderTest.getDcMotor((byte) 2).getPower() == 1.0);
-
-        /*
-        PathReader reader = new PathReader(this.getClass().getResource("/file.json"));
-        PathProcessor processor = new PathProcessor(reader.getRawPath());
-        functionalPath = processor.createFunctionalPath();
          */
+
+        ComputerDebugging computerDebugging = new ComputerDebugging();
+        ComputerDebugging.clearLogPoints();
+
+        Follower classUnderTest = new Follower(getTestingConfiguration(), new ConsolePrinter());
 
         functionalPath = new ArrayList<>();
 
