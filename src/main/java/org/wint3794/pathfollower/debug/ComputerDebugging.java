@@ -1,9 +1,11 @@
 package org.wint3794.pathfollower.debug;
 
 import org.wint3794.pathfollower.controllers.Robot;
+import org.wint3794.pathfollower.debug.telemetries.UdpServer;
 import org.wint3794.pathfollower.geometry.Point;
 import org.wint3794.pathfollower.geometry.Pose2d;
 
+import java.net.UnknownHostException;
 import java.text.DecimalFormat;
 
 public class ComputerDebugging {
@@ -20,7 +22,13 @@ public class ComputerDebugging {
      */
     public ComputerDebugging(){
         UdpServer.kill = false;
-        udpServer = new UdpServer(11115);
+
+        try {
+            udpServer = new UdpServer("192.168.0.9", 11115);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+
         Thread runner = new Thread(udpServer);
         runner.start();//go go go
     }
@@ -114,7 +122,7 @@ public class ComputerDebugging {
         messageBuilder.append("CLEAR,%");
 
 //        udpServer.addMessage(messageBuilder.toString());
-        udpServer.splitAndSend(messageBuilder.toString());
+        udpServer.send(messageBuilder.toString());
         messageBuilder = new StringBuilder();
     }
 
@@ -123,7 +131,7 @@ public class ComputerDebugging {
      */
     public static void clearLogPoints() {
         if(!Robot.usingComputer){return;}
-        udpServer.splitAndSend("CLEARLOG,%");
+        udpServer.send("CLEARLOG,%");
 
     }
 }

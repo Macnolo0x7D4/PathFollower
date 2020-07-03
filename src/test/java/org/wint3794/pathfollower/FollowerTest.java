@@ -23,18 +23,11 @@ import org.wint3794.pathfollower.debug.ComputerDebugging;
 import org.wint3794.pathfollower.debug.Log;
 import org.wint3794.pathfollower.adapters.DcMotorAdapter;
 import org.wint3794.pathfollower.debug.telemetries.ConsolePrinter;
-import org.wint3794.pathfollower.debug.telemetries.UDPServer;
-import org.wint3794.pathfollower.io.PathProcessor;
-import org.wint3794.pathfollower.io.PathReader;
 import org.wint3794.pathfollower.drivebase.ChassisConfiguration;
 import org.wint3794.pathfollower.drivebase.ChassisTypes;
 import org.wint3794.pathfollower.exceptions.NotCompatibleConfigurationException;
 import org.wint3794.pathfollower.models.EncoderProperties;
 import org.wint3794.pathfollower.geometry.CurvePoint;
-import org.wint3794.pathfollower.util.Constants;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
