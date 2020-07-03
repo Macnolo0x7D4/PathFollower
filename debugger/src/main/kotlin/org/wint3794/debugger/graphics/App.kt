@@ -23,11 +23,13 @@ import javafx.scene.Group
 import javafx.scene.Scene
 import javafx.scene.canvas.Canvas
 import javafx.scene.canvas.GraphicsContext
+import javafx.scene.control.Label
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
+import javafx.scene.text.Font
 import javafx.scene.transform.Affine
 import javafx.scene.transform.Rotate
 import javafx.stage.Stage
@@ -37,18 +39,21 @@ import org.wint3794.debugger.util.CommandProcessor
 import org.wint3794.debugger.util.Constants
 import java.io.File
 import java.net.URL
+import java.text.DecimalFormat
 import java.util.concurrent.Semaphore
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.system.exitProcess
 
-private lateinit var fieldBackground: ImageView
-
-private lateinit var field: Canvas
-private lateinit var root: Group
-private lateinit var layer: HBox
-
 class App: Application() {
+
+    private lateinit var fieldBackground: ImageView
+    private lateinit var field: Canvas
+    private lateinit var root: Group
+    private lateinit var layer: HBox
+
+    private var pose2d: Pose2d = Pose2d()
+    private val format = DecimalFormat("#.00")
 
     @Throws(Exception::class)
     override fun start(primaryStage: Stage) {
@@ -75,14 +80,27 @@ class App: Application() {
 
         val graphics = field.graphicsContext2D
 
+        val log = Group()
+
+        val titleLabel = Label()
+        titleLabel.font = Font("Jetbrains Mono", 20.0)
+        titleLabel.textFillProperty().value = Color(1.0, 1.0, 1.0, 0.8)
+        titleLabel.prefWidth = Constants.SCREEN_SIZE / 2
+        titleLabel.prefHeight = Constants.SCREEN_SIZE / 10
+        titleLabel.isWrapText = true
+
+        log.children.add(titleLabel)
+
+        layer.children.add(log)
+
         root.children.add(layer)
 
         scene.fill = Color.BLACK
 
         primaryStage.scene = scene
         primaryStage.width = Constants.SCREEN_SIZE
-        primaryStage.height = Constants.SCREEN_SIZE
-        primaryStage.isResizable = false
+        primaryStage.height = Constants.SCREEN_SIZE + Constants.SCREEN_SIZE_OFFSET
+        primaryStage.isResizable = true
 
         primaryStage.show()
 
@@ -101,6 +119,8 @@ class App: Application() {
 
                 fieldBackground.fitWidth = scale
                 fieldBackground.fitHeight = scale
+
+                titleLabel.text = "X: " + pose2d.x + " Y: " + pose2d.y + " Angle: " + pose2d.angle
 
                 draw(graphics)
 
@@ -122,7 +142,7 @@ class App: Application() {
         val radius = 91.44
         val buffer = Client.commands
 
-        val pose2d = CommandProcessor.getFrom(buffer)
+        pose2d = CommandProcessor.getFrom(buffer)
 
         val toPixel = Screen.pixel
 
@@ -145,7 +165,6 @@ class App: Application() {
         val image: Image? = Image(imageFile.toString())
 
         graphicsContext.drawImage(image, topLeftX, topLeftY, width, width)
-
         graphicsContext.restore()
     }
 }

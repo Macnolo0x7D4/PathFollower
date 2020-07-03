@@ -15,7 +15,7 @@ object CommandProcessor {
 
         val commandStructure = commands.last().split(",")
 
-        if (commandStructure[0] == "POS") {
+        if (commandStructure[0] == "ROBOT") {
             pose2d.x = commandStructure[1].toDouble()
             pose2d.y = commandStructure[2].toDouble()
             pose2d.angle = commandStructure[3].toDouble()
