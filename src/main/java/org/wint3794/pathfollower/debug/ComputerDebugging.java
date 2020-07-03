@@ -9,31 +9,33 @@ import java.net.UnknownHostException;
 import java.text.DecimalFormat;
 
 public class ComputerDebugging {
-    //manda losmensajes
     private static UdpServer udpServer;
-    //arma los mensajes
     private static StringBuilder messageBuilder = new StringBuilder();
-
-    //sistema decimal
     private static DecimalFormat df = new DecimalFormat("#.00");
 
     /**
      * Initializes udp server and starts it's thread
      */
-    public ComputerDebugging(){
-        UdpServer.kill = false;
+    public ComputerDebugging(String ip, int port){
+        UdpServer.setRunning(true);
 
         try {
-            udpServer = new UdpServer("192.168.0.9", 11115);
+            if(ip.equals("")) {
+                udpServer = new UdpServer(port);
+            } else {
+                udpServer = new UdpServer(ip, port);
+            }
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
 
         Thread runner = new Thread(udpServer);
-        runner.start();//go go go
+        runner.start();
     }
 
-
+    public ComputerDebugging(int port) {
+        this("", port);
+    }
 
     /**
      * Sends the robot location to the debug computer
@@ -111,7 +113,7 @@ public class ComputerDebugging {
     public static void stopAll() {
         if(!Robot.usingComputer){return;}
 
-        UdpServer.kill = true;
+        UdpServer.setRunning(false);
     }
 
     /**

@@ -26,6 +26,8 @@ import org.wint3794.pathfollower.debug.telemetries.ConsolePrinter;
 import org.wint3794.pathfollower.drivebase.ChassisConfiguration;
 import org.wint3794.pathfollower.drivebase.ChassisTypes;
 import org.wint3794.pathfollower.exceptions.NotCompatibleConfigurationException;
+import org.wint3794.pathfollower.io.PathProcessor;
+import org.wint3794.pathfollower.io.PathReader;
 import org.wint3794.pathfollower.models.EncoderProperties;
 import org.wint3794.pathfollower.geometry.CurvePoint;
 import java.util.ArrayList;
@@ -55,34 +57,18 @@ public class FollowerTest {
 
     @Test
     public void testSomeLibraryMethod() {
-        //UDPServer server = null;
-
-        /*try {
-            server = new UDPServer(11115, InetAddress.getByName("192.168.0.9"));
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-
-         */
-
-        ComputerDebugging computerDebugging = new ComputerDebugging();
-        ComputerDebugging.clearLogPoints();
-
-        Follower classUnderTest = new Follower(getTestingConfiguration(), new ConsolePrinter());
+        Follower classUnderTest = new Follower(getTestingConfiguration(), new ConsolePrinter(), "192.168.0.9", 11115);
 
         functionalPath = new ArrayList<>();
+        PathReader reader = new PathReader(this.getClass().getResource("/path2.json"));
+        PathProcessor processor = new PathProcessor(reader.getRawPath());
 
-        functionalPath.add(new CurvePoint(0, 0, 1, 1, 30, Math.PI / 4, 1.0));
-        functionalPath.add(new CurvePoint(180, 180, 1, 1, 30, Math.PI / 4, 1.0));
-        functionalPath.add(new CurvePoint(250, 180, 1.0, 1.0, 30, Math.PI / 4, 1.0));
-        functionalPath.add(new CurvePoint(280, 50, 1.0, 1.0, 30, Math.PI / 4, 1.0));
-        functionalPath.add(new CurvePoint(180, 0, 1.0, 1.0, 30, Math.PI / 4, 1.0));
+        functionalPath = processor.createFunctionalPath();
 
         try {
             classUnderTest.init(functionalPath);
 
-            while (true) {
-            //for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 20; i++) {
                 classUnderTest.calculate();
                 Log.update();
             }

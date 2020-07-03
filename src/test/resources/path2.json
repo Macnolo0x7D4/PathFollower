@@ -1,0 +1,52 @@
+[
+  {
+    "x": 0.0,
+    "y": 0.0,
+    "move_speed": 1.0,
+    "turn_speed": 1.0,
+    "follow_distance": 30.0,
+    "point_length": 40.0,
+    "slow_down_turn_radians": 45.0,
+    "slow_down_turn_amount": 1.0
+  },
+  {
+    "x": 180.0,
+    "y": 180.0,
+    "move_speed": 1.0,
+    "turn_speed": 1.0,
+    "follow_distance": 30.0,
+    "point_length": 40.0,
+    "slow_down_turn_radians": 80.0,
+    "slow_down_turn_amount": 1.0
+  },
+  {
+    "x": 250.0,
+    "y": 180.0,
+    "move_speed": 1.0,
+    "turn_speed": 1.0,
+    "follow_distance": 30.0,
+    "point_length": 40.0,
+    "slow_down_turn_radians": 80.0,
+    "slow_down_turn_amount": 1.0
+  },
+  {
+    "x": 280.0,
+    "y": 50.0,
+    "move_speed": 1.0,
+    "turn_speed": 1.0,
+    "follow_distance": 30.0,
+    "point_length": 40.0,
+    "slow_down_turn_radians": 80.0,
+    "slow_down_turn_amount": 1.0
+  },
+  {
+    "x": 180.0,
+    "y": 10.0,
+    "move_speed": 1.0,
+    "turn_speed": 1.0,
+    "follow_distance": 30.0,
+    "point_length": 40.0,
+    "slow_down_turn_radians": 80.0,
+    "slow_down_turn_amount": 1.0
+  }
+]

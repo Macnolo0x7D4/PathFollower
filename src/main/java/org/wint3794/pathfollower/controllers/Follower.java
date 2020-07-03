@@ -44,7 +44,7 @@ import java.util.Optional;
 public class Follower {
     private static final String ORIGIN = "Main Thread";
     private final ChassisConfiguration config;
-    private static List<CurvePoint> curvePoints = new ArrayList<CurvePoint>();
+    private static List<CurvePoint> curvePoints = new ArrayList<>();
     private Kinematic chassis;
     private final Robot robot;
 
@@ -53,7 +53,7 @@ public class Follower {
      *
      * @param config The Chassis Configuration that will be used in API runtime.
      */
-    public Follower(ChassisConfiguration config, Telemetry telemetry) {
+    public Follower(ChassisConfiguration config, Telemetry telemetry, String ip, int port) {
         this.config = config;
 
         Log.println("The legendary PathFollower is Running!", ORIGIN);
@@ -69,6 +69,16 @@ public class Follower {
             Log.init();
             Log.setDebuggingMode(true);
             Log.println("Debug Mode is set to: " + telemetry.toString(), ORIGIN);
+
+            if(port != 0) {
+                if (ip.equals("")){
+                    new ComputerDebugging(port);
+                } else {
+                    new ComputerDebugging(ip, port);
+                }
+
+                Log.println("Graphical Debugger is listening: " + (ip.equals("") ? port : (ip + port)), ORIGIN);
+            }
         }
 
         if (config.getMode() == ExecutionModes.COMPLEX || config.getMode() == ExecutionModes.ENCODER) {
@@ -79,6 +89,14 @@ public class Follower {
         }
 
         Log.update();
+    }
+
+    public Follower(ChassisConfiguration config, Telemetry telemetry) {
+        this(config, telemetry, "", Constants.DEFAULT_CLIENT_PORT );
+    }
+
+    public Follower(ChassisConfiguration config, Telemetry telemetry, int port) {
+        this(config, telemetry, "", port );
     }
 
     /**
@@ -143,6 +161,12 @@ public class Follower {
                     this.chassis = new TankKinematic(this.getChassisConfiguration());
                     break;
             }
+
+            Robot.worldXPosition = curvePoints.get(0).x;
+            Robot.worldYPosition = curvePoints.get(0).y;
+            Robot.worldAngle = curvePoints.get(0).slowDownTurnRadians;
+
+            ComputerDebugging.clearLogPoints();
 
         } else {
             Log.println("Your execution mode is not compatible with this method.",ORIGIN);

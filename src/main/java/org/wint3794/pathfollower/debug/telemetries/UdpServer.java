@@ -17,7 +17,7 @@ public class UdpServer extends Telemetry implements Runnable{
     private final Semaphore sendLock = new Semaphore(1);
     private long lastSendMillis = 0;
     private String currentUpdate = "";
-    public static boolean kill = false;
+    private static boolean running = false;
 
     public UdpServer(int clientPort) throws UnknownHostException {
         this.clientPort = clientPort;
@@ -31,7 +31,7 @@ public class UdpServer extends Telemetry implements Runnable{
 
     @Override
     public void run() {
-        while(!kill){
+        while(isRunning()){
             try {
                 if(System.currentTimeMillis()-lastSendMillis < 50) {
                     continue;
@@ -90,11 +90,19 @@ public class UdpServer extends Telemetry implements Runnable{
 
     @Override
     public void print(String log) {
-
+        System.out.println(log);
     }
 
     @Override
     public void close() {
 
+    }
+
+    public synchronized static boolean isRunning() {
+        return running;
+    }
+
+    public synchronized static void setRunning(boolean running) {
+        UdpServer.running = running;
     }
 }
