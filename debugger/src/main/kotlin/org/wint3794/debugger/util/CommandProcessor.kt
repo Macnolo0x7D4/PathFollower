@@ -7,7 +7,7 @@ object CommandProcessor {
         val point: Point = Point()
 
         if (message.isBlank()) {
-            return point;
+            return point
         }
 
         var commands = message.split("%")

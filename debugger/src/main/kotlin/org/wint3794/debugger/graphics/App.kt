@@ -64,7 +64,7 @@ class App: Application() {
         primaryStage.onCloseRequest = EventHandler { _ -> exitProcess(0) }
 
         root = Group()
-        val scene = Scene(root);
+        val scene = Scene(root)
 
         layer = HBox()
         layer.prefWidthProperty().bind(primaryStage.widthProperty())
@@ -140,6 +140,7 @@ class App: Application() {
         launch(*args)
     }
 
+    /*
     private fun drawDebugPoints(gc: GraphicsContext) {
         for (i in displayPoints.indices) {
             val displayLocation = Screen.toScreen(Point(displayPoints.get(i).x, displayPoints.get(i).y))
@@ -168,7 +169,7 @@ class App: Application() {
                 gc.strokeLine(displayLocation1.x, displayLocation1.y, displayLocation2.x, displayLocation2.y)
             }
         }
-    }
+    }*/
 
     private fun drawRobot(graphicsContext: GraphicsContext) {
         val radius = 91.44
@@ -184,8 +185,8 @@ class App: Application() {
         fieldBackground.x = origin.x
         fieldBackground.y = origin.y
 
-        val topLeftX = point.x + (radius * (cos(point.angle + Math.toRadians(45.0))));
-        val topLeftY = point.y + (radius * (sin(point.angle + Math.toRadians(45.0))));
+        val topLeftX = point.x + (radius * (cos(point.angle + Math.toRadians(45.0))))
+        val topLeftY = point.y + (radius * (sin(point.angle + Math.toRadians(45.0))))
 
         Screen.toScreen(Point(topLeftX, topLeftY))
         val width = 1.0 / toPixel * 18 * 2.54

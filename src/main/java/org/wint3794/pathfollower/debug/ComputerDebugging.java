@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 public class ComputerDebugging {
     private static UdpServer udpServer;
     private static StringBuilder messageBuilder = new StringBuilder();
-    private static DecimalFormat df = new DecimalFormat("#.00");
+    private static final DecimalFormat df = new DecimalFormat("#.00");
 
     /**
      * Initializes udp server and starts it's thread

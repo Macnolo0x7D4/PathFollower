@@ -34,7 +34,7 @@ dependencies {
     implementation("com.googlecode.json-simple:json-simple:1.1")
 }
 
-version = "0.5.5"
+version = "0.5.6"
 group = "org.wint3794"
 
 tasks.jar {
