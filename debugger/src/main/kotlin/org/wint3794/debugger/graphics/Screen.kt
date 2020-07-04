@@ -1,6 +1,6 @@
 package org.wint3794.debugger.graphics
 
-import org.wint3794.debugger.geometry.Pose2d
+import org.wint3794.debugger.geometry.Point
 import org.wint3794.debugger.util.Constants
 
 object Screen {
@@ -14,8 +14,8 @@ object Screen {
     val scale
         get() = Constants.FIELD_SIZE / pixel
 
-    fun toScreen(point: Pose2d) : Pose2d {
-        val windowScale = Pose2d(dimensions[0] * pixel, dimensions[1] * pixel)
+    fun toScreen(point: Point) : Point {
+        val windowScale = Point(dimensions[0] * pixel, dimensions[1] * pixel)
 
         val relTopLeftX = point.x - (centerPoint[0] - windowScale.x / 2.0)
         val relTopLeftY = (centerPoint[1] + windowScale.y / 2.0) - point.y
@@ -23,6 +23,6 @@ object Screen {
         val percentX = relTopLeftX / windowScale.x
         val percentY = relTopLeftY / windowScale.y
 
-        return Pose2d(percentX * dimensions[0], percentY * dimensions[1])
+        return Point(percentX * dimensions[0], percentY * dimensions[1])
     }
 }

@@ -1,7 +1,5 @@
 package org.wint3794.debugger.net
 
-import org.wint3794.debugger.geometry.Pose2d
-import org.wint3794.debugger.graphics.App
 import org.wint3794.debugger.util.Constants
 import java.io.IOException
 import java.net.DatagramPacket

@@ -1,13 +1,13 @@
 package org.wint3794.debugger.util
 
-import org.wint3794.debugger.geometry.Pose2d
+import org.wint3794.debugger.geometry.Point
 
 object CommandProcessor {
-    fun getFrom(message: String): Pose2d {
-        val pose2d: Pose2d = Pose2d()
+    fun getFrom(message: String): Point {
+        val point: Point = Point()
 
         if (message.isBlank()) {
-            return pose2d;
+            return point;
         }
 
         var commands = message.split("%")
@@ -15,12 +15,14 @@ object CommandProcessor {
 
         val commandStructure = commands.last().split(",")
 
-        if (commandStructure[0] == "POS") {
-            pose2d.x = commandStructure[1].toDouble()
-            pose2d.y = commandStructure[2].toDouble()
-            pose2d.angle = commandStructure[3].toDouble()
+        when (commandStructure[0] ) {
+            "ROBOT" -> {
+                point.x = commandStructure[1].toDouble()
+                point.y = commandStructure[2].toDouble()
+                point.angle = commandStructure[3].toDouble()
+            }
         }
 
-        return pose2d
+        return point
     }
 }
