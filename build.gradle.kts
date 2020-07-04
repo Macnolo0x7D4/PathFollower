@@ -1,46 +1,34 @@
-/*
- * Copyright 2020 WinT 3794 (Manuel Diaz Rojo and Alexis Obed Garcia Hernandez)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
-
 plugins {
-    `java-library`
+    kotlin("jvm") version "1.3.72"
     `maven-publish`
 }
 
+group = "org.wint3794"
+version = "0.6.0"
+
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
-    api("org.apache.commons:commons-math3:3.6.1")
-
-    implementation("com.google.guava:guava:28.2-jre")
-
+    implementation(kotlin("stdlib-jdk8"))
     testImplementation("junit:junit:4.12")
-
     implementation("com.googlecode.json-simple:json-simple:1.1")
 }
-
-version = "0.5.6"
-group = "org.wint3794"
 
 tasks.jar {
     manifest {
         attributes["Implementation-Title"] = project.name
         attributes["Implementation-Version"] = project.version
+    }
+}
+
+tasks {
+    compileKotlin {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "1.8"
     }
 }
 
