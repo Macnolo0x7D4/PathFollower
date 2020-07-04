@@ -27,17 +27,16 @@ import javafx.scene.control.Label
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.layout.HBox
-import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import javafx.scene.transform.Affine
 import javafx.scene.transform.Rotate
 import javafx.stage.Stage
-import org.wint3794.debugger.geometry.Pose2d
+import org.wint3794.debugger.geometry.Line
+import org.wint3794.debugger.geometry.Point
 import org.wint3794.debugger.net.Client
 import org.wint3794.debugger.util.CommandProcessor
 import org.wint3794.debugger.util.Constants
-import java.io.File
 import java.net.URL
 import java.text.DecimalFormat
 import java.util.concurrent.Semaphore
@@ -52,8 +51,11 @@ class App: Application() {
     private lateinit var root: Group
     private lateinit var layer: HBox
 
-    private var pose2d: Pose2d = Pose2d()
+    private var point: Point = Point()
     private val format = DecimalFormat("#.00")
+
+    private var displayPoints = arrayOfNulls<Point>(1)
+    private var displayLines = arrayOfNulls<Line>(1)
 
     @Throws(Exception::class)
     override fun start(primaryStage: Stage) {
@@ -83,8 +85,8 @@ class App: Application() {
         val log = Group()
 
         val titleLabel = Label()
-        titleLabel.font = Font("Jetbrains Mono", 20.0)
-        titleLabel.textFillProperty().value = Color(1.0, 1.0, 1.0, 0.8)
+        titleLabel.font = Font("Jetbrains Mono", 16.0)
+        titleLabel.textFillProperty().value = Color(1.0, 1.0, 1.0, 1.0)
         titleLabel.prefWidth = Constants.SCREEN_SIZE / 2
         titleLabel.prefHeight = Constants.SCREEN_SIZE / 10
         titleLabel.isWrapText = true
@@ -120,7 +122,7 @@ class App: Application() {
                 fieldBackground.fitWidth = scale
                 fieldBackground.fitHeight = scale
 
-                titleLabel.text = "X: " + pose2d.x + " Y: " + pose2d.y + " Angle: " + pose2d.angle
+                titleLabel.text = "X: " + point.x + " Y: " + point.y + " Angle: " + point.angle
 
                 draw(graphics)
 
@@ -138,28 +140,58 @@ class App: Application() {
         launch(*args)
     }
 
+    private fun drawDebugPoints(gc: GraphicsContext) {
+        for (i in displayPoints.indices) {
+            val displayLocation = Screen.toScreen(Point(displayPoints.get(i).x, displayPoints.get(i).y))
+            val radius = 5.0
+            gc.stroke = Color(0.0, 1.0, 1.0, 0.6)
+            gc.strokeOval(displayLocation.x - radius, displayLocation.y - radius, 2 * radius, 2 * radius)
+        }
+
+        for (i in 0 until MessageProcessing.pointLog.size()) {
+            val displayLocation = Screen.toScreen(Point(MessageProcessing.pointLog.get(i).x, MessageProcessing.pointLog.get(i).y))
+            val radius = 5.0
+            gc.fill = Color(1.0, 0.0 + i.toDouble() / MessageProcessing.pointLog.size(), 0, 0.9)
+            gc.fillOval(displayLocation.x - radius, displayLocation.y - radius, 2 * radius, 2 * radius)
+        }
+    }
+
+    private fun drawDebugLines(gc: GraphicsContext) {
+        for (i in displayLines.indices) {
+            val displayLocation1 = displayLines[i]?.x1?.let { displayLines[i]?.y1?.let { it1 -> Point(it, it1) } }?.let { Screen.toScreen(it) }
+            val displayLocation2 = displayLines[i]?.x2?.let { displayLines[i]?.y2?.let { it1 -> Point(it, it1) } }?.let { Screen.toScreen(it) }
+
+            gc.lineWidth = 3.0
+            gc.stroke = Color(0.0, 1.0, 1.0, 0.6)
+
+            if (displayLocation1 != null) {
+                gc.strokeLine(displayLocation1.x, displayLocation1.y, displayLocation2.x, displayLocation2.y)
+            }
+        }
+    }
+
     private fun drawRobot(graphicsContext: GraphicsContext) {
         val radius = 91.44
         val buffer = Client.commands
 
-        pose2d = CommandProcessor.getFrom(buffer)
+        point = CommandProcessor.getFrom(buffer)
 
         val toPixel = Screen.pixel
 
         Screen.centerPoint = arrayOf(toPixel * Screen.dimensions[0] / 2, toPixel * Screen.dimensions[1] / 2)
 
-        val origin = Screen.toScreen(Pose2d(0.0, Constants.FIELD_SIZE))
+        val origin = Screen.toScreen(Point(0.0, Constants.FIELD_SIZE))
         fieldBackground.x = origin.x
         fieldBackground.y = origin.y
 
-        val topLeftX = pose2d.x + (radius * (cos(pose2d.angle + Math.toRadians(45.0))));
-        val topLeftY = pose2d.y + (radius * (sin(pose2d.angle + Math.toRadians(45.0))));
+        val topLeftX = point.x + (radius * (cos(point.angle + Math.toRadians(45.0))));
+        val topLeftY = point.y + (radius * (sin(point.angle + Math.toRadians(45.0))));
 
-        Screen.toScreen(Pose2d(topLeftX, topLeftY))
+        Screen.toScreen(Point(topLeftX, topLeftY))
         val width = 1.0 / toPixel * 18 * 2.54
 
         graphicsContext.save()
-        graphicsContext.transform(Affine(Rotate(Math.toDegrees(-pose2d.angle) + 90, topLeftX, topLeftY)))
+        graphicsContext.transform(Affine(Rotate(Math.toDegrees(-point.angle) + 90, topLeftX, topLeftY)))
 
         val imageFile: URL? = App::class.java.getResource("/robot.png")
         val image: Image? = Image(imageFile.toString())
