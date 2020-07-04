@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.wint3794.pathfollower.robot.RuntimeRobotVars.*;
+import static org.wint3794.pathfollower.util.MovementVars.*;
 
 /**
  * A Kinematic Class that calculates the power of DcMotors from Position values.

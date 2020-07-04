@@ -15,16 +15,24 @@
  *
  */
 
-package org.wint3794.pathfollower.geometry;
+package org.wint3794.pathfollower.util;
 
-public class LinePoint {
-    public double x;
-    public double y;
-    public boolean onLine;
+/**
+ * Execution Modes that can be used.
+ */
+public enum ExecutionModes {
+    /**
+     * It does not take care about distances, only directions.
+     */
+    SIMPLE,
 
-    public LinePoint(double X, double Y, boolean isOnLine) {
-        x = X;
-        y = Y;
-        onLine = isOnLine;
-    }
+    /**
+     * Same to SIMPLE, but this stabilizes the movement.
+     */
+    ENCODER,
+
+    /**
+     * It moves taking care about distances and directions. Useful with route algorithms.
+     */
+    COMPLEX
 }

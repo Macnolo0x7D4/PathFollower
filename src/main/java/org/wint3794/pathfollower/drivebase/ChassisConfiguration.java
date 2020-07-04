@@ -19,7 +19,7 @@ package org.wint3794.pathfollower.drivebase;
 
 import org.wint3794.pathfollower.hardware.DcMotorBase;
 import org.wint3794.pathfollower.hardware.EncoderBase;
-import org.wint3794.pathfollower.robot.ExecutionModes;
+import org.wint3794.pathfollower.util.ExecutionModes;
 import org.wint3794.pathfollower.models.EncoderProperties;
 
 import java.util.List;

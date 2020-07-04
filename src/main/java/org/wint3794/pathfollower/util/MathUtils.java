@@ -39,6 +39,19 @@ public class MathUtils {
     }
 
     /**
+     * Returns rounded value to established number of places (Utilities.roundPower).
+     *
+     * @param value Raw value
+     * @param places Number of places to round
+     * @return Rounded value
+     */
+    public static double roundPower(double value, int places) {
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        return (double) Math.round(value) / factor;
+    }
+
+    /**
      * Returns value clamped between low and high boundaries.
      *
      * @param value Value to clamp.
