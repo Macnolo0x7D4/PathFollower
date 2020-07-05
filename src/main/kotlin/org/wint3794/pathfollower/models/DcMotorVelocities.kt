@@ -21,17 +21,17 @@ import java.util.*
 /**
  * An ADT for DcMotor Velocities
  */
-class DcMotorVelocities
-/**
- * Creates DcMotorVelocities Object from double[]
- *
- * @param velocities Velocities [double[]]
- */(val velocities: DoubleArray) {
-    /**
-     * Returns a DcMotorVelocities as a double[]
-     *
-     * @return Velocities [double[]]
-     */
+class DcMotorVelocities {
+
+    private var velocities: DoubleArray
+
+    constructor(velocities: DoubleArray) {
+        this.velocities = velocities
+    }
+
+    constructor(velocities: List<Double>){
+        this.velocities = velocities.toDoubleArray()
+    }
 
     /**
      * Returns DcMotorVelocity as a double
@@ -50,7 +50,7 @@ class DcMotorVelocities
      */
     override fun toString(): String {
         return "Velocity{" +
-                "velocities=" + Arrays.toString(velocities) +
+                "velocities=" + velocities.contentToString() +
                 '}'
     }
 

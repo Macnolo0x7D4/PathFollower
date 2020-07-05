@@ -30,7 +30,7 @@ class ChassisConfiguration {
      *
      * @return List of DcMotors
      */
-    val motors: List<DcMotorBase?>
+    val motors: MutableList<DcMotorBase>
 
     /**
      * Returns a list with current additional encoders.
@@ -53,7 +53,7 @@ class ChassisConfiguration {
      *
      * @param motors A List of 4 DcMotorBase (not interface, your driver). Order: FL, FR, BL, BR.
      */
-    constructor(motors: List<DcMotorBase?>, tank: ChassisTypes) {
+    constructor(motors: MutableList<DcMotorBase>, tank: ChassisTypes) {
         mode = ExecutionModes.SIMPLE
         encoderProperties = null
         additionalEncoders = null
@@ -68,7 +68,7 @@ class ChassisConfiguration {
      * @param encoderProperties A EncoderProperties Object
      */
     constructor(
-        motors: List<DcMotorBase?>,
+        motors: MutableList<DcMotorBase>,
         encoderProperties: EncoderProperties?,
         tank: ChassisTypes
     ) {
@@ -87,7 +87,7 @@ class ChassisConfiguration {
      * @param additionalEncoders A List of Additional Encoders for Odometry.
      */
     constructor(
-        motors: List<DcMotorBase?>,
+        motors: MutableList<DcMotorBase>,
         encoderProperties: EncoderProperties?,
         additionalEncoders: List<EncoderBase>?,
         tank: ChassisTypes

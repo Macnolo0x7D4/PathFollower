@@ -40,6 +40,7 @@ import org.wint3794.debugger.util.Constants
 import java.net.URL
 import java.text.DecimalFormat
 import java.util.concurrent.Semaphore
+import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.system.exitProcess
@@ -172,10 +173,11 @@ class App: Application() {
     }*/
 
     private fun drawRobot(graphicsContext: GraphicsContext) {
-        val radius = 91.44
         val buffer = Client.commands
 
         point = CommandProcessor.getFrom(buffer)
+
+        // followRobot(point)
 
         val toPixel = Screen.pixel
 
@@ -185,11 +187,11 @@ class App: Application() {
         fieldBackground.x = origin.x
         fieldBackground.y = origin.y
 
-        val topLeftX = point.x + (radius * (cos(point.angle + Math.toRadians(45.0))))
-        val topLeftY = point.y + (radius * (sin(point.angle + Math.toRadians(45.0))))
+        val topLeftX = point.x + (Constants.ROBOT_RADIUS * (cos(point.angle + PI / 4)))
+        val topLeftY = point.y + (Constants.ROBOT_RADIUS * (sin(point.angle + PI / 4)))
 
         Screen.toScreen(Point(topLeftX, topLeftY))
-        val width = 1.0 / toPixel * 18 * 2.54
+        val width = 1.0 / toPixel * Constants.ROBOT_SIZE
 
         graphicsContext.save()
         graphicsContext.transform(Affine(Rotate(Math.toDegrees(-point.angle) + 90, topLeftX, topLeftY)))
@@ -199,5 +201,14 @@ class App: Application() {
 
         graphicsContext.drawImage(image, topLeftX, topLeftY, width, width)
         graphicsContext.restore()
+    }
+
+    private fun followRobot(point: Point) {
+        Screen.centerPoint = arrayOf(Screen.pixel * Screen.dimensions[0] / 2.0, Screen.pixel * Screen.dimensions[1] / 2.0)
+
+        val origin = Screen.toScreen(Point(0.0, Constants.FIELD_SIZE))
+        fieldBackground.x = origin.x
+        fieldBackground.y = origin.y
+
     }
 }

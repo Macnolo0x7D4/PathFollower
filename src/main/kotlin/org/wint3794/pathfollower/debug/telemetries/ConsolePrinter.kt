@@ -22,10 +22,11 @@ class ConsolePrinter : Telemetry() {
     override fun init() {}
 
     override fun print(log: String) {
-        print(log)
+        println(log)
     }
 
     override fun close() {}
+
     override fun toString(): String {
         return "Console Printer"
     }

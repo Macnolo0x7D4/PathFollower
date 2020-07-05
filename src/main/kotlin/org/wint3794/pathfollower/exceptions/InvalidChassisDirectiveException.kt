@@ -19,7 +19,7 @@ package org.wint3794.pathfollower.exceptions
 /**
  * Exception for Invalid Mecanum Directives
  */
-class InvalidMecanumDirectiveException
+class InvalidChassisDirectiveException
 /**
  * Creates an InvalidMecanumDirectiveException.
  *

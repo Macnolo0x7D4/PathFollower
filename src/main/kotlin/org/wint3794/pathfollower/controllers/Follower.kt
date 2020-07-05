@@ -22,16 +22,18 @@ import org.wint3794.pathfollower.debug.RobotLogger
 import org.wint3794.pathfollower.debug.Telemetry
 import org.wint3794.pathfollower.drivebase.ChassisConfiguration
 import org.wint3794.pathfollower.drivebase.ChassisTypes
-import org.wint3794.pathfollower.drivebase.Kinematic
+import org.wint3794.pathfollower.drivebase.Chassis
 import org.wint3794.pathfollower.drivebase.RobotMovement
-import org.wint3794.pathfollower.drivebase.mecanum.MecanumKinematic
-import org.wint3794.pathfollower.drivebase.tank.TankKinematic
+import org.wint3794.pathfollower.drivebase.mecanum.MecanumChassis
+import org.wint3794.pathfollower.drivebase.tank.ClassicTankChassis
 import org.wint3794.pathfollower.exceptions.NotCompatibleConfigurationException
 import org.wint3794.pathfollower.geometry.CurvePoint
 import org.wint3794.pathfollower.geometry.Point
+import org.wint3794.pathfollower.geometry.Pose2d
 import org.wint3794.pathfollower.hardware.DcMotorBase
 import org.wint3794.pathfollower.util.Constants
 import org.wint3794.pathfollower.util.ExecutionModes
+import org.wint3794.pathfollower.util.MovementVars
 import java.util.*
 import java.util.function.Consumer
 
@@ -49,7 +51,7 @@ class Follower @JvmOverloads constructor(
      *
      * @return The current Chassis Configuration.
      */
-    private var chassis: Kinematic? = null
+    private var chassis: Chassis? = null
     private var robot: Robot? = null
 
     constructor(config: ChassisConfiguration, telemetry: Telemetry?, port: Int) : this(config, telemetry, "", port) {}
@@ -100,9 +102,10 @@ class Follower @JvmOverloads constructor(
         Companion.curvePoints = curvePoints
         if (chassisConfiguration.mode != ExecutionModes.SIMPLE) {
             Log.println("Process initialized!", "Follower")
+
             when (chassisConfiguration.type) {
-                ChassisTypes.MECANUM -> chassis = MecanumKinematic()
-                else -> chassis = TankKinematic(chassisConfiguration)
+                ChassisTypes.MECANUM -> chassis = MecanumChassis()
+                else -> chassis = ClassicTankChassis()
             }
             Robot.Companion.xPos = curvePoints[0].x
             Robot.Companion.yPos = curvePoints[0].y
@@ -121,17 +124,12 @@ class Follower @JvmOverloads constructor(
      * @param followAngle The preferred turn angle. [-Math.PI - Math.PI]. The angle is in radians.
      * @throws NotCompatibleConfigurationException Only if your configuration is invalid for this method.
      */
-    /**
-     * Calculates and move your robot. Sets the default
-     * followAngle established in [org.wint3794.pathfollower.util.Constants]. Use in loop.
-     * @throws NotCompatibleConfigurationException Only if your configuration is invalid for this method.
-     */
     @JvmOverloads
     @Throws(NotCompatibleConfigurationException::class)
-    fun calculate(followAngle: Double = Constants.DEFAULT_FOLLOW_ANGLE) {
+    fun calculate(followAngle: Double = Constants.DEFAULT_FOLLOW_ANGLE): Boolean {
         if (robot == null) {
             Log.println("Robot is null, please usea a valid configuration", ORIGIN)
-            return
+            return true
         }
 
         if (chassisConfiguration.mode != ExecutionModes.SIMPLE) {
@@ -141,8 +139,9 @@ class Follower @JvmOverloads constructor(
                     ORIGIN
                 )
                 Log.update()
-                return
+                return true
             }
+
             try {
                 Thread.sleep(30)
             } catch (e: InterruptedException) {
@@ -155,15 +154,22 @@ class Follower @JvmOverloads constructor(
             RobotLogger.sendRobotLocation()
             ComputerDebugging.sendLogPoint(
                 Point(
-                    Robot.Companion.xPos,
-                    Robot.Companion.yPos
+                    Robot.xPos,
+                    Robot.yPos
                 )
             )
             ComputerDebugging.markEndOfUpdate()
-            chassis!!.apply()
+
+            chassis!!.apply(Pose2d(Robot.xPos, Robot.yPos, Robot.worldAngle))
+
             robot!!.update()
             Log.update()
-        } else throw NotCompatibleConfigurationException()
+
+            return MovementVars.movementX == 0.0 && MovementVars.movementY == 0.0 && MovementVars.movementTurn == 0.0
+
+        } else {
+            throw NotCompatibleConfigurationException()
+        }
     }
 
     companion object {
@@ -211,7 +217,7 @@ class Follower @JvmOverloads constructor(
                     ComputerDebugging(ip, port)
                 }
                 Log.println(
-                    "Graphical Debugger is listening: " + if (ip == "") port else ip + port,
+                    "Graphical Debugger is listening: " + if (ip == "") port else "$ip:$port",
                     ORIGIN
                 )
             }
@@ -219,7 +225,7 @@ class Follower @JvmOverloads constructor(
         if (chassisConfiguration.mode == ExecutionModes.COMPLEX || chassisConfiguration.mode == ExecutionModes.ENCODER) {
             robot = Robot(this)
             chassisConfiguration.motors
-                .forEach(Consumer { motor: DcMotorBase? -> motor!!.setInverted(motor.id % 2 == 0) })
+                .forEach(Consumer { motor: DcMotorBase? -> motor!!.inverted = (motor.id % 2 == 0) })
         } else {
             robot = null
         }

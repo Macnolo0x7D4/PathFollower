@@ -16,7 +16,7 @@
  */
 package org.wint3794.pathfollower.drivebase.mecanum
 
-import org.wint3794.pathfollower.models.MecanumDirectives
+import org.wint3794.pathfollower.models.chassis.MecanumDirectives
 
 /**
  * A class with all the mathematics methods to get Mecanum DcMotor Powers.

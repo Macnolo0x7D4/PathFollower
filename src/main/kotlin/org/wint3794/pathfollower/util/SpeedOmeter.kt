@@ -37,7 +37,7 @@ object SpeedOmeter {
                 this.speedX = speedX
             }
             radPerSecond =
-                MathFunctions.roundAngle(Robot.Companion.worldAngle - lastAngle) / elapsedTime
+                MathUtils.roundAngle(Robot.worldAngle - lastAngle) / elapsedTime
             lastAngle = Robot.Companion.worldAngle
             yDistTraveled = 0.0
             xDistTraveled = 0.0

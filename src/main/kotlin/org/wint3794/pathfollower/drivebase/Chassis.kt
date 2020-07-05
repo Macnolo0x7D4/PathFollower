@@ -16,12 +16,15 @@
  */
 package org.wint3794.pathfollower.drivebase
 
+import org.wint3794.pathfollower.geometry.Pose2d
+import org.wint3794.pathfollower.models.DcMotorVelocities
+
 /**
  * An Interface that allows to apply movement. Only for Follower Engine.
  */
-interface Kinematic {
+interface Chassis {
     /**
      * Applies new configuration from Follower Engine.
      */
-    fun apply()
+    fun apply(robotPosition: Pose2d): DcMotorVelocities
 }

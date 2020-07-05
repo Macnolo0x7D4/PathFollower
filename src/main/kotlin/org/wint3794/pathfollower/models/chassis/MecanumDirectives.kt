@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  */
-package org.wint3794.pathfollower.models
+package org.wint3794.pathfollower.models.chassis
 
 /**
  * ADT of Mecanum Directives [Vd, Td, Vt]

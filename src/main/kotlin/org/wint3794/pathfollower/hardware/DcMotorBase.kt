@@ -16,6 +16,8 @@
  */
 package org.wint3794.pathfollower.hardware
 
+import org.wint3794.pathfollower.models.DcMotorVelocities
+
 /**
  * The Interface where you need to configure your DcMotor Driver.
  */
@@ -41,16 +43,14 @@ interface DcMotorBase {
      */
     var power: Double
 
+    var inverted: Boolean
+
     /**
      * Sets power 0 for motor instance.
      */
     fun stop()
 
-    /**
-     * Sets inverted if inverted is true
-     *
-     * @param inverted Inverted [true, false]
-     */
-    fun setInverted(inverted: Boolean)
-    val encoder: EncoderBase?
+    val encoder: EncoderBase
+
+    fun apply(velocities: DcMotorVelocities)
 }

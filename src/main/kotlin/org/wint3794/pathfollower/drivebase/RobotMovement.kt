@@ -4,7 +4,7 @@ import org.wint3794.pathfollower.controllers.Robot
 import org.wint3794.pathfollower.debug.ComputerDebugging
 import org.wint3794.pathfollower.geometry.CurvePoint
 import org.wint3794.pathfollower.geometry.Point
-import org.wint3794.pathfollower.util.MathFunctions
+import org.wint3794.pathfollower.util.MathUtils
 import org.wint3794.pathfollower.util.MovementVars
 import org.wint3794.pathfollower.util.Range
 import kotlin.math.abs
@@ -14,13 +14,14 @@ import kotlin.math.hypot
 object RobotMovement {
     fun followCurve(allPoints: List<CurvePoint>, followAngle: Double) {
         for (i in 0 until allPoints.size - 1) {
-            ComputerDebugging.Companion.sendLine(
+            ComputerDebugging.sendLine(
                 Point(
                     allPoints[i].x,
                     allPoints[i].y
                 ), Point(allPoints[i + 1].x, allPoints[i + 1].y)
             )
         }
+
         val followMe = getFollowPointPath(
             allPoints,
             Point(
@@ -29,20 +30,25 @@ object RobotMovement {
             ),
             allPoints[0].followDistance
         )
+
         ComputerDebugging.sendKeyPoint(Point(followMe.x, followMe.y))
+
+        val start = allPoints.first()
         val end = allPoints[allPoints.size - 1]
-        if (abs(end.x - Robot.xPos) < 30 && abs(
+
+        if (abs(end.x - Robot.xPos) < start.followDistance && abs(
                 end.y - Robot.yPos
-            ) < 30
+            ) < start.followDistance
         ) {
             MovementVars.movementX = 0.0
             MovementVars.movementY = 0.0
+            MovementVars.movementTurn = 0.0
         } else {
             moveToPosition(followMe.x, followMe.y, followMe.moveSpeed, followAngle, followMe.turnSpeed)
         }
     }
 
-    fun getFollowPointPath(
+    private fun getFollowPointPath(
         pathPoints: List<CurvePoint>,
         robotLocation: Point,
         followRadius: Double
@@ -52,7 +58,7 @@ object RobotMovement {
             val startLine = pathPoints[i]
             val endline = pathPoints[i + 1]
             val intersections =
-                MathFunctions.getIntersection(robotLocation, followRadius, startLine.toPoint(), endline.toPoint())
+                MathUtils.getIntersection(robotLocation, followRadius, startLine.toPoint(), endline.toPoint())
             var closestAngle = 100000000.0
             for (thisIntersection in intersections) {
                 val angle = atan2(
@@ -60,7 +66,7 @@ object RobotMovement {
                     thisIntersection.x - Robot.yPos
                 )
                 val deltaAngle =
-                    Math.abs(MathFunctions.roundAngle(angle - Robot.worldAngle))
+                    Math.abs(MathUtils.roundAngle(angle - Robot.worldAngle))
                 if (deltaAngle < closestAngle) {
                     closestAngle = deltaAngle
                     followMe.setPoint(thisIntersection)
@@ -81,8 +87,8 @@ object RobotMovement {
         val absY: Double = y - Robot.yPos
         val hypotenuse = hypot(absX, absY)
         val relativeAngle = atan2(absY, absX)
-        val relativeAngleToTarget = MathFunctions.roundAngle(
-            relativeAngle - (Robot.Companion.worldAngle - Math.toRadians(
+        val relativeAngleToTarget = MathUtils.roundAngle(
+            relativeAngle - (Robot.worldAngle - Math.toRadians(
                 90.0
             ))
         )
