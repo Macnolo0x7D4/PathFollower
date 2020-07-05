@@ -16,7 +16,7 @@
  */
 package org.wint3794.pathfollower.models
 
-class EncoderProperties(
+data class EncoderProperties(
     val width: Double,
     val cpr: Double,
     val gearRatio: Double,

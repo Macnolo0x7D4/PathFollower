@@ -177,8 +177,6 @@ class App: Application() {
 
         point = CommandProcessor.getFrom(buffer)
 
-        // followRobot(point)
-
         val toPixel = Screen.pixel
 
         Screen.centerPoint = arrayOf(toPixel * Screen.dimensions[0] / 2, toPixel * Screen.dimensions[1] / 2)
@@ -201,14 +199,5 @@ class App: Application() {
 
         graphicsContext.drawImage(image, topLeftX, topLeftY, width, width)
         graphicsContext.restore()
-    }
-
-    private fun followRobot(point: Point) {
-        Screen.centerPoint = arrayOf(Screen.pixel * Screen.dimensions[0] / 2.0, Screen.pixel * Screen.dimensions[1] / 2.0)
-
-        val origin = Screen.toScreen(Point(0.0, Constants.FIELD_SIZE))
-        fieldBackground.x = origin.x
-        fieldBackground.y = origin.y
-
     }
 }

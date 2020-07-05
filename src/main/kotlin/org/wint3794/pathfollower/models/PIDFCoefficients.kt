@@ -16,50 +16,28 @@
  */
 package org.wint3794.pathfollower.models
 
-class PIDFCoefficients {
-    private val kP: Double
-    private val kI: Double
-    private val kD: Double
-    private val kF: Double
-    val pidValues: PIDValues
+data class PIDFCoefficients(var kP: Double, var kI: Double, var kD: Double, var kF: Double, var values: PIDValues){
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
 
-    constructor(kP: Double, kI: Double, kD: Double, kF: Double) {
-        this.kP = kP
-        this.kI = kI
-        this.kD = kD
-        this.kF = kF
-        pidValues = PIDValues()
+        other as PIDFCoefficients
+
+        if (kP != other.kP) return false
+        if (kI != other.kI) return false
+        if (kD != other.kD) return false
+        if (kF != other.kF) return false
+        if (values != other.values) return false
+
+        return true
     }
 
-    /**
-     * @param kP
-     * @param kI
-     * @param kD
-     * @param kF
-     * @param values PIDValues
-     */
-    constructor(kP: Double, kI: Double, kD: Double, kF: Double, values: PIDValues) {
-        this.kP = kP
-        this.kI = kI
-        this.kD = kD
-        this.kF = kF
-        pidValues = values
+    override fun hashCode(): Int {
+        var result = kP.hashCode()
+        result = 31 * result + kI.hashCode()
+        result = 31 * result + kD.hashCode()
+        result = 31 * result + kF.hashCode()
+        result = 31 * result + values.hashCode()
+        return result
     }
-
-    fun getkP(): Double {
-        return kP
-    }
-
-    fun getkI(): Double {
-        return kI
-    }
-
-    fun getkD(): Double {
-        return kD
-    }
-
-    fun getkF(): Double {
-        return kF
-    }
-
 }

@@ -21,37 +21,29 @@ import java.util.*
 /**
  * An ADT for DcMotor Velocities
  */
-class DcMotorVelocities {
-
-    private var velocities: DoubleArray
-
-    constructor(velocities: DoubleArray) {
-        this.velocities = velocities
-    }
-
-    constructor(velocities: List<Double>){
-        this.velocities = velocities.toDoubleArray()
-    }
-
+data class DcMotorVelocities (var velocities: DoubleArray){
     /**
      * Returns DcMotorVelocity as a double
      *
      * @param id DcMotor ID
      * @return Velocity [double]
      */
-    fun getVelocity(id: Byte): Double {
+    fun getVelocity(id: Byte): Double? {
         return velocities[id.toInt()]
     }
 
-    /**
-     * Returns DcMotorVelocities as a string
-     *
-     * @return Velocities [array to string]
-     */
-    override fun toString(): String {
-        return "Velocity{" +
-                "velocities=" + velocities.contentToString() +
-                '}'
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as DcMotorVelocities
+
+        if (!velocities.contentEquals(other.velocities)) return false
+
+        return true
     }
 
+    override fun hashCode(): Int {
+        return velocities.contentHashCode()
+    }
 }

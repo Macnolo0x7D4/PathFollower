@@ -19,7 +19,7 @@ package org.wint3794.pathfollower.models
 /**
  * A Model for coordinates
  */
-class JoystickCoordinates
+data class JoystickCoordinates
 /**
  * Creates JoystickCoordinates from [y, x]
  *

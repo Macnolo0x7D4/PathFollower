@@ -1,5 +1,6 @@
 package org.wint3794.debugger.net
 
+import org.wint3794.debugger.util.CommandProcessor
 import org.wint3794.debugger.util.Constants
 import java.io.IOException
 import java.net.DatagramPacket
@@ -11,8 +12,6 @@ object Client: Thread("Client") {
 
     private lateinit var socket: DatagramSocket
     private var buffer: ByteArray = ByteArray(1024)
-
-    var commands: String = ""
 
     init {
         try {
@@ -32,8 +31,10 @@ object Client: Thread("Client") {
                 e.printStackTrace()
             }
 
-            commands = String(packet.data, 0, packet.length)
-            println(commands)
+            val commands = String(packet.data, 0, packet.length)
+            val point = CommandProcessor.getFrom(commands)
+            println(point.toString())
+            // println(commands)
         }
     }
 }

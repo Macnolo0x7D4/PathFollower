@@ -24,15 +24,7 @@ class PathFollowerTest {
 
     @Test
     fun testPathFollower() {
-
-        val tank = PovTankChassis()
-
-        val velocities = tank.move(TankDirectives(1.0, -0.2))
-
-        getDefaultConfiguration().motors.listIterator().forEach { motor: DcMotorBase? -> motor!!.apply(velocities) }
-
-        /*
-        val classUnderTest = Follower(getDefaultConfiguration(), ConsolePrinter(), "192.168.0.9", 11115)
+        val classUnderTest = Follower(getDefaultConfiguration(), ConsolePrinter())
         val reader = PathReader(this::class.java.getResource("/path2.json"))
         val processor = reader.rawPath?.let { PathProcessor(it) }
 
@@ -45,7 +37,14 @@ class PathFollowerTest {
         }
 
         classUnderTest.close()
-        */
+    }
+
+    fun testTankChassis() {
+        val tank = PovTankChassis()
+
+        val velocities = tank.move(TankDirectives(1.0, -0.2))
+
+        getDefaultConfiguration().motors.listIterator().forEach { motor: DcMotorBase? -> motor?.apply(velocities) }
     }
 
     private fun getDefaultConfiguration(): ChassisConfiguration {

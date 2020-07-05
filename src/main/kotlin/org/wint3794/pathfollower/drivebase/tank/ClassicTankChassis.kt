@@ -47,6 +47,6 @@ open class ClassicTankChassis : Chassis {
 
         val velocities = rawVelocities.map { power: Double -> power * scaleDownAmount }
 
-        return DcMotorVelocities(velocities)
+        return DcMotorVelocities(velocities.toDoubleArray())
     }
 }

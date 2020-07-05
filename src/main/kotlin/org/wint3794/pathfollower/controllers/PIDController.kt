@@ -193,11 +193,11 @@ class PIDController(coefficients: PIDFCoefficients) {
      * @param coefficients PIDFCoefficients
      */
     init {
-        kP = coefficients.getkP()
-        kI = coefficients.getkI()
-        kD = coefficients.getkD()
-        kF = coefficients.getkF()
-        val values = coefficients.pidValues
+        kP = coefficients.kP
+        kI = coefficients.kI
+        kD = coefficients.kD
+        kF = coefficients.kF
+        val values = coefficients.values
         setPoint = values.sp
         measuredValue = values.pv
         period = values.period

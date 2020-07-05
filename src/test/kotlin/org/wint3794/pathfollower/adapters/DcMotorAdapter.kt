@@ -26,6 +26,8 @@ class DcMotorAdapter(override val id: Byte) : DcMotorBase {
         get() = TODO("Not yet implemented")
 
     override fun apply(velocities: DcMotorVelocities) {
-        power = velocities.getVelocity(id)
+        if (velocities.getVelocity(id) != null) {
+            power = velocities.getVelocity(id)!!
+        }
     }
 }
