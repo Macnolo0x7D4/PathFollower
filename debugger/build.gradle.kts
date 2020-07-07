@@ -9,7 +9,7 @@ version = "0.6.0"
 
 application {
     applicationName = "Graphical Debugger"
-    mainClassName = "org.wint3794.debugger.Main"
+    mainClassName = "org.wint3794.pathfollower.debugger.Main"
 }
 
 javafx {

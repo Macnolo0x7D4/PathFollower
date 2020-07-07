@@ -32,7 +32,7 @@ class PathFollowerTest {
 
         var terminated = false
 
-        while(!terminated) {
+        while(true) {
             terminated = classUnderTest.calculate()
         }
 
