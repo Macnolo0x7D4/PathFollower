@@ -30,64 +30,16 @@ object RobotLogger {
      * Sends the robot location to the debug computer.
      */
     fun sendRobotLocation() {
-        Log.println(
-            "X -> " + Robot.Companion.xPos,
-            ORIGIN
-        )
-        Log.println(
-            "Y -> " + Robot.Companion.yPos,
-            ORIGIN
-        )
-        Log.println(
-            "Theta -> " + Robot.Companion.worldAngle,
-            ORIGIN
-        )
-        SimulatorSender.Companion.sendRobotLocation(
+        Log.println("X -> " + Robot.xPos, ORIGIN)
+        Log.println("Y -> " + Robot.yPos, ORIGIN)
+        Log.println("Theta -> " + Robot.worldAngle, ORIGIN)
+
+        SimulatorSender.sendRobotLocation(
             Pose2d(
-                Robot.Companion.xPos,
-                Robot.Companion.yPos,
-                Robot.Companion.worldAngle
+                Robot.xPos,
+                Robot.yPos,
+                Robot.worldAngle
             )
         )
-    }
-
-    /**
-     * Sends the location of any point you would like to send.
-     *
-     * @param floatPoint The point you want to send.
-     */
-    fun sendKeyPoint(floatPoint: Pose2d) {
-        Log.println(
-            "Key Point -> { X: " + floatPoint.x + ", Y: " + floatPoint.y + " }",
-            ORIGIN
-        )
-        SimulatorSender.Companion.sendKeyPoint(floatPoint)
-    }
-
-    /**
-     * This is a point you don't want to clear every update.
-     *
-     * @param floatPoint The point you want to send.
-     */
-    fun sendLogPoint(floatPoint: Pose2d) {
-        Log.println(
-            "Log Point -> { X: " + floatPoint.x + ", Y: " + floatPoint.y + " }",
-            ORIGIN
-        )
-        SimulatorSender.Companion.sendLogPoint(floatPoint)
-    }
-
-    /**
-     * Used for debugging lines.
-     *
-     * @param point1 InitialPoint.
-     * @param point2 TargetPoint.
-     */
-    fun sendLine(point1: Pose2d, point2: Pose2d) {
-        Log.println(
-            "New Line -> { Initial Pos: [ X: " + point1.x + ", Y: " + point1.y + " ], Target Pos: [ X: " + point2.x + ", Y: " + point2.y + " ] }",
-            ORIGIN
-        )
-        SimulatorSender.Companion.sendLine(point1, point2)
     }
 }

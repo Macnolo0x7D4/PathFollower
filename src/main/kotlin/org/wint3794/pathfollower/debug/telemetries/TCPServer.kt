@@ -29,7 +29,7 @@ class TCPServer : Telemetry() {
 
     private lateinit var outputStream: DataOutputStream
 
-    override fun init() {
+    init {
         try {
             server = ServerSocket(Constants.DEFAULT_TCP_PORT)
             socket = server.accept()

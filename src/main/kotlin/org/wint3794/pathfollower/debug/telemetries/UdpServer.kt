@@ -70,7 +70,6 @@ class UdpServer : Telemetry, Runnable {
         } while (endIndex != message.length - 1)
     }
 
-    override fun init() {}
     override fun print(log: String) {
         println(log)
     }

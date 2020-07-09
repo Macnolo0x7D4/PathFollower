@@ -18,11 +18,14 @@ class PathFollowerTest {
 
     @Test
     fun testPathFollower() {
-        val classUnderTest = Follower(getChassisConfiguration(), DebugConfiguration(true))
         val reader = PathReader(this::class.java.getResource("/path2.json"))
-        val processor = reader.rawPath?.let { PathProcessor(it) }
+        val processor = reader.path?.let { PathProcessor(it) }
 
-        classUnderTest.init(processor!!.createFunctionalPath())
+        val classUnderTest = Follower(
+            getChassisConfiguration(),
+            DebugConfiguration(true, ConsolePrinter()),
+            processor!!.createFunctionalPath()
+        )
 
         var terminated = false
 

@@ -7,9 +7,7 @@ import org.wint3794.pathfollower.geometry.Point
 import org.wint3794.pathfollower.util.MathUtils
 import org.wint3794.pathfollower.util.MovementVars
 import org.wint3794.pathfollower.util.Range
-import kotlin.math.abs
-import kotlin.math.atan2
-import kotlin.math.hypot
+import kotlin.math.*
 
 object RobotMovement {
     fun followCurve(allPoints: List<CurvePoint>, followAngle: Double) {
@@ -53,12 +51,13 @@ object RobotMovement {
         robotLocation: Point,
         followRadius: Double
     ): CurvePoint {
-        val followMe = CurvePoint(pathPoints[0])
+        val followMe = pathPoints[0].clone()
+
         for (i in 0 until pathPoints.size - 1) {
             val startLine = pathPoints[i]
-            val endline = pathPoints[i + 1]
+            val endLine = pathPoints[i + 1]
             val intersections =
-                MathUtils.getIntersection(robotLocation, followRadius, startLine.toPoint(), endline.toPoint())
+                MathUtils.getIntersection(robotLocation, followRadius, startLine.toPoint(), endLine.toPoint())
             var closestAngle = 100000000.0
             for (thisIntersection in intersections) {
                 val angle = atan2(
@@ -66,7 +65,7 @@ object RobotMovement {
                     thisIntersection.x - Robot.yPos
                 )
                 val deltaAngle =
-                    Math.abs(MathUtils.roundAngle(angle - Robot.worldAngle))
+                    abs(MathUtils.roundAngle(angle - Robot.worldAngle))
                 if (deltaAngle < closestAngle) {
                     closestAngle = deltaAngle
                     followMe.setPoint(thisIntersection)
@@ -76,7 +75,7 @@ object RobotMovement {
         return followMe
     }
 
-    fun moveToPosition(
+    private fun moveToPosition(
         x: Double,
         y: Double,
         Speed: Double,
@@ -92,11 +91,12 @@ object RobotMovement {
                 90.0
             ))
         )
-        val relativeX = Math.cos(relativeAngleToTarget) * hypotenuse
-        val relativeY = Math.sin(relativeAngleToTarget) * hypotenuse
+        val relativeX = cos(relativeAngleToTarget) * hypotenuse
+        val relativeY = sin(relativeAngleToTarget) * hypotenuse
         val relativeTurnAngle =
             relativeAngleToTarget - Math.toRadians(180.0) + preferredTurnAngle
-        val relativePositionSum = Math.abs(relativeX) + Math.abs(relativeY)
+        val relativePositionSum = abs(relativeX) + abs(relativeY)
+
         MovementVars.movementX = relativeX / relativePositionSum * Speed
         MovementVars.movementY = relativeY / relativePositionSum * Speed
         MovementVars.movementTurn = if (hypotenuse > 15) Range.clip(

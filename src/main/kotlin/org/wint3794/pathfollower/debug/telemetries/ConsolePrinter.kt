@@ -19,7 +19,6 @@ package org.wint3794.pathfollower.debug.telemetries
 import org.wint3794.pathfollower.debug.Telemetry
 
 class ConsolePrinter : Telemetry() {
-    override fun init() {}
 
     override fun print(log: String) {
         println(log)

@@ -14,28 +14,27 @@ data class CurvePoint(
     var pointLength: Double = 0.0
 ) {
 
-    constructor(point: Point) {
-        x = point.x
-        y = point.y
-    }
-
-    constructor(nextPoint: CurvePoint) {
-        x = nextPoint.x
-        y = nextPoint.y
-        moveSpeed = nextPoint.moveSpeed
-        turnSpeed = nextPoint.turnSpeed
-        followDistance = nextPoint.followDistance
-        slowDownTurnRadians = nextPoint.slowDownTurnRadians
-        slowDownTurnAmount = nextPoint.slowDownTurnAmount
-        pointLength = nextPoint.pointLength
-    }
-
     fun toPoint(): Point {
         return Point(x, y)
     }
 
-    fun setPoint(p: Point) {
+    fun setPoint(p: Point): CurvePoint {
         x = p.x
         y = p.y
+        return this
+    }
+
+    fun clone(): CurvePoint {
+        return CurvePoint(
+            x,
+            y,
+            moveSpeed,
+            turnSpeed,
+            followDistance,
+            slowDownTurnRadians,
+            slowDownTurnAmount,
+            pointLength
+        )
+
     }
 }

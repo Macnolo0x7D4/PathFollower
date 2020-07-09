@@ -21,37 +21,18 @@ import org.json.simple.JSONObject
 import org.wint3794.pathfollower.geometry.CurvePoint
 import java.util.*
 
-class PathProcessor(json: JSONArray) {
-    private val json: JSONArray
-
-    /**
-     * Returns CurvePoint from Path (JSON Array) if exists.
-     * @param index Point Index
-     * @return The desired CurvePoint
-     */
-    fun getPointByIndex(index: Int): Optional<CurvePoint> {
-        return Optional.of(createCurvePoint(json.get(index) as JSONObject))
-    }
+class PathProcessor(private val json: JSONArray?) {
 
     private fun createCurvePoint(`object`: JSONObject): CurvePoint {
-        val x = `object`.get("x") as Double
-        val y = `object`.get("y") as Double
-        val moveSpeed = `object`.get("move_speed") as Double
-        val turnSpeed = `object`.get("turn_speed") as Double
-        val followDistance = `object`.get("follow_distance") as Double
-        val pointLength = `object`.get("point_length") as Double
-        val slowDownTurnRadians =
-            Math.toRadians(`object`.get("slow_down_turn_radians") as Double)
-        val slowDownTurnAmount = `object`.get("slow_down_turn_amount") as Double
         return CurvePoint(
-            x,
-            y,
-            moveSpeed,
-            turnSpeed,
-            followDistance,
-            pointLength,
-            slowDownTurnRadians,
-            slowDownTurnAmount
+            `object`["x"] as Double,
+            `object`["y"] as Double,
+            `object`["move_speed"] as Double,
+            `object`["turn_speed"] as Double,
+            `object`["follow_distance"] as Double,
+            Math.toRadians(`object`["slow_down_turn_radians"] as Double),
+            `object`["slow_down_turn_amount"] as Double,
+            `object`["point_length"] as Double
         )
     }
 
@@ -61,18 +42,12 @@ class PathProcessor(json: JSONArray) {
      */
     fun createFunctionalPath(): List<CurvePoint> {
         val list: MutableList<CurvePoint> = ArrayList()
-        for (`object` in json) {
-            list.add(createCurvePoint(`object` as JSONObject))
+
+        if (json != null) {
+            for (`object` in json) {
+                list.add(createCurvePoint(`object` as JSONObject))
+            }
         }
         return list
-    }
-
-    /**
-     * Creates path from JSON Array. Preferably use
-     * PathReader or PathSimulator before.
-     * @param json A JSON Array that includes [org.wint3794.pathfollower.geometry.CurvePoint] List.
-     */
-    init {
-        this.json = json
     }
 }

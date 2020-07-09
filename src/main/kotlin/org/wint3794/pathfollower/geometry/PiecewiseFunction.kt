@@ -17,7 +17,7 @@ class PiecewiseFunction {
                     col.toDouble() / 19.0,
                     1.0 - row.toDouble() / 8.0
                 )
-                m_points.add(CurvePoint(c))
+                m_points.add(CurvePoint().setPoint(c))
             }
             if (iter % 20 == 19) {
                 iter -= 40

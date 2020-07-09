@@ -21,11 +21,6 @@ package org.wint3794.pathfollower.debug
  */
 abstract class Telemetry {
     /**
-     * Initializes Telemetry
-     */
-    abstract fun init()
-
-    /**
      * Prints log
      *
      * @param log Log [String]

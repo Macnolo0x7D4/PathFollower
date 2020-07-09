@@ -1,20 +1,23 @@
 package org.wint3794.pathfollower.debug.telemetries
 
 import org.wint3794.pathfollower.controllers.Robot
+import org.wint3794.pathfollower.debug.DebugConfiguration
 import org.wint3794.pathfollower.geometry.Point
 import org.wint3794.pathfollower.geometry.Pose2d
 import org.wint3794.pathfollower.util.Constants
 import java.net.UnknownHostException
 import java.text.DecimalFormat
 
-class SimulatorSender(port: Int = Constants.DEFAULT_CLIENT_PORT, ip: String = "") {
+class SimulatorSender(config: DebugConfiguration) {
+
     companion object {
         private lateinit var udpServer: UdpServer
         private var messageBuilder = StringBuilder()
+        private var debug = false
         private val df = DecimalFormat("#.00")
 
         fun sendRobotLocation(robot: Pose2d) {
-            if (!Robot.usingComputer) {
+            if (!debug) {
                 return
             }
 
@@ -31,9 +34,10 @@ class SimulatorSender(port: Int = Constants.DEFAULT_CLIENT_PORT, ip: String = ""
         }
 
         fun sendKeyPoint(floatPoint: Point) {
-            if (!Robot.usingComputer) {
+            if (!debug) {
                 return
             }
+
             messageBuilder.append("P,")
                 .append(df.format(floatPoint.x))
                 .append(",")
@@ -42,7 +46,7 @@ class SimulatorSender(port: Int = Constants.DEFAULT_CLIENT_PORT, ip: String = ""
         }
 
         fun sendLogPoint(floatPoint: Point) {
-            if (!Robot.usingComputer) {
+            if (!debug) {
                 return
             }
             messageBuilder.append("LP,")
@@ -56,7 +60,7 @@ class SimulatorSender(port: Int = Constants.DEFAULT_CLIENT_PORT, ip: String = ""
             point1: Point,
             point2: Point
         ) {
-            if (!Robot.usingComputer) {
+            if (!debug) {
                 return
             }
             messageBuilder.append("LINE,")
@@ -71,7 +75,7 @@ class SimulatorSender(port: Int = Constants.DEFAULT_CLIENT_PORT, ip: String = ""
         }
 
         fun markEndOfUpdate() {
-            if (!Robot.usingComputer) {
+            if (!debug) {
                 return
             }
             messageBuilder.append("CLEAR,%")
@@ -81,7 +85,7 @@ class SimulatorSender(port: Int = Constants.DEFAULT_CLIENT_PORT, ip: String = ""
         }
 
         fun clearLogPoints() {
-            if (!Robot.usingComputer) {
+            if (!debug) {
                 return
             }
             udpServer.send("CLEARLOG,%")
@@ -89,18 +93,24 @@ class SimulatorSender(port: Int = Constants.DEFAULT_CLIENT_PORT, ip: String = ""
     }
 
     init {
-        UdpServer.isRunning = true
+        UdpServer.isRunning = config.debug
+
+        debug = config.debug
 
         try {
-            udpServer = if (ip == "") {
-                UdpServer(port)
+            udpServer = if (config.ip == "") {
+                UdpServer(config.port)
             } else {
-                UdpServer(ip, port)
+                UdpServer(config.ip, config.port)
             }
         } catch (e: UnknownHostException) {
             e.printStackTrace()
         }
+
         val runner = Thread(udpServer)
-        runner.start()
+
+        if (config.debug) {
+            runner.start()
+        }
     }
 }

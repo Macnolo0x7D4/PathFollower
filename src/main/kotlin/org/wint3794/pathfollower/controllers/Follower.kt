@@ -20,7 +20,6 @@ import org.wint3794.pathfollower.debug.DebugConfiguration
 import org.wint3794.pathfollower.debug.telemetries.SimulatorSender
 import org.wint3794.pathfollower.debug.Log
 import org.wint3794.pathfollower.debug.RobotLogger
-import org.wint3794.pathfollower.debug.Telemetry
 import org.wint3794.pathfollower.drivebase.ChassisConfiguration
 import org.wint3794.pathfollower.drivebase.ChassisTypes
 import org.wint3794.pathfollower.drivebase.Chassis
@@ -41,82 +40,93 @@ import java.util.function.Consumer
 /**
  * The main class of the library.
  */
-class Follower constructor(
+class Follower (
     private val chassisConfiguration: ChassisConfiguration,
-    private val debugConfiguration: DebugConfiguration
+    debugConfiguration: DebugConfiguration,
+    curvePoints: List<CurvePoint>
 ) {
     /**
      * Returns the current chassis configuration, including objects and values.
      *
      * @return The current Chassis Configuration.
      */
-    private var chassis: Chassis? = null
-    private var robot: Robot? = null
+    private var chassis: Chassis
+    private var robot: Robot
+
+    private val origin = "Main Thread"
+    private var curvePoints: List<CurvePoint>
+
+    /**
+     * Creates an instance of the legendary PathFollower.
+     */
+    init {
+        Log.init(debugConfiguration)
+
+        Log.println("The legendary PathFollower is Running!", origin)
+        Log.println("This API was created by Manuel Diaz and Obed Garcia from WinT 3794.", origin)
+
+        Log.println(
+            "Chassis Configuration Type is: " + chassisConfiguration.chassisType,
+            origin
+        )
+
+        Log.println(
+            "Chassis Configuration is set to: " + chassisConfiguration.mode,
+            origin
+        )
+
+        Log.println(
+            "Debug Mode is set to: ${debugConfiguration.telemetry}",
+            origin
+        )
+
+        if (debugConfiguration.debug && debugConfiguration.port != 0) {
+            SimulatorSender(debugConfiguration)
+
+            Log.println(
+                "Graphical Debugger is listening: ${debugConfiguration.ip}:${debugConfiguration.port}",
+                origin
+            )
+        }
+
+        robot = Robot(curvePoints[0].x, curvePoints[0].y, curvePoints[0].slowDownTurnRadians)
+
+        chassisConfiguration.motors.forEach(Consumer { motor: DcMotorBase? -> motor!!.inverted = (motor.id % 2 == 0) })
+
+        this.curvePoints = curvePoints
+
+        if (chassisConfiguration.mode != ExecutionModes.SIMPLE) {
+            Log.println("Process initialized!", "Follower")
+
+            chassis = when (chassisConfiguration.chassisType) {
+                ChassisTypes.MECANUM -> MecanumChassis()
+                else -> ClassicTankChassis()
+            }
+
+            SimulatorSender.clearLogPoints()
+
+        } else {
+            Log.println(
+                "Your execution mode is not compatible with this method.",
+                origin
+            )
+
+            throw NotCompatibleConfigurationException("Your execution mode is not compatible.")
+        }
+
+        Log.update()
+    }
 
     /**
      * Stops the motors, closes connections and finishes the execution of this API.
      */
     fun close() {
         chassisConfiguration.motors.forEach(Consumer { obj: DcMotorBase? -> obj!!.stop() })
-        Log.println("Gracefully stopped!", ORIGIN)
+        Log.println("Gracefully stopped!", origin)
         Log.update()
-        Log.setDebuggingMode(false)
         Log.close()
     }
 
-    /**
-     * Returns a DcMotor object. Useful if you want to manually send instructions or get its data.
-     *
-     * @param id The DcMotor Identifier
-     * @return Optional [DcMotorBase]
-     */
-    fun getDcMotor(id: Byte): DcMotorBase? {
-        return chassisConfiguration.getMotor(id)
-    }
-
-    /**
-     * Returns Robot Object if you are running COMPLEX mode.
-     * @return Optional [Robot]
-     */
-    private fun getRobot(): Robot? {
-        if (robot == null) {
-            Log.println(
-                "Robot is not available if you are not executing COMPLEX or ENCODER mode.",
-                ORIGIN
-            )
-            return null
-        }
-
-        return robot
-    }
-
-    /**
-     * Initialize Follower Engine. Method only available for COMPLEX or ENCODER mode.
-     * @throws NotCompatibleConfigurationException Only if your configuration is invalid for this method.
-     */
-    @Throws(NotCompatibleConfigurationException::class)
-    fun init(curvePoints: List<CurvePoint>) {
-        Companion.curvePoints = curvePoints
-        if (chassisConfiguration.mode != ExecutionModes.SIMPLE) {
-            Log.println("Process initialized!", "Follower")
-
-            when (chassisConfiguration.chassisType) {
-                ChassisTypes.MECANUM -> chassis = MecanumChassis()
-                else -> chassis = ClassicTankChassis()
-            }
-
-            Robot.Companion.xPos = curvePoints[0].x
-            Robot.Companion.yPos = curvePoints[0].y
-            Robot.Companion.worldAngle = curvePoints[0].slowDownTurnRadians
-            SimulatorSender.Companion.clearLogPoints()
-        } else {
-            Log.println(
-                "Your execution mode is not compatible with this method.",
-                ORIGIN
-            )
-            throw NotCompatibleConfigurationException("Your execution mode is not compatible.")
-        }
-    }
     /**
      * Calculates and move your robot. Use in loop. Only for COMPLEX or ENCODER Mode.
      * @param followAngle The preferred turn angle. [-Math.PI - Math.PI]. The angle is in radians.
@@ -125,28 +135,14 @@ class Follower constructor(
     @JvmOverloads
     @Throws(NotCompatibleConfigurationException::class)
     fun calculate(followAngle: Double = Constants.DEFAULT_FOLLOW_ANGLE): Boolean {
-        if (robot == null) {
-            Log.println("Robot is null, please usea a valid configuration", ORIGIN)
-            return true
-        }
-
         if (chassisConfiguration.mode != ExecutionModes.SIMPLE) {
-            if (chassis == null || curvePoints.isEmpty()) {
-                Log.println(
-                    "Chassis is not initialized. Please initialize chassis before executing this action.",
-                    ORIGIN
-                )
-                Log.update()
-                return true
-            }
-
             try {
                 Thread.sleep(30)
             } catch (e: InterruptedException) {
                 e.printStackTrace()
             }
 
-            getRobot()!!.update()
+            robot.update()
 
             RobotMovement.followCurve(curvePoints, followAngle)
             RobotLogger.sendRobotLocation()
@@ -158,9 +154,9 @@ class Follower constructor(
             )
             SimulatorSender.markEndOfUpdate()
 
-            chassis!!.apply(Pose2d(Robot.xPos, Robot.yPos, Robot.worldAngle))
+            chassis.apply(Pose2d(Robot.xPos, Robot.yPos, Robot.worldAngle))
 
-            robot!!.update()
+            robot.update()
             Log.update()
 
             return MovementVars.movementX == 0.0 && MovementVars.movementY == 0.0 && MovementVars.movementTurn == 0.0
@@ -168,60 +164,5 @@ class Follower constructor(
         } else {
             throw NotCompatibleConfigurationException()
         }
-    }
-
-    companion object {
-        private const val ORIGIN = "Main Thread"
-        private var curvePoints: List<CurvePoint> = ArrayList()
-    }
-
-    /**
-     * Creates an instance of the legendary PathFollower.
-     *
-     * @param config The Chassis Configuration that will be used in API runtime.
-     */
-    init {
-        Log.println("The legendary PathFollower is Running!", ORIGIN)
-        Log.println(
-            "This API was created by Manuel Diaz and Obed Garcia from WinT 3794.",
-            ORIGIN
-        )
-        Log.println(
-            "Chassis Configuration Type is: " + chassisConfiguration.chassisType,
-            ORIGIN
-        )
-        Log.println(
-            "Chassis Configuration is set to: " + chassisConfiguration.mode,
-            ORIGIN
-        )
-
-        Log.setTelemetry(debugConfiguration.telemetry)
-        Log.init()
-
-        Log.setDebuggingMode(debugConfiguration.debug)
-
-        Log.println(
-            "Debug Mode is set to: ${debugConfiguration.telemetry}",
-            ORIGIN
-        )
-
-        if (debugConfiguration.debug && debugConfiguration.port != 0) {
-            SimulatorSender(debugConfiguration.port, debugConfiguration.ip)
-
-            Log.println(
-                "Graphical Debugger is listening: ${debugConfiguration.ip}:${debugConfiguration.port}",
-                ORIGIN
-            )
-        }
-
-        if (chassisConfiguration.mode == ExecutionModes.COMPLEX || chassisConfiguration.mode == ExecutionModes.ENCODER) {
-            robot = Robot(this)
-            chassisConfiguration.motors
-                .forEach(Consumer { motor: DcMotorBase? -> motor!!.inverted = (motor.id % 2 == 0) })
-        } else {
-            robot = null
-        }
-
-        Log.update()
     }
 }

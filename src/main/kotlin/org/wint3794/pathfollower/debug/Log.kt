@@ -17,18 +17,19 @@
 package org.wint3794.pathfollower.debug
 
 /**
- * A class with some static functions to log.
+ * An object with some static functions to log.
  */
 object Log {
     private var builder = StringBuilder()
-    private var telemetry: Telemetry? = null
+    private lateinit var telemetry: Telemetry
     private var debug = true
 
     /**
      * Initialize the Log class.
      */
-    fun init() {
-        telemetry!!.init()
+    fun init(config: DebugConfiguration) {
+        debug = config.debug
+        telemetry = config.telemetry
     }
 
     /**
@@ -37,7 +38,7 @@ object Log {
      * @param origin The origin of the log.
      */
     fun println(log: String?, origin: String?) {
-        builder.append("[").append(origin).append("]: ").append(log).append('\n')
+        builder.append("[").append(origin).append("] ").append(log).append('\n')
     }
 
     /**
@@ -45,8 +46,9 @@ object Log {
      */
     fun update() {
         if (debug) {
-            telemetry!!.print(builder.toString())
+            telemetry.print(builder.toString())
         }
+
         builder = StringBuilder()
     }
 
@@ -54,27 +56,7 @@ object Log {
      * Closes telemetry.
      */
     fun close() {
-        telemetry!!.close()
-    }
-
-    /**
-     * Sets a Telemetry Driver. It needs to implements [Telemetry]
-     * @param telemetry Telemetry Driver. You can create one by implementing [Telemetry]
-     * interface or you can use some of our drivers, like [org.wint3794.pathfollower.debug.telemetries.ConsolePrinter].
-     */
-    fun setTelemetry(telemetry: Telemetry?) {
-        Log.telemetry = telemetry
-    }
-
-    /**
-     * Sets Debugging Mode
-     * @param debug Debug?
-     */
-    fun setDebuggingMode(debug: Boolean) {
-        Log.debug = debug
-    }
-
-    fun getTelemetry(): Telemetry? {
-        return telemetry
+        debug = false
+        telemetry.close()
     }
 }

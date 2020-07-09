@@ -23,36 +23,26 @@ import java.io.FileReader
 import java.io.IOException
 import java.net.URL
 
-open class PathReader {
-    protected val parser: JSONParser
-    protected var path: JSONArray? = null
+class PathReader(file: URL) {
+    private val parser: JSONParser = JSONParser()
 
-    constructor(file: URL) {
-        parser = JSONParser()
+    var path: JSONArray?
+
+    init {
         path = readFile(file)
-    }
-
-    protected constructor() {
-        parser = JSONParser()
     }
 
     private fun readFile(file: URL): JSONArray? {
         var read: JSONArray? = null
+
         try {
             FileReader(file.file).use { reader -> read = parseObject(reader) }
         } catch (e: IOException) {
             e.printStackTrace()
-        } catch (e: ParseException) {
-            e.printStackTrace()
         }
+
         return read
     }
-
-    open val rawPath: JSONArray?
-        get() = path
-
-    open val initialPosition: Any?
-        get() = path?.get(0)
 
     @Throws(IOException::class, ParseException::class)
     private fun parseObject(reader: FileReader): JSONArray {
