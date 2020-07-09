@@ -17,7 +17,7 @@
 package org.wint3794.pathfollower.debug
 
 import org.wint3794.pathfollower.controllers.Robot
-import org.wint3794.pathfollower.debug.ComputerDebugging
+import org.wint3794.pathfollower.debug.telemetries.SimulatorSender
 import org.wint3794.pathfollower.geometry.Pose2d
 
 /**
@@ -42,7 +42,7 @@ object RobotLogger {
             "Theta -> " + Robot.Companion.worldAngle,
             ORIGIN
         )
-        ComputerDebugging.Companion.sendRobotLocation(
+        SimulatorSender.Companion.sendRobotLocation(
             Pose2d(
                 Robot.Companion.xPos,
                 Robot.Companion.yPos,
@@ -61,7 +61,7 @@ object RobotLogger {
             "Key Point -> { X: " + floatPoint.x + ", Y: " + floatPoint.y + " }",
             ORIGIN
         )
-        ComputerDebugging.Companion.sendKeyPoint(floatPoint)
+        SimulatorSender.Companion.sendKeyPoint(floatPoint)
     }
 
     /**
@@ -74,7 +74,7 @@ object RobotLogger {
             "Log Point -> { X: " + floatPoint.x + ", Y: " + floatPoint.y + " }",
             ORIGIN
         )
-        ComputerDebugging.Companion.sendLogPoint(floatPoint)
+        SimulatorSender.Companion.sendLogPoint(floatPoint)
     }
 
     /**
@@ -88,6 +88,6 @@ object RobotLogger {
             "New Line -> { Initial Pos: [ X: " + point1.x + ", Y: " + point1.y + " ], Target Pos: [ X: " + point2.x + ", Y: " + point2.y + " ] }",
             ORIGIN
         )
-        ComputerDebugging.Companion.sendLine(point1, point2)
+        SimulatorSender.Companion.sendLine(point1, point2)
     }
 }

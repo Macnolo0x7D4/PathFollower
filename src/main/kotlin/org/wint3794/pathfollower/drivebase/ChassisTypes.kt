@@ -16,6 +16,22 @@
  */
 package org.wint3794.pathfollower.drivebase
 
+/**
+ * A list of the compatible chassis types
+ */
 enum class ChassisTypes {
-    DRIVE_TRAIN, MECANUM, SWERVE
+    /**
+     * A simple tank chassis.
+     */
+    TANK,
+
+    /**
+     * A mecanum chassis.
+     */
+    MECANUM,
+
+    /**
+     * The most complex chassis, swerve. Please check all needed options.
+     */
+    SWERVE
 }

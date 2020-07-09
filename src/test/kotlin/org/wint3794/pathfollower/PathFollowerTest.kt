@@ -3,22 +3,15 @@ package org.wint3794.pathfollower
 import org.junit.Test
 import org.wint3794.pathfollower.adapters.DcMotorAdapter
 import org.wint3794.pathfollower.controllers.Follower
-import org.wint3794.pathfollower.debug.Log
 import org.wint3794.pathfollower.debug.telemetries.ConsolePrinter
 import org.wint3794.pathfollower.drivebase.ChassisConfiguration
 import org.wint3794.pathfollower.drivebase.ChassisTypes
-import org.wint3794.pathfollower.drivebase.mecanum.MecanumChassis
-import org.wint3794.pathfollower.drivebase.tank.ClassicTankChassis
 import org.wint3794.pathfollower.drivebase.tank.PovTankChassis
 import org.wint3794.pathfollower.hardware.DcMotorBase
 import org.wint3794.pathfollower.io.PathProcessor
 import org.wint3794.pathfollower.io.PathReader
 import org.wint3794.pathfollower.models.EncoderProperties
-import org.wint3794.pathfollower.models.chassis.MecanumDirectives
 import org.wint3794.pathfollower.models.chassis.TankDirectives
-import org.wint3794.pathfollower.util.Constants
-import java.util.function.Consumer
-import kotlin.math.PI
 
 class PathFollowerTest {
 
@@ -55,7 +48,7 @@ class PathFollowerTest {
             DcMotorAdapter(3.toByte())
         )
 
-        return ChassisConfiguration(dcMotors, getDefaultEncoderProperties(), ChassisTypes.DRIVE_TRAIN)
+        return ChassisConfiguration(dcMotors, getDefaultEncoderProperties(), ChassisTypes.TANK)
     }
 
     private fun getDefaultEncoderProperties(): EncoderProperties {

@@ -24,79 +24,48 @@ import org.wint3794.pathfollower.util.ExecutionModes
 /**
  * A class that must to be extended to create configurations for your Follower instance.
  */
-class ChassisConfiguration {
+data class ChassisConfiguration(
     /**
      * Returns a List of Chassis DcMotors in current status.
      *
      * @return List of DcMotors
      */
-    val motors: MutableList<DcMotorBase>
+    val motors: MutableList<DcMotorBase>,
+
+    /**
+     * Returns the current EncoderProperties.
+     *
+     * @return EncoderProperties.
+     */
+    val encoderProperties: EncoderProperties?,
 
     /**
      * Returns a list with current additional encoders.
      *
      * @return Additional Encoders
      */
-    val additionalEncoders: List<EncoderBase>?
+    val additionalEncoders: List<EncoderBase>?,
+
+    /**
+     * Returns the chassis type.
+     *
+     * @return ChassisType.
+     */
+    val chassisType: ChassisTypes) {
 
     /**
      * Returns ExecutionMode (enum) of Follower runtime.
      *
      * @return ExecutionMode [SIMPLE, ENCODER, COMPLEX]
      */
-    val mode: ExecutionModes
-    private val encoderProperties: EncoderProperties?
-    val type: ChassisTypes
-
-    /**
-     * Creates an instance of a Simple Chassis Configuration.
-     *
-     * @param motors A List of 4 DcMotorBase (not interface, your driver). Order: FL, FR, BL, BR.
-     */
-    constructor(motors: MutableList<DcMotorBase>, tank: ChassisTypes) {
-        mode = ExecutionModes.SIMPLE
-        encoderProperties = null
-        additionalEncoders = null
-        this.motors = motors
-        type = tank
-    }
-
-    /**
-     * Creates an instance of an Using-Encoders Chassis Configuration.
-     *
-     * @param motors            A List of 4 DcMotorBase (not interface, your driver). Order: LF, RF, LB, RB.
-     * @param encoderProperties A EncoderProperties Object
-     */
-    constructor(
-        motors: MutableList<DcMotorBase>,
-        encoderProperties: EncoderProperties?,
-        tank: ChassisTypes
-    ) {
-        mode = ExecutionModes.ENCODER
-        this.encoderProperties = encoderProperties
-        additionalEncoders = null
-        this.motors = motors
-        type = tank
-    }
-
-    /**
-     * Creates an instance of an Using-Encoders Chassis Configuration.
-     *
-     * @param motors             A List of 4 DcMotorBase (not interface, your driver). Order: LF, RF, LB, RB.
-     * @param encoderProperties  A EncoderProperties Object
-     * @param additionalEncoders A List of Additional Encoders for Odometry.
-     */
-    constructor(
-        motors: MutableList<DcMotorBase>,
-        encoderProperties: EncoderProperties?,
-        additionalEncoders: List<EncoderBase>?,
-        tank: ChassisTypes
-    ) {
-        mode = ExecutionModes.COMPLEX
-        this.encoderProperties = encoderProperties
-        this.additionalEncoders = additionalEncoders
-        this.motors = motors
-        type = tank
+    val mode: ExecutionModes = if (encoderProperties != null) {
+        if (additionalEncoders != null) {
+            ExecutionModes.COMPLEX
+        } else {
+            ExecutionModes.ENCODER
+        }
+    } else {
+        ExecutionModes.SIMPLE
     }
 
     /**
@@ -107,16 +76,4 @@ class ChassisConfiguration {
     fun getMotor(id: Byte): DcMotorBase? {
         return motors.find { dcMotorBase: DcMotorBase? -> dcMotorBase!!.id == id }
     }
-
-    /**
-     * Returns the current EncoderProperties.
-     *
-     * @return EncoderProperties.
-     */
-    fun getEncoderProperties(): EncoderProperties? {
-        return if (mode != ExecutionModes.SIMPLE) {
-            encoderProperties
-        } else null
-    }
-
 }

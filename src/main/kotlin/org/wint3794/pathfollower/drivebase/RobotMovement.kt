@@ -1,7 +1,7 @@
 package org.wint3794.pathfollower.drivebase
 
 import org.wint3794.pathfollower.controllers.Robot
-import org.wint3794.pathfollower.debug.ComputerDebugging
+import org.wint3794.pathfollower.debug.telemetries.SimulatorSender
 import org.wint3794.pathfollower.geometry.CurvePoint
 import org.wint3794.pathfollower.geometry.Point
 import org.wint3794.pathfollower.util.MathUtils
@@ -14,7 +14,7 @@ import kotlin.math.hypot
 object RobotMovement {
     fun followCurve(allPoints: List<CurvePoint>, followAngle: Double) {
         for (i in 0 until allPoints.size - 1) {
-            ComputerDebugging.sendLine(
+            SimulatorSender.sendLine(
                 Point(
                     allPoints[i].x,
                     allPoints[i].y
@@ -31,7 +31,7 @@ object RobotMovement {
             allPoints[0].followDistance
         )
 
-        ComputerDebugging.sendKeyPoint(Point(followMe.x, followMe.y))
+        SimulatorSender.sendKeyPoint(Point(followMe.x, followMe.y))
 
         val start = allPoints.first()
         val end = allPoints[allPoints.size - 1]

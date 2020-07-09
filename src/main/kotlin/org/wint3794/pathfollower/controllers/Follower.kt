@@ -16,7 +16,8 @@
  */
 package org.wint3794.pathfollower.controllers
 
-import org.wint3794.pathfollower.debug.ComputerDebugging
+import org.wint3794.pathfollower.debug.DebugConfiguration
+import org.wint3794.pathfollower.debug.telemetries.SimulatorSender
 import org.wint3794.pathfollower.debug.Log
 import org.wint3794.pathfollower.debug.RobotLogger
 import org.wint3794.pathfollower.debug.Telemetry
@@ -42,9 +43,7 @@ import java.util.function.Consumer
  */
 class Follower @JvmOverloads constructor(
     private val chassisConfiguration: ChassisConfiguration,
-    telemetry: Telemetry?,
-    ip: String = "",
-    port: Int = Constants.DEFAULT_CLIENT_PORT
+    private val debugConfiguration: DebugConfiguration
 ) {
     /**
      * Returns the current chassis configuration, including objects and values.
@@ -53,8 +52,6 @@ class Follower @JvmOverloads constructor(
      */
     private var chassis: Chassis? = null
     private var robot: Robot? = null
-
-    constructor(config: ChassisConfiguration, telemetry: Telemetry?, port: Int) : this(config, telemetry, "", port) {}
 
     /**
      * Stops the motors, closes connections and finishes the execution of this API.
@@ -103,14 +100,15 @@ class Follower @JvmOverloads constructor(
         if (chassisConfiguration.mode != ExecutionModes.SIMPLE) {
             Log.println("Process initialized!", "Follower")
 
-            when (chassisConfiguration.type) {
+            when (chassisConfiguration.chassisType) {
                 ChassisTypes.MECANUM -> chassis = MecanumChassis()
                 else -> chassis = ClassicTankChassis()
             }
+
             Robot.Companion.xPos = curvePoints[0].x
             Robot.Companion.yPos = curvePoints[0].y
             Robot.Companion.worldAngle = curvePoints[0].slowDownTurnRadians
-            ComputerDebugging.Companion.clearLogPoints()
+            SimulatorSender.Companion.clearLogPoints()
         } else {
             Log.println(
                 "Your execution mode is not compatible with this method.",
@@ -152,13 +150,13 @@ class Follower @JvmOverloads constructor(
 
             RobotMovement.followCurve(curvePoints, followAngle)
             RobotLogger.sendRobotLocation()
-            ComputerDebugging.sendLogPoint(
+            SimulatorSender.sendLogPoint(
                 Point(
                     Robot.xPos,
                     Robot.yPos
                 )
             )
-            ComputerDebugging.markEndOfUpdate()
+            SimulatorSender.markEndOfUpdate()
 
             chassis!!.apply(Pose2d(Robot.xPos, Robot.yPos, Robot.worldAngle))
 
@@ -189,39 +187,33 @@ class Follower @JvmOverloads constructor(
             ORIGIN
         )
         Log.println(
-            "Chassis Configuration Type is: " + chassisConfiguration.type,
+            "Chassis Configuration Type is: " + chassisConfiguration.chassisType,
             ORIGIN
         )
         Log.println(
             "Chassis Configuration is set to: " + chassisConfiguration.mode,
             ORIGIN
         )
-        if (telemetry == null) {
-            Log.setDebuggingMode(false)
+
+        Log.setTelemetry(debugConfiguration.telemetry)
+        Log.init()
+
+        Log.setDebuggingMode(debugConfiguration.debug)
+
+        Log.println(
+            "Debug Mode is set to: ${debugConfiguration.telemetry}",
+            ORIGIN
+        )
+
+        if (debugConfiguration.debug && debugConfiguration.port != 0) {
+            SimulatorSender(debugConfiguration.port, debugConfiguration.ip)
+
             Log.println(
-                "The Telemetry Interface is invalid.",
+                "Graphical Debugger is listening: ${debugConfiguration.ip}:${debugConfiguration.port}",
                 ORIGIN
             )
-        } else {
-            Log.setTelemetry(telemetry)
-            Log.init()
-            Log.setDebuggingMode(true)
-            Log.println(
-                "Debug Mode is set to: $telemetry",
-                ORIGIN
-            )
-            if (port != 0) {
-                if (ip == "") {
-                    ComputerDebugging(port)
-                } else {
-                    ComputerDebugging(ip, port)
-                }
-                Log.println(
-                    "Graphical Debugger is listening: " + if (ip == "") port else "$ip:$port",
-                    ORIGIN
-                )
-            }
         }
+
         if (chassisConfiguration.mode == ExecutionModes.COMPLEX || chassisConfiguration.mode == ExecutionModes.ENCODER) {
             robot = Robot(this)
             chassisConfiguration.motors
@@ -229,6 +221,7 @@ class Follower @JvmOverloads constructor(
         } else {
             robot = null
         }
+        
         Log.update()
     }
 }

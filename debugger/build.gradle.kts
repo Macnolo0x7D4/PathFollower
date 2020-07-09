@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "org.wint3794"
-version = "0.6.0"
+version = "0.6.1"
 
 application {
     applicationName = "Graphical Debugger"
