@@ -41,7 +41,7 @@ import java.util.function.Consumer
 /**
  * The main class of the library.
  */
-class Follower @JvmOverloads constructor(
+class Follower constructor(
     private val chassisConfiguration: ChassisConfiguration,
     private val debugConfiguration: DebugConfiguration
 ) {
@@ -221,7 +221,7 @@ class Follower @JvmOverloads constructor(
         } else {
             robot = null
         }
-        
+
         Log.update()
     }
 }

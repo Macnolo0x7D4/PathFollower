@@ -3,6 +3,7 @@ package org.wint3794.pathfollower
 import org.junit.Test
 import org.wint3794.pathfollower.adapters.DcMotorAdapter
 import org.wint3794.pathfollower.controllers.Follower
+import org.wint3794.pathfollower.debug.DebugConfiguration
 import org.wint3794.pathfollower.debug.telemetries.ConsolePrinter
 import org.wint3794.pathfollower.drivebase.ChassisConfiguration
 import org.wint3794.pathfollower.drivebase.ChassisTypes
@@ -17,7 +18,7 @@ class PathFollowerTest {
 
     @Test
     fun testPathFollower() {
-        val classUnderTest = Follower(getDefaultConfiguration(), ConsolePrinter())
+        val classUnderTest = Follower(getChassisConfiguration(), DebugConfiguration(true))
         val reader = PathReader(this::class.java.getResource("/path2.json"))
         val processor = reader.rawPath?.let { PathProcessor(it) }
 
@@ -32,15 +33,7 @@ class PathFollowerTest {
         classUnderTest.close()
     }
 
-    fun testTankChassis() {
-        val tank = PovTankChassis()
-
-        val velocities = tank.move(TankDirectives(1.0, -0.2))
-
-        getDefaultConfiguration().motors.listIterator().forEach { motor: DcMotorBase? -> motor?.apply(velocities) }
-    }
-
-    private fun getDefaultConfiguration(): ChassisConfiguration {
+    private fun getChassisConfiguration(): ChassisConfiguration {
         val dcMotors: MutableList<DcMotorBase> = mutableListOf(
             DcMotorAdapter(0.toByte()),
             DcMotorAdapter(1.toByte()),
@@ -48,10 +41,10 @@ class PathFollowerTest {
             DcMotorAdapter(3.toByte())
         )
 
-        return ChassisConfiguration(dcMotors, getDefaultEncoderProperties(), ChassisTypes.TANK)
+        return ChassisConfiguration(ChassisTypes.TANK, dcMotors, getEncoderProperties())
     }
 
-    private fun getDefaultEncoderProperties(): EncoderProperties {
+    private fun getEncoderProperties(): EncoderProperties {
         return EncoderProperties(16.16, 28.0, 20.0, 2.952755906)
     }
 }

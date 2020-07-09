@@ -26,6 +26,13 @@ import org.wint3794.pathfollower.util.ExecutionModes
  */
 data class ChassisConfiguration(
     /**
+     * Returns the chassis type.
+     *
+     * @return ChassisType.
+     */
+    val chassisType: ChassisTypes,
+
+    /**
      * Returns a List of Chassis DcMotors in current status.
      *
      * @return List of DcMotors
@@ -37,21 +44,15 @@ data class ChassisConfiguration(
      *
      * @return EncoderProperties.
      */
-    val encoderProperties: EncoderProperties?,
+    val encoderProperties: EncoderProperties? = null,
 
     /**
      * Returns a list with current additional encoders.
      *
      * @return Additional Encoders
      */
-    val additionalEncoders: List<EncoderBase>?,
-
-    /**
-     * Returns the chassis type.
-     *
-     * @return ChassisType.
-     */
-    val chassisType: ChassisTypes) {
+    val additionalEncoders: List<EncoderBase>? = null
+) {
 
     /**
      * Returns ExecutionMode (enum) of Follower runtime.
