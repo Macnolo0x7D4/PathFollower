@@ -1,43 +1,22 @@
 package org.wint3794.pathfollower.geometry
 
-class CurvePoint : Point {
-    var moveSpeed = 0.0
-    var turnSpeed = 0.0
-    var followDistance = 0.0
-    var slowDownTurnRadians = 0.0
-    var slowDownTurnAmount = 0.0
-    var pointLength = 0.0
-
-    constructor(
-        x: Double, y: Double, moveSpeed: Double, turnSpeed: Double,
-        followDistance: Double, slowDownTurnRadians: Double, slowDownTurnAmount: Double
-    ) {
-        this.x = x
-        this.y = y
-        this.moveSpeed = moveSpeed
-        this.turnSpeed = turnSpeed
-        this.followDistance = followDistance
-        pointLength = followDistance
-        this.slowDownTurnRadians = slowDownTurnRadians
-        this.slowDownTurnAmount = slowDownTurnAmount
-    }
+/**
+ * A class for mark points in virtual path
+ */
+data class CurvePoint(
+    var x: Double = 0.0,
+    var y: Double = 0.0,
+    var moveSpeed: Double = 0.0,
+    var turnSpeed: Double = 0.0,
+    var followDistance: Double = 0.0,
+    var slowDownTurnRadians: Double = 0.0,
+    var slowDownTurnAmount: Double = 0.0,
+    var pointLength: Double = 0.0
+) {
 
     constructor(point: Point) {
         x = point.x
         y = point.y
-    }
-
-    constructor(
-        x: Double,
-        y: Double,
-        moveSpeed: Double,
-        turnSpeed: Double,
-        followDistance: Double,
-        pointLength: Double,
-        slowDownTurnRadians: Double,
-        slowDownTurnAmount: Double
-    ) : this(x, y, moveSpeed, turnSpeed, followDistance, slowDownTurnRadians, slowDownTurnAmount) {
-        this.pointLength = pointLength
     }
 
     constructor(nextPoint: CurvePoint) {
@@ -55,8 +34,8 @@ class CurvePoint : Point {
         return Point(x, y)
     }
 
-    fun setPoint(p: Point?) {
-        x = p!!.x
+    fun setPoint(p: Point) {
+        x = p.x
         y = p.y
     }
 }

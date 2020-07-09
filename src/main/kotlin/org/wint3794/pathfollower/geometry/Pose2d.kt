@@ -16,20 +16,10 @@
  */
 package org.wint3794.pathfollower.geometry
 
-class Pose2d : Point {
-    val angle: Double
-
-    constructor(x: Double, y: Double) {
-        this.x = x
-        this.y = y
-        angle = 0.0
-    }
-
-    constructor(x: Double, y: Double, angle: Double) {
-        this.x = x
-        this.y = y
-        this.angle = angle
-    }
+/**
+ * A class that indicates the robot position
+ */
+data class Pose2d(var x: Double, var y: Double, var angle: Double) {
 
     override fun toString(): String {
         return "Pose2d{" +
