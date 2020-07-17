@@ -68,14 +68,15 @@ object MathUtils {
     }
 
     fun roundAngle(angle: Double): Double {
-        var angle = angle
-        while (angle < -Math.PI) {
-            angle += 2 * Math.PI
+        var processedAngle = angle
+
+        while (processedAngle < -Math.PI) {
+            processedAngle += 2 * Math.PI
         }
-        while (angle > Math.PI) {
-            angle -= 2 * Math.PI
+        while (processedAngle > Math.PI) {
+            processedAngle -= 2 * Math.PI
         }
-        return angle
+        return processedAngle
     }
 
     fun getIntersection(

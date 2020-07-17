@@ -14,6 +14,9 @@ import org.wint3794.pathfollower.io.PathReader
 import org.wint3794.pathfollower.models.EncoderProperties
 import org.wint3794.pathfollower.models.chassis.TankDirectives
 
+/**
+ * A testing class for maybe NOT-FTC SDK. If you want to simulate for FTC, please use Java Testing version.
+ */
 class PathFollowerTest {
 
     @Test
