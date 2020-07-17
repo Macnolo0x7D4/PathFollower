@@ -59,4 +59,8 @@ object Log {
         debug = false
         telemetry.close()
     }
+
+    fun error(message: String, origin: String) {
+        println(message, origin)
+    }
 }

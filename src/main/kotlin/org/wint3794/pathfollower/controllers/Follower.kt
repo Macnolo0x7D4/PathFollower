@@ -31,6 +31,7 @@ import org.wint3794.pathfollower.geometry.CurvePoint
 import org.wint3794.pathfollower.geometry.Point
 import org.wint3794.pathfollower.geometry.Pose2d
 import org.wint3794.pathfollower.hardware.DcMotorBase
+import org.wint3794.pathfollower.models.Path
 import org.wint3794.pathfollower.util.Constants
 import org.wint3794.pathfollower.util.ExecutionModes
 import org.wint3794.pathfollower.util.MovementVars
@@ -43,7 +44,7 @@ import java.util.function.Consumer
 class Follower (
     private val chassisConfiguration: ChassisConfiguration,
     debugConfiguration: DebugConfiguration,
-    curvePoints: List<CurvePoint>
+    private val path: Path
 ) {
     /**
      * Returns the current chassis configuration, including objects and values.
@@ -54,7 +55,6 @@ class Follower (
     private var robot: Robot
 
     private val origin = "Main Thread"
-    private var curvePoints: List<CurvePoint>
 
     /**
      * Creates an instance of the legendary PathFollower.
@@ -89,11 +89,9 @@ class Follower (
             )
         }
 
-        robot = Robot(curvePoints[0].x, curvePoints[0].y, curvePoints[0].slowDownTurnRadians)
+        robot = Robot(path.findFirst().x, path.findFirst().y, path.findFirst().slowDownTurnRadians)
 
         chassisConfiguration.motors.forEach(Consumer { motor: DcMotorBase? -> motor!!.inverted = (motor.id % 2 == 0) })
-
-        this.curvePoints = curvePoints
 
         if (chassisConfiguration.mode != ExecutionModes.SIMPLE) {
             Log.println("Process initialized!", "Follower")
@@ -144,7 +142,7 @@ class Follower (
 
             robot.update()
 
-            RobotMovement.followCurve(curvePoints, followAngle)
+            RobotMovement.followCurve(path, followAngle)
             RobotLogger.sendRobotLocation()
             SimulatorSender.sendLogPoint(
                 Point(

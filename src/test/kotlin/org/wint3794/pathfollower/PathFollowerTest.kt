@@ -18,18 +18,17 @@ class PathFollowerTest {
 
     @Test
     fun testPathFollower() {
-        val reader = PathReader(this::class.java.getResource("/path2.json"))
-        val processor = reader.path?.let { PathProcessor(it) }
+        val path = PathReader.readJSON(this::class.java.getResource("/path2.json"))
 
         val classUnderTest = Follower(
             getChassisConfiguration(),
-            DebugConfiguration(true, ConsolePrinter()),
-            processor!!.createFunctionalPath()
+            DebugConfiguration(debug = true, telemetry = ConsolePrinter(), ip = "192.168.0.7"),
+            path!!
         )
 
         var terminated = false
 
-        while(true) {
+        while(!terminated) {
             terminated = classUnderTest.calculate()
         }
 

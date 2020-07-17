@@ -19,10 +19,10 @@ package org.wint3794.pathfollower.io
 import org.json.simple.JSONArray
 import org.json.simple.JSONObject
 import org.wint3794.pathfollower.geometry.CurvePoint
+import org.wint3794.pathfollower.models.Path
 import java.util.*
 
-class PathProcessor(private val json: JSONArray?) {
-
+object PathProcessor {
     private fun createCurvePoint(`object`: JSONObject): CurvePoint {
         return CurvePoint(
             `object`["x"] as Double,
@@ -40,7 +40,7 @@ class PathProcessor(private val json: JSONArray?) {
      * Returns a functional Path as List of CurvePoints.
      * @return Functional Path
      */
-    fun createFunctionalPath(): List<CurvePoint> {
+    fun create(json: JSONArray?): Path {
         val list: MutableList<CurvePoint> = ArrayList()
 
         if (json != null) {
@@ -48,6 +48,7 @@ class PathProcessor(private val json: JSONArray?) {
                 list.add(createCurvePoint(`object` as JSONObject))
             }
         }
-        return list
+
+        return Path(list)
     }
 }

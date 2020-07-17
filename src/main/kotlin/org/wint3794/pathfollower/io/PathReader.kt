@@ -19,20 +19,15 @@ package org.wint3794.pathfollower.io
 import org.json.simple.JSONArray
 import org.json.simple.parser.JSONParser
 import org.json.simple.parser.ParseException
+import org.wint3794.pathfollower.models.Path
 import java.io.FileReader
 import java.io.IOException
 import java.net.URL
 
-class PathReader(file: URL) {
+object PathReader {
     private val parser: JSONParser = JSONParser()
 
-    var path: JSONArray?
-
-    init {
-        path = readFile(file)
-    }
-
-    private fun readFile(file: URL): JSONArray? {
+    fun readJSON(file: URL): Path? {
         var read: JSONArray? = null
 
         try {
@@ -41,16 +36,12 @@ class PathReader(file: URL) {
             e.printStackTrace()
         }
 
-        return read
+        return PathProcessor.create(read)
     }
 
     @Throws(IOException::class, ParseException::class)
     private fun parseObject(reader: FileReader): JSONArray {
         val obj: Any = parser.parse(reader)
         return obj as JSONArray
-    }
-
-    override fun toString(): String {
-        return path.toString()
     }
 }

@@ -1,5 +1,6 @@
 package org.wint3794.pathfollower.debug.telemetries
 
+import org.wint3794.pathfollower.debug.Log
 import org.wint3794.pathfollower.debug.Telemetry
 import org.wint3794.pathfollower.util.Range
 import java.io.IOException
@@ -65,6 +66,9 @@ class UdpServer : Telemetry, Runnable {
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
+                Log.error("Oh no! ${e.message}. Graphical Debugger will be disabled.", "UDP Server")
+                isRunning = false
+                break
             }
             startIndex = endIndex + 1
         } while (endIndex != message.length - 1)

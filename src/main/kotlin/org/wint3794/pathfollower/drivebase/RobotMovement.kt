@@ -4,13 +4,16 @@ import org.wint3794.pathfollower.controllers.Robot
 import org.wint3794.pathfollower.debug.telemetries.SimulatorSender
 import org.wint3794.pathfollower.geometry.CurvePoint
 import org.wint3794.pathfollower.geometry.Point
+import org.wint3794.pathfollower.models.Path
 import org.wint3794.pathfollower.util.MathUtils
 import org.wint3794.pathfollower.util.MovementVars
 import org.wint3794.pathfollower.util.Range
 import kotlin.math.*
 
 object RobotMovement {
-    fun followCurve(allPoints: List<CurvePoint>, followAngle: Double) {
+    fun followCurve(path: Path, followAngle: Double) {
+        val allPoints = path.toList()
+
         for (i in 0 until allPoints.size - 1) {
             SimulatorSender.sendLine(
                 Point(
