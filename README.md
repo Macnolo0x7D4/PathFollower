@@ -1,6 +1,7 @@
 # PathFollower
 
 ![Java CI with Gradle](https://github.com/WinT-3794/PathFollower/workflows/Java%20CI%20with%20Gradle/badge.svg)
+[ ![Download](https://api.bintray.com/packages/wint3794/ftc/pathfollower/images/download.svg) ](https://bintray.com/wint3794/ftc/pathfollower/_latestVersion)
 
 Hello! We are WinT 3794 and we are proud to present the PathFollower! A JAVA library to improve and discover new features of your FTC/FRC robot!
 
