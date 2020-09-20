@@ -38,9 +38,18 @@ tasks.jar {
     }
 }
 
+val sourcesJar by tasks.creating(Jar::class) {
+    archiveClassifier.set("sources")
+    from(sourceSets.getByName("main").allSource)
+}
+
 bintray {
     user = System.getenv("BINTRAY_USER")
     key = System.getenv("BINTRAY_API_KEY")
+
+    setConfigurations("archives")
+    //setPublications("pathfollower")
+
     pkg.apply {
         repo = "ftc"
         name = "pathfollower"
@@ -52,7 +61,7 @@ bintray {
 
 publishing {
     publications {
-        create<MavenPublication>("maven") {
+        create<MavenPublication>("pathfollower") {
             from(components["java"])
         }
     }
