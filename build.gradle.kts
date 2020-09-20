@@ -42,8 +42,8 @@ bintray {
     user = System.getenv("BINTRAY_USER")
     key = System.getenv("BINTRAY_API_KEY")
     pkg.apply {
-        repo = "PathFollower"
-        name = "PathFollower"
+        repo = "ftc"
+        name = "pathfollower"
         userOrg = "wint3794"
         setLicenses("Apache-2.0")
         vcsUrl = "https://github.com/WinT-3794/PathFollower"
