@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.3.72"
+    id("com.jfrog.bintray") version "1.7.3"
     `maven-publish`
     `java-library`
 }
@@ -37,19 +38,30 @@ tasks.jar {
     }
 }
 
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/wint-3794/${project.name}")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
+val sourcesJar by tasks.creating(Jar::class) {
+    archiveClassifier.set("sources")
+    from(sourceSets.getByName("main").allSource)
+}
+
+bintray {
+    user = System.getenv("BINTRAY_USER")
+    key = System.getenv("BINTRAY_API_KEY")
+
+    setConfigurations("archives")
+    //setPublications("pathfollower")
+
+    pkg.apply {
+        repo = "ftc"
+        name = "pathfollower"
+        userOrg = "wint3794"
+        setLicenses("Apache-2.0")
+        vcsUrl = "https://github.com/WinT-3794/PathFollower"
     }
+}
+
+publishing {
     publications {
-        create<MavenPublication>("maven") {
+        create<MavenPublication>("pathfollower") {
             from(components["java"])
         }
     }

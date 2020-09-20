@@ -80,7 +80,10 @@ class App : Application() {
         log.children.add(logImageView)
 
         val debuggingLabel = Label()
-        debuggingLabel.font = Font("Jetbrains Mono Extrabold", 16.0)
+
+        val font = this::class.java.getResource("/fonts/JetBrainsMono-ExtraBold.ttf").openStream()
+        debuggingLabel.font = Font.loadFont(font, 16.0)
+
         debuggingLabel.textFillProperty().value = Color(0.5, 1.0, 1.0, 1.0)
 
         debuggingLabel.prefWidth = logImageView.fitWidth - 25
