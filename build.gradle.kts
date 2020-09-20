@@ -1,6 +1,6 @@
 plugins {
     kotlin("jvm") version "1.3.72"
-    id("com.jfrog.bintray") version "1.7.3"
+    id("com.jfrog.bintray") version "1.8.4"
     `maven-publish`
     `java-library`
 }
@@ -48,22 +48,9 @@ tasks {
     }
 }
 
-tasks.jar {
-    manifest {
-        attributes["Implementation-Title"] = project.name
-        attributes["Implementation-Version"] = project.version
-    }
-}
-
-val sourcesJar by tasks.creating(Jar::class) {
-    archiveClassifier.set("sources")
-    from(sourceSets.getByName("main").allSource)
-}
-
 bintray {
-    user = System.getenv("BINTRAY_USER")
-    key = System.getenv("BINTRAY_API_KEY")
-
+    user = System.getenv("BINTRAY_USER") //project.findProperty("bintrayUser").toString()
+    key = System.getenv("BINTRAY_API_KEY") // project.findProperty("bintrayKey").toString()
     publish = true
 
     setPublications("lib")
@@ -72,34 +59,36 @@ bintray {
         repo = "ftc"
         name = artifactName
         userOrg = "wint3794"
+        githubRepo = githubRepo
+        vcsUrl = pomUrl
+        description = "The easiest way to create your robot program"
+        setLabels("kotlin", "ftc", "robot", "first", "path", "algorithm")
         setLicenses("Apache-2.0")
-        vcsUrl = "https://github.com/WinT-3794/PathFollower"
+        desc = description
+        websiteUrl = pomUrl
+        issueTrackerUrl = pomIssueUrl
+        githubReleaseNotesFile = githubReadme
+
+        version.apply {
+            name = artifactVersion
+            desc = pomUrl
+            vcsTag = "v$artifactVersion"
+        }
     }
 }
 
 publishing {
     publications {
         create<MavenPublication>("lib") {
-
-            /*
             groupId = artifactGroup
             artifactId = artifactName
             version = artifactVersion
-
-             */
-
-            groupId = "org.wint3794.ftc"
-            artifactId = "pathfollower"
-            version = "0.6.2"
-
-        	from(components["java"])
-
-            artifact(sourcesJar)
+            from(components["java"])
 
             pom.withXml {
                 asNode().apply {
                     appendNode("description", pomUrl)
-                    appendNode("name", artifactId)
+                    appendNode("name", rootProject.name)
                     appendNode("url", pomUrl)
                     appendNode("licenses").appendNode("license").apply {
                         appendNode("name", pomLicenseName)
