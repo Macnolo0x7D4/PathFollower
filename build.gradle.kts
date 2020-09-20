@@ -5,8 +5,25 @@ plugins {
     `java-library`
 }
 
-group = "org.wint3794"
+group = "org.wint3794.ftc"
 version = "0.6.2"
+
+val artifactName = project.name
+val artifactGroup = project.group.toString()
+val artifactVersion = project.version.toString()
+
+val pomUrl = "https://github.com/WinT-3794/PathFollower"
+val pomIssueUrl = "$pomUrl/issues"
+
+val githubRepo = "WinT-3794/PathFollower"
+val githubReadme = "README.md"
+
+val pomDeveloperId = "mcn2004"
+val pomDeveloperName = "Manuel Diaz"
+
+val pomLicenseName = "Apache-2.0"
+val pomLicenseUrl = "https://www.apache.org/licenses/LICENSE-2.0"
+val pomLicenseDist = rootProject.name
 
 repositories {
     mavenCentral()
@@ -47,12 +64,13 @@ bintray {
     user = System.getenv("BINTRAY_USER")
     key = System.getenv("BINTRAY_API_KEY")
 
-    setConfigurations("archives")
-    //setPublications("pathfollower")
+    publish = true
+
+    setPublications("lib")
 
     pkg.apply {
         repo = "ftc"
-        name = "pathfollower"
+        name = artifactName
         userOrg = "wint3794"
         setLicenses("Apache-2.0")
         vcsUrl = "https://github.com/WinT-3794/PathFollower"
@@ -61,8 +79,42 @@ bintray {
 
 publishing {
     publications {
-        create<MavenPublication>("pathfollower") {
-            from(components["java"])
+        create<MavenPublication>("lib") {
+
+            /*
+            groupId = artifactGroup
+            artifactId = artifactName
+            version = artifactVersion
+
+             */
+
+            groupId = "org.wint3794.ftc"
+            artifactId = "pathfollower"
+            version = "0.6.2"
+
+        	from(components["java"])
+
+            artifact(sourcesJar)
+
+            pom.withXml {
+                asNode().apply {
+                    appendNode("description", pomUrl)
+                    appendNode("name", artifactId)
+                    appendNode("url", pomUrl)
+                    appendNode("licenses").appendNode("license").apply {
+                        appendNode("name", pomLicenseName)
+                        appendNode("url", pomLicenseUrl)
+                        appendNode("distribution", pomLicenseDist)
+                    }
+                    appendNode("developers").appendNode("developer").apply {
+                        appendNode("id", pomDeveloperId)
+                        appendNode("name", pomDeveloperName)
+                    }
+                    appendNode("scm").apply {
+                        appendNode("url", pomUrl)
+                    }
+                }
+            }
         }
     }
 }
