@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "org.wint3794.ftc"
-version = "0.6.2"
+version = "0.6.3"
 
 val artifactName = project.name
 val artifactGroup = project.group.toString()
@@ -33,9 +33,6 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     testImplementation("junit:junit:4.12")
-
-    api("org.apache.commons:commons-math3:3.6.1")
-    implementation("com.google.guava:guava:29.0-jre")
     implementation("com.googlecode.json-simple:json-simple:1.1")
 }
 
