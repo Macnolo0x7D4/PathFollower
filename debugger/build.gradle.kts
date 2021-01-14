@@ -5,7 +5,7 @@ plugins {
 
 application {
     applicationName = "PathFollower Debugger"
-    mainClassName = "org.wint3794.pathfollower.debugger.Main"
+    mainClassName = "org.wint3794.ftc.pathfollower.debugger.Main"
 }
 
 group = "org.wint3794"

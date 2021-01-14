@@ -5,6 +5,7 @@ import org.wint3794.ftc.pathfollower.adapters.DcMotorAdapter
 import org.wint3794.ftc.pathfollower.controllers.Follower
 import org.wint3794.ftc.pathfollower.debug.DebugConfiguration
 import org.wint3794.ftc.pathfollower.debug.telemetries.ConsolePrinter
+import org.wint3794.ftc.pathfollower.debug.telemetries.UdpServer
 import org.wint3794.ftc.pathfollower.drivebase.ChassisConfiguration
 import org.wint3794.ftc.pathfollower.drivebase.ChassisTypes
 import org.wint3794.ftc.pathfollower.drivebase.tank.PovTankChassis
@@ -15,7 +16,7 @@ import org.wint3794.ftc.pathfollower.models.EncoderProperties
 import org.wint3794.ftc.pathfollower.models.chassis.TankDirectives
 
 /**
- * A testing class for maybe NOT-FTC SDK. If you want to simulate for FTC, please use Java Testing version.
+ * A testing class for PathFollower Simulator.
  */
 class PathFollowerTest {
 
@@ -27,8 +28,7 @@ class PathFollowerTest {
             getChassisConfiguration(),
             DebugConfiguration(
                 debug = true,
-                telemetry = ConsolePrinter(),
-                ip = "192.168.0.7"
+                telemetry = UdpServer(15645)
             ),
             path!!
         )
