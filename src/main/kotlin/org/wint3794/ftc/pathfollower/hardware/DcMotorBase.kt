@@ -50,7 +50,5 @@ interface DcMotorBase {
      */
     fun stop()
 
-    val encoder: EncoderBase
-
     fun apply(velocities: DcMotorVelocities)
 }
