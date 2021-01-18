@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "org.wint3794.ftc"
-version = "0.6.3"
+version = "0.6.3.1"
 
 val artifactName = project.name
 val artifactGroup = project.group.toString()

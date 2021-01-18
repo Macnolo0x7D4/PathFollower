@@ -22,9 +22,6 @@ class DcMotorAdapter(override val id: Byte) : DcMotorBase {
         println("[Motor $id]: Stopped!")
     }
 
-    override val encoder: EncoderBase
-        get() = TODO("Not yet implemented")
-
     override fun apply(velocities: DcMotorVelocities) {
         if (velocities.getVelocity(id) != null) {
             power = velocities.getVelocity(id)!!
