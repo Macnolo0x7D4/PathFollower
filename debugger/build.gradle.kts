@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm")
     application
+    id("org.openjfx.javafxplugin") version "0.0.9"
 }
 
 application {
@@ -17,6 +18,10 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
+}
+
+javafx {
+    modules("javafx.controls", "javafx.fxml")
 }
 
 tasks {
