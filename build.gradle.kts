@@ -1,12 +1,13 @@
 plugins {
     kotlin("jvm") version "1.3.72"
     id("com.jfrog.bintray") version "1.8.4"
+    id("org.jetbrains.dokka") version "1.5.0"
     `maven-publish`
     `java-library`
 }
 
 group = "org.wint3794.ftc"
-version = "0.6.3.1"
+version = "0.6.3.2"
 
 val artifactName = project.name
 val artifactGroup = project.group.toString()
